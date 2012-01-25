@@ -1,0 +1,165 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+        <meta http-equiv="Content-Style-Type" content="text/css">
+        <meta http-equiv="Content-Script-Type" content="text/javascript">
+
+        <title>jQuery UI Tabs / Tabs 3</title>
+        
+        <link rel="stylesheet" href="ui.tabs.css" type="text/css" media="print, projection, screen">
+        <style type="text/css" media="screen, projection">
+            /* Not required for Tabs, just to make this demo look better... */
+            body, h1, h2 {
+                font-family: "Trebuchet MS", Trebuchet, Verdana, Helvetica, Arial, sans-serif;
+            }
+            h1 {
+                margin: 1em 0 1.5em;
+                font-size: 18px;
+            }
+            h2 {
+                margin: 2em 0 1.5em;
+                font-size: 16px;
+            }
+            p {
+                margin: 0;
+            }
+            pre, pre+p, p+p {
+                margin: 1em 0 0;
+            }
+            code {
+                font-family: "Courier New", Courier, monospace;
+            }
+        </style>
+
+        <script src="jquery-1.2.3.pack.js" type="text/javascript"></script>
+        <script src="ui.tabs.pack.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(function() {
+                
+                console.log( $.trim($('#code').text()) );
+                
+                $('#recreate').bind('click', function() {
+                    
+                    eval( $.trim($('#code').text()) );
+                });
+                
+                
+                
+                /*$('#container-1 > ul').tabs();
+                $('#container-2 > ul').tabs({ selected: 1 });
+                $('#container-3 > ul').tabs({ fx: { height: 'toggle' } });
+                $('#container-4 > ul').tabs({ fx: { opacity: 'toggle' } });
+                $('#container-5 > ul').tabs({ fx: { height: 'toggle', opacity: 'toggle' } });
+                $('#container-6 > ul').tabs({ fx: { opacity: 'toggle', duration: 'fast' } })
+                    .bind('select.ui-tabs', function(e, ui) {
+                        alert('event: ' + e.type);
+                    })
+                    .bind('show.ui-tabs', function(e, ui) {
+                        alert('event: ' + e.type);
+                    });
+                $('#container-7 > ul').tabs({ fx: [null, { height: 'show', opacity: 'show' }] });
+                $('#container-8 > ul').tabs();
+                $('#container-9 > ul').tabs({ disabled: [2] });
+                $('<p><a href="#">Remove 4th tab<\/a><\/p>').prependTo('#fragment-22').find('a').click(function() {
+                    $('#container-9 > ul').tabs('remove', 3);
+                    return false;
+                });
+                $('<p><a href="#">Insert new tab at 2nd position<\/a><\/p>').prependTo('#fragment-22').find('a').click(function() {
+                    $('#container-9 > ul').tabs('add', '#inserted-tab', 'New Tab', 1);
+                    return false;
+                });
+                $('<p><a href="#">Append new tab<\/a><\/p>').prependTo('#fragment-22').find('a').click(function() {
+                    $('#container-9 > ul').tabs('add', '#appended-tab', 'New Tab');
+                    return false;
+                });
+                $('<p><a href="#">Disable 3rd tab<\/a><\/p>').prependTo('#fragment-22').find('a').click(function() {
+                    $('#container-9 > ul').tabs('disable', 2);
+                    return false;
+                });
+                $('<p><a href="#">Enable 3rd tab<\/a><\/p>').prependTo('#fragment-22').find('a').click(function() {
+                    $('#container-9 > ul').tabs('enable', 2);
+                    return false;
+                });
+                $('<p><a href="#">Select 3rd tab<\/a><\/p>').prependTo('#fragment-22').find('a').click(function() {
+                    $('#container-9 > ul').tabs('select', 2);
+                    return false;
+                });
+                $('<p><a href="#">Get selected tab<\/a><\/p>').prependTo('#fragment-22').find('a').click(function() {
+                    alert( $('#container-9 > ul').data('selected.ui-tabs') );
+                    return false;
+                });
+                $('#container-10 > ul').tabs({ selected: null });
+                $('#container-11 > ul').tabs({ event: 'mouseover' });*/
+            });
+        </script>
+    </head>
+    <body>
+        <h1><a href="http://ui.jquery.com">jQuery UI</a> Tabs / Tabs 3</h1>
+        
+        <p>
+            <strong><a href="ui.tabs.zip">Download</a></strong>
+        </p>
+        <p>
+            <strong><a href="http://docs.jquery.com/UI/Tabs">Documentation</a></strong>
+        </p>
+        <p>
+            <strong><a href="http://docs.jquery.com/UI/TabsExtensions">Tabs Extensions</a></strong>
+            <strong><a href="rotate.html">Rotating tabs demo</a></strong>
+            <strong><a href="nested.html">Nested tabs demo</a></strong>
+        </p>
+
+        <h2>Play around</h2>
+
+        <div id="example">
+            <ul>
+                <li><a href="#fragment-1"><span>One</span></a></li>
+                <li><a href="#fragment-2"><span>Two</span></a></li>
+                <li><a href="#fragment-3"><span>Three</span></a></li>
+            </ul>
+            <div id="fragment-1">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+            </div>
+            <div id="fragment-2">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+            </div>
+            <div id="fragment-3">
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+            </div>
+        </div>
+        
+        <pre id="code"><code class="javascript">$('#example > ul').tabs();</code></pre>
+        
+        <p>
+            start with
+            <label><input type="radio" name="selected" value="1"> 1st tab</label>
+            <label><input type="radio" name="selected" value="2"> 2nd tab</label>
+            <label><input type="radio" name="selected" value="3"> 3rd tab</label>
+        </p>
+        <p>
+            <button id="recreate" type="button">recreate tabs</button>
+        </p>
+
+        <h2>Changelog</h2>
+
+        <ul>
+            <li>3.5 (jQuery UI 1.5) - simplified API, truly events based callback system, all things zero-based for consistency, removed hide callback (obsolete, wasn't used by anyone), set selected tab via <code>selected</code> option, set all tabs unselected via <code>selected: null</code> instead of another redundant option, simplified effects options - one <code>fx</code> option (which mirrors jQuerys default animate options) instead of a bunch of others to remember.</li>
+            <li>3.0 - release</li>
+        </ul>
+
+        <h2>Tested with</h2>
+
+        <ul>
+            <li>Firefox 2</li>
+            <li>Safari 2.0.4</li>
+            <li>Opera 9.24</li>
+            <li><abbr title="Internet Explorer">IE</abbr> 7</li>
+            <li><abbr title="Internet Explorer">IE</abbr> 6</li>
+        </ul>
+
+    </body>
+</html>
