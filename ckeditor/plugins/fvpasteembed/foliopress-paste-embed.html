@@ -1,0 +1,131 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!--
+ * FCKeditor - The text editor for Internet - http://www.fckeditor.net
+ * Copyright (C) 2003-2008 Frederico Caldeira Knabben
+ *
+ * == BEGIN LICENSE ==
+ *
+ * Licensed under the terms of any of the following licenses at your
+ * choice:
+ *
+ *  - GNU General Public License Version 2 or later (the "GPL")
+ *    http://www.gnu.org/licenses/gpl.html
+ *
+ *  - GNU Lesser General Public License Version 2.1 or later (the "LGPL")
+ *    http://www.gnu.org/licenses/lgpl.html
+ *
+ *  - Mozilla Public License Version 1.1 or later (the "MPL")
+ *    http://www.mozilla.org/MPL/MPL-1.1.html
+ *
+ * == END LICENSE ==
+ *
+ * This dialog is shown when, for some reason (usually security settings),
+ * the user is not able to paste data from the clipboard to the editor using
+ * the toolbar buttons or the context menu.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta name="robots" content="noindex, nofollow" />
+        <script src="../../dialog/common/fck_dialog_common.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            var dialog = window.parent ;
+            var oEditor = dialog.InnerDialogLoaded() ;
+            var FCK = oEditor.FCK;
+            var FCKTools	= oEditor.FCKTools ;
+            var FCKConfig	= oEditor.FCKConfig ;
+            var FCKBrowserInfo = oEditor.FCKBrowserInfo ;
+
+            window.onload = function ()
+            {
+                // First of all, translate the dialog box texts
+                ///oEditor.FCKLanguageManager.TranslatePage(document) ;
+
+                document.getElementById('txtData').style.display = '' ;
+
+                dialog.SetOkButton( true ) ;
+                dialog.SetAutoSize( true ) ;
+	
+                //	let's make sure the pasting area receives the focus automatically!
+                var mytext = document.getElementById("txtData");
+                mytext.focus(); 
+            }
+
+            function Ok()
+            {
+                // Before doing anything, save undo snapshot.
+                oEditor.FCKUndo.SaveUndoStep() ;
+
+                var sHtml ;
+
+                ///sHtml = oEditor.FCKTools.HTMLEncode( document.getElementById('txtData').value )  ;
+                ///sHtml = FCKTools.ProcessLineBreaks( oEditor, FCKConfig, sHtml ) ;
+
+                sHtml = document.getElementById('txtData').value;
+
+                // FCK.InsertHtml() does not work for us, since document fragments cannot contain node fragments. :(
+                // Use the marker method instead. It's primitive, but it works.
+                var range = new oEditor.FCKDomRange( oEditor.FCK.EditorWindow ) ;
+                var oDoc = oEditor.FCK.EditorDocument ;
+                dialog.Selection.EnsureSelection() ;
+                range.MoveToSelection() ;
+                range.DeleteContents() ;
+                var marker = [] ;
+                for ( var i = 0 ; i < 5 ; i++ )
+                    marker.push( parseInt(Math.random() * 100000, 10 ) ) ;
+                marker = marker.join( "" ) ;
+                range.InsertNode ( oDoc.createTextNode( marker ) ) ;
+                var bookmark = range.CreateBookmark() ;
+
+                // Now we've got a marker indicating the paste position in the editor document.
+                // Find its position in the HTML code.
+                var htmlString = oDoc.body.innerHTML ;
+                var index = htmlString.indexOf( marker ) ;
+
+                // Split it the HTML code up, add the code we generated, and put them back together.
+                var htmlList = [] ;
+                htmlList.push( htmlString.substr( 0, index ) ) ;
+                htmlList.push( sHtml ) ;
+                htmlList.push( htmlString.substr( index + marker.length ) ) ;
+                htmlString = htmlList.join( "" ) ;
+
+                if ( oEditor.FCKBrowserInfo.IsIE )
+                    oEditor.FCK.SetInnerHtml( htmlString ) ;
+                else
+                    oDoc.body.innerHTML = htmlString ;
+
+                range.MoveToBookmark( bookmark ) ;
+                range.Collapse( false ) ;
+                range.Select() ;
+                range.Release() ;
+                return true ;
+
+                oEditor.FCK.InsertHtml( sHtml ) ;
+
+                return true ;
+            }
+
+        </script>
+
+    </head>
+    <body style="overflow: hidden">
+        <table cellspacing="0" cellpadding="0" width="100%" border="0" style="height: 98%">
+            <tr>
+                <td>
+                    <div>
+                        Paste your embed code inside the following box using the keyboard
+                        (<strong>Ctrl+V</strong>) and hit <strong>OK</strong>. Any HTML will be accepted too.<br />
+                        &nbsp;
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td id="xFrameSpace" valign="top" height="100%" style="border: #000000 1px solid">
+                    <textarea id="txtData" cols="80" rows="5" style="border: #000000 1px; display: none;
+                              width: 99%; height: 98%; font-family: monospace; font-size: 12px;"></textarea>
+                </td>
+            </tr>
+        </table>
+    </body>
+</html>

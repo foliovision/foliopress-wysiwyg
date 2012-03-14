@@ -31,13 +31,22 @@ else {
   add_action( 'admin_init', array( &$fp_wysiwyg, 'admin_init' ) );
 }
 
-add_action( 'admin_head', array( &$fp_wysiwyg, 'FckLoadAdminHead' ) );
+//add_action( 'admin_head', array( &$fp_wysiwyg, 'FckLoadAdminHead' ) );
+add_action( 'admin_head', array( &$fp_wysiwyg, 'CkLoadAdminHead' ) );
 add_action( 'admin_menu', array( &$fp_wysiwyg, 'AddOptionPage' ) );
 add_action( 'admin_notices', array( &$fp_wysiwyg, 'AdminNotices') );
 
+/* comment out by MM 25/1/2012 LoadCKEditor
 add_action( 'edit_form_advanced', array( &$fp_wysiwyg, 'LoadFCKEditor' ) );
 add_action( 'edit_page_form', array( &$fp_wysiwyg, 'LoadFCKEditor' ) );
 add_action( 'simple_edit_form', array( &$fp_wysiwyg, 'LoadFCKEditor' ) );
+*/
+
+
+add_action( 'edit_form_advanced', array( &$fp_wysiwyg, 'LoadCKEditor' ) );
+add_action( 'edit_page_form', array( &$fp_wysiwyg, 'LoadCKEditor' ) );
+add_action( 'simple_edit_form', array( &$fp_wysiwyg, 'LoadCKEditor' ) );
+
 
 add_filter( 'the_editor', array( &$fp_wysiwyg, 'the_editor' ) );
 

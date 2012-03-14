@@ -93,6 +93,13 @@
 					}
 				?></td>
 			</tr>
+                        
+                        <tr valign="top">
+                            <th scope="row"><label for="forcePasteAsPlainText">Force Paste As Plain Text</label></th>
+                <td><input id="forcePasteAsPlainText" type="checkbox" name="forcePasteAsPlainText" value="checkbox" <?php if($this->aOptions[self::forcePasteAsPlainText] == true) echo 'checked="checked"'; ?> /></td>
+			
+                        </tr>
+                        
 			<tr valign="top"> 
                 <th scope="row"><label for="FCKWidth">Width of FCKEditor</label></th>
 				<td><input type="text" name="FCKWidth" value="<?php print( $this->aOptions[self::FVC_WIDTH] ); ?>" class="small-text" /><span class="description">(0 is default, for unlimited width)</span></td>
