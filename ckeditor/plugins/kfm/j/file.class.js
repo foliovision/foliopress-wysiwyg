@@ -49,7 +49,7 @@ File.prototype.setThumbnailBackground=function(el,reset){
 	}
 	// sprite doesn't exist, or image is not in a CSS sprite
 	//zUhrikova change url to path 23/02/2010 Foliovision
-	el.style.background='url(get.php?id='+id+'&width='+iThumbnail_size+'&height='+iThumbnail_size+') center top no-repeat';
+	el.style.background='url(getfile.php?id='+id+'&width='+iThumbnail_size+'&height='+iThumbnail_size+') center top no-repeat';
   x_kfm_getFileUrl( this.id, iThumbnail_size, iThumbnail_size, function ( url ){
         el.style.background='url('+url+'.jpg) center top no-repeat';
 			});
@@ -62,7 +62,7 @@ File.prototype.iterateThumbnailQueue=function(){
 	}
 	var el=window.File_ThumbnailsQueue[0][0],id=window.File_ThumbnailsQueue[0][1];
 	if(el && el.parentNode && el.parentNode.id=='documents_body'){
-		var url='get.php?id='+id+'&width='+iThumbnail_size+'&height='+iThumbnail_size+'&get_params='+kfm_vars.get_params;
+		var url='getfile.php?id='+id+'&width='+iThumbnail_size+'&height='+iThumbnail_size+'&get_params='+kfm_vars.get_params;
 		var img=document.createElement('img');
 		img.src=url;
 		img.style.width=1;

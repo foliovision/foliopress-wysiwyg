@@ -48,20 +48,20 @@ $kfm_userfiles_address = '/home/kae/Desktop/userfiles';
 // where should a browser look to find the files?
 // Note that this is usually the same as $kfm_userfiles_address (if it is relative), but could be different
 //   in the case that the server uses mod_rewrite or personal web-sites, etc
-// Use the value 'get.php' if you want to use the KFM file handler script to manage file downloads.
-// If you are not using get.php, this value must end in '/'.
+// Use the value 'getfile.php' if you want to use the KFM file handler script to manage file downloads.
+// If you are not using getfile.php, this value must end in '/'.
 // Examples:
 //   $kfm_userfiles_output = 'http://thisdomain.com/files/';
 //   $kfm_userfiles_output = '/files/';
-//   $kfm_userfiles_output = 'http://thisdomain.com/kfm/get.php';
-//   $kfm_userfiles_output = '/kfm/get.php';
+//   $kfm_userfiles_output = 'http://thisdomain.com/kfm/getfile.php';
+//   $kfm_userfiles_output = '/kfm/getfile.php';
 $kfm_userfiles_output = '/userfiles/';
 
 // directory in which KFM keeps its database and generated files
 // if this starts with '/', then the address is absolute. otherwise, it is relative to $kfm_userfiles_address.
 // $kfm_workdirectory = '.files';
 // $kfm_workdirectory = '/home/kae/files_cache';
-// warning: if you use the '/' method, then you must use the get.php method for $kfm_userfiles_output.
+// warning: if you use the '/' method, then you must use the getfile.php method for $kfm_userfiles_output.
 $kfm_workdirectory = '.files';
 
 // where is the 'convert' program kept, if you have it installed?

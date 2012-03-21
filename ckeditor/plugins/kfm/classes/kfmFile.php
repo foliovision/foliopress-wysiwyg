@@ -119,11 +119,11 @@ class kfmFile extends kfmObject{
 		//global $rootdir, $kfm_userfiles_output,$kfm_workdirectory;
 		if(!$this->exists())return 'javascript:alert("missing file")';
 		/* The following if should be depricated in the future in favor of the secure method.
-       The url can be constructed since kfm_url should be given and get.php is in that root */
+       The url can be constructed since kfm_url should be given and getfile.php is in that root */
     global $kfm_userfiles_output;
-		if(preg_replace('/.*(get\.php)$/','$1',$kfm_userfiles_output)=='get.php'){
-			if($kfm_userfiles_output=='get.php')
-         $url=preg_replace('/\/[^\/]*$/','/get.php?id='.$this->id.GET_PARAMS,$_SERVER['REQUEST_URI']);
+		if(preg_replace('/.*(get\.php)$/','$1',$kfm_userfiles_output)=='getfile.php'){
+			if($kfm_userfiles_output=='getfile.php')
+         $url=preg_replace('/\/[^\/]*$/','/getfile.php?id='.$this->id.GET_PARAMS,$_SERVER['REQUEST_URI']);
 			else
           $url=$kfm_userfiles_output.'?id='.$this->id;
           
@@ -163,7 +163,7 @@ class kfmFile extends kfmObject{
 			return WORKPATH.'thumbs/'.$img->thumb_id;
 		}
 		if($kfm->setting('file_url')=='secure'){
-			//$url=$kfm->setting('kfm_url').'get.php?id='.$this->id.GET_PARAMS;
+			//$url=$kfm->setting('kfm_url').'getfile.php?id='.$this->id.GET_PARAMS;
 			//$url='/'.$this->dir->relativePath().'/'.$this->name;//.$this->id.GET_PARAMS;
 			$url=$path.$this->dir->relativePath().'/'.$this->name;
 			$url = str_replace('//','/',$url);

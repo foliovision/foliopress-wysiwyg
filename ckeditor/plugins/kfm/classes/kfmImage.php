@@ -316,7 +316,7 @@ class kfmImage extends kfmFile{
 		global $kfm;
 		$row=db_fetch_row("SELECT id,caption FROM ".KFM_DB_PREFIX."files_images WHERE file_id='".$this->id."'");
 		if(!$row){ # db record not found. create it
-			# TODO: retrieve caption generation code from get.php
+			# TODO: retrieve caption generation code from getfile.php
 			$sql="INSERT INTO ".KFM_DB_PREFIX."files_images (file_id, caption) VALUES ('".$this->id."','".$this->name."')";
 			$this->caption=$this->name;
 			$kfm->db->exec($sql);
@@ -416,7 +416,7 @@ class kfmImage extends kfmFile{
 				if(!file_exists(WORKPATH.'thumbs/'.$id.$hslparam.$kfm_thumb_format))$this->createThumb($width,$height,$id,$hue,$saturation,$lightness);
 			}
 		}
-		$this->thumb_url='get.php?type=thumb&id='.$id.GET_PARAMS;
+		$this->thumb_url='getfile.php?type=thumb&id='.$id.GET_PARAMS;
 		$this->thumb_id=$id;
 		$this->thumb_path=str_replace('//','/',WORKPATH.'thumbs/'.$id.$hslparam.$kfm_thumb_format);
 		if(!file_exists($this->thumb_path)){
@@ -444,7 +444,7 @@ class kfmImage extends kfmFile{
 		else{
 			$id = $this->createSpecialThumb( $iSize );
 		}
-		$this->thumb_url = 'get.php?type=thumb&id='.$id.GET_PARAMS;
+		$this->thumb_url = 'getfile.php?type=thumb&id='.$id.GET_PARAMS;
 		$this->thumb_id = $id;
 		$this->thumb_path = str_replace('//','/', $strPath.'/'.$this->name);
 	}

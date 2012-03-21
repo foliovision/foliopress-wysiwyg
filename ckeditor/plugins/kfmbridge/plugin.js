@@ -13,7 +13,7 @@ CKEDITOR.plugins.add( 'kfmbridge',
         
         var iWidth  = CKEDITOR.config.filebrowserImageWindowWidth;
         var iHeight = CKEDITOR.config.filebrowserImageWindowHeight;
-        var sUrl    = "/wp-content/plugins/foliopress-wysiwyg/ckeditor/plugins/kfm/";
+        var sUrl    = CKEDITOR.config.ImageBrowserURL;
                     
         var iLeft = ( screen.width   - iWidth ) / 2;
         var iTop  = ( screen.height - iHeight ) / 2;

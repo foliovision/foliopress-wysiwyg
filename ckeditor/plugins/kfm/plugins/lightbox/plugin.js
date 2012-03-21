@@ -63,7 +63,7 @@ function kfm_img_startLightbox(id){
 		wrapper.appendChild(el);
 	}
 	if(oldEl)$j(oldEl).remove();
-	var w=data.width,h=data.height,url='get.php?id='+id,r=0;
+	var w=data.width,h=data.height,url='getfile.php?id='+id,r=0;
 	if(!w||!h)return kfm_img_stopLightbox();
 	if(w>ws.x*.9||h>ws.y*.9){
 		if(w>ws.x*.9){

@@ -31,6 +31,6 @@ body{
 </style>
 </head>
 <body>
-<img src="<?php echo preg_replace('#plugins/cropper.*#','',$_SERVER['REQUEST_URI']); ?>get.php?id=<?php print $_GET['id'].'&'.rand(1,500);?>" alt="Crop image" id="cropImage" width="<?php print $_GET['width'];?>" height="<?php print $_GET['height'];?>" />
+<img src="<?php echo preg_replace('#plugins/cropper.*#','',$_SERVER['REQUEST_URI']); ?>getfile.php?id=<?php print $_GET['id'].'&'.rand(1,500);?>" alt="Crop image" id="cropImage" width="<?php print $_GET['width'];?>" height="<?php print $_GET['height'];?>" />
 </body>
 </html>

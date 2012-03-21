@@ -6,7 +6,7 @@ window.kfm_chooseFile=function(){
 		if(!window.opener || kfm_file_handler=='download'){
 			for(var i=0;i<urls.length;++i){
 				var url=urls[i];
-				if(/get.php/.test(url))url+='&forcedownload=1';
+				if(/getfile.php/.test(url))url+='&forcedownload=1';
 				document.location=url;
 			}
 			return;

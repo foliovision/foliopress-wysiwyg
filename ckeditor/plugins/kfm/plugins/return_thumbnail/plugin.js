@@ -31,7 +31,7 @@ function kfm_returnThumbnail(id,size){
 				window.close();
 			}
 			else if(kfm_file_handler=='download'){
-				if(/get.php/.test(url))url+='&forcedownload=1';
+				if(/getfile.php/.test(url))url+='&forcedownload=1';
 				document.location=url;
 			}
 		});
