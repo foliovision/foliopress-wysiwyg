@@ -1,9 +1,9 @@
 <?php
 //	WP < 2.7 fix
-if( file_exists( dirname(__FILE__) . '/../../../../../../../wp-load.php' ) )
-	require_once( realpath( dirname(__FILE__) . '/../../../../../../../wp-load.php' ) );
+if( file_exists( dirname(__FILE__) . '/../../../../../../wp-load.php' ) )
+	require_once( realpath( dirname(__FILE__) . '/../../../../../../wp-load.php' ) );
 else
-	require_once( realpath( dirname(__FILE__) . '/../../../../../../../wp-config.php' ) );
+	require_once( realpath( dirname(__FILE__) . '/../../../../../../wp-config.php' ) );
 
 global $current_user;
 
