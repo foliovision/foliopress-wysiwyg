@@ -25,7 +25,7 @@ require_once( 'include/fp-api.php' );
 
 
 if (isset($_POST['recreate_submit'])) {
-    //require_once( dirname(__FILE__).'/fckeditor/editor/plugins/kfm/cleanup.php' );
+    //require_once( dirname(__FILE__).'/ckeditor/plugins/kfm/cleanup.php' );
 }
 
 /**
@@ -168,11 +168,11 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
     /**
      * Relative path to FCKEditor languages folder
      */
-    const FVC_LANG_RELATIVE_PATH = '/fckeditor/editor/lang';
+    const FVC_LANG_RELATIVE_PATH = '/ckeditor/lang';
     /**
      * Relative path to KFM skins folder
      */
-    const KFM_LANG_RELATIVE_PATH = '/fckeditor/editor/plugins/kfm/lang';
+    const KFM_LANG_RELATIVE_PATH = '/ckeditor/plugins/kfm/lang';
     /**
      * Relative path to custom FCKEditor config file
      */
@@ -201,6 +201,9 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
     const FV_SEO_IMAGES_IMAGE_TEMPLATE = 'image_template';
     /// Addition 2012/02/15
     const forcePasteAsPlainText = 'forcePasteAsPlainText';
+    const CKE_autogrow = 'CKE_autogrow';
+    const CKE_autoGrow_minHeight = 'CKE_autoGrow_minHeight';
+    const CKE_autoGrow_maxHeight = 'CKE_autoGrow_maxHeight';
 
 ///  -----------------------------------------------------------------------------------------------------------------
 ///  --------------------------------------------------   Methods   --------------------------------------------------
@@ -271,7 +274,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         /// Addition 2009/10/29   Foliovision
         if (!isset($this->aOptions['customtoolbar']))
             $this->aOptions['customtoolbar'] =
-                    "['Cut','Copy','Paste','foliopress-paste','-','Bold','Italic','-','FontFormat','RemoveFormat','-','OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','-','Link','Unlink','Anchor','-','foliopress-more','-','kfmBridge','FVWPFlowplayer','PasteEmbed','-','Source','-','FitWindow']";
+                    "Cut,Copy,Paste,-,Bold,Italic,-,Styles,Format,RemoveFormat,-,NumberedList,BulletedList,-,Outdent,Indent,Blockquote\nLink,Unlink,Anchor,-,Fvmore,Fvnextpage,-,Kfmbridge,FVWPFlowplayer,Fvpasteembed,-,Source,-,Maximize";
 
         //  todo - add content
         if (!isset($this->aOptions['customdropdown']))
@@ -282,7 +285,11 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 <h1>Header 1</h1>
 <h2>Header 2</h2>
 <h3>Header 3</h3>
-<h4>Header 4</h4>';
+<h4>Header 4</h4>
+<pre>Formatted</pre>
+<code>code</code>
+<span style="background-color: green;">Highlight green</span>
+<span style="background-color: red; font-style:italic;">Highlight italic red</span>';
         $this->parse_dropdown_menu();
 
         if (!isset($this->aOptions['multipleimageposting']))
@@ -330,6 +337,15 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         /// Addition 2012/02/15
         if (!isset($this->aOptions['forcePasteAsPlainText']))
             $this->aOptions['forcePasteAsPlainText'] = false;
+
+
+        if (!isset($this->aOptions['CKE_autogrow']))
+            $this->aOptions['CKE_autogrow'] = false;
+        if (!isset($this->aOptions[self::CKE_autoGrow_minHeight]))
+            $this->aOptions[self::CKE_autoGrow_minHeight] = 0;
+        if (!isset($this->aOptions[self::CKE_autoGrow_maxHeight]))
+            $this->aOptions[self::CKE_autoGrow_maxHeight] = 0;
+
 
         //$this->KillTinyMCE( null );
     }
@@ -396,9 +412,9 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         }
 
         if ($this->aOptions['kfmlang'] != 'auto') {
-            $url = $this->strPluginPath . 'fckeditor/editor/plugins/kfm/?lang=' . $this->aOptions['kfmlang'] . '&kfm_caller_type=fck&type=Image';
+            $url = $this->strPluginPath . 'ckeditor/plugins/kfm/?lang=' . $this->aOptions['kfmlang'] . '&kfm_caller_type=fck&type=Image';
         } else {
-            $url = $this->strPluginPath . 'fckeditor/editor/plugins/kfm/?lang=en&kfm_caller_type=fck&type=Image';
+            $url = $this->strPluginPath . 'ckeditor/plugins/kfm/?lang=en&kfm_caller_type=fck&type=Image';
         }
         $onclick = 'onclick="window.open( \'' . $url . '\', \'FCKBrowseWindow\', \'toolbar=no,status=no,resizable=yes,dependent=yes,scrollbars=yes,width=\'+(screen.width*0.7)+\',height=\'+(screen.height*0.7)+\',left=\'+(screen.width-screen.width*0.7)/2+\',top=\'+(screen.height-screen.height*0.7)/2); return false"';
 
@@ -456,7 +472,14 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
     function content_edit_pre($content) {
 
         global $post;
-        $meta = get_post_meta($post->ID, 'wysiwyg', true);
+
+        if ($post->post_type != 'post' && $post->post_type != 'page')
+            return $content;
+
+        $meta = get_post_meta($post->ID, '_wysiwyg', true);
+        if (!$meta) {
+            $meta = get_post_meta($post->ID, 'wysiwyg', true); //	check old meta
+        }
 
         if (isset($meta['plain_text_editing']) && $meta['plain_text_editing'] == 1) {
             return $content;
@@ -544,7 +567,6 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 #quicktags { display: none; }
             </style>
             <?php
-            echo "<h1>QT</h1>";
         endif;
     }
 
@@ -579,7 +601,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             $m = substr($time, 5, 2);
             $date = "$y-$m%";
 
-            $attach_id = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_date LIKE %s LIMIT 1", $attachment['post_title'], $date));
+            $attach_id = $wpdb->get_var($wpdb->prepare("SELECT ID FROM $wpdb->posts WHERE post_name = %s AND post_date LIKE %s AND post_type = 'attachment' LIMIT 1", $attachment['post_title'], $date));
 
             if (!$attach_id) {
                 $attach_id = wp_insert_attachment($attachment, $file, $post_ID);
@@ -770,28 +792,13 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         );
 
         $toolbar['Foliovision'] = array(
-            array('Source', '-',
-                'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-',
-                'Undo', 'Redo', '-',
-                'Find', 'Replace', '-',
-                'SelectAll', 'RemoveFormat', '-',
-                'Maximize', 'ShowBlocks'),
-            '/',
-            array('Bold', 'Italic', 'Underline', 'Strike', '-',
-                'Subscript', 'Superscript', '-',
-                'NumberedList', 'BulletedList', '-',
-                'Outdent', 'Indent', 'Blockquote', '-',
-                'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',
-                'Link', 'Unlink', 'Anchor', 'fv_more'
-            ),
-            '/',
-            array('Format', 'Font', 'FontSize', '-',
-                'TextColor', 'BGColor')
+            array('Cut', 'Copy', 'Paste', 'PasteFromWord', '-', 'Bold', 'Italic', '-', 'Styles', 'Format', 'RemoveFormat', '-', 'NumberedList',
+                'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', '-', 'Link', 'Unlink', 'Anchor', '-',
+                'Fvmore', '-', 'Kfmbridge', 'FVWPFlowplayer', 'Fvpasteembed', '-', 'Source', '-', 'Maximize')
         );
 
         $toolbar['Basic'] = array(
-            array('Source', 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'About',
-                '-', 'Fvmore', 'Timestamp', 'Youtube', '-', 'Fvpasteembed', 'Kfmbridge')
+            array('Source', 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'About')
         );
 
 
@@ -799,47 +806,38 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             array('Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo', '-', 'Bold', 'Italic', '-',
                 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',
                 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-',
-                'Link', 'Unlink', 'Anchor', '-', 'kfmBridge', 'FVWPFlowplayer', 'PasteEmbed'),
+                'Link', 'Unlink', 'Anchor', '-', 'Kfmbridge', 'FVWPFlowplayer', 'Fvpasteembed'),
             '/',
-            array('Format', 'RemoveFormat', '-', 'Replace', 'Table', 'HorizontalRule', 'SpecialChar', '-',
-                'fv_more', 'foliopress-next', '-', 'Source', '-', 'Maximize')
+            array('Styles', 'Format', 'RemoveFormat', '-', 'Replace', 'Table', 'HorizontalRule', 'SpecialChar', '-',
+                'Fvmore', 'Fvnextpage', '-', 'Source', '-', 'Maximize','Scayt')
         );
+
+        //make custom toolbar
+        $tmp_cust_toolbar = explode("\n", $this->aOptions['customtoolbar']);
+        $count = count($tmp_cust_toolbar);
+        $i = 0;
+        foreach ($tmp_cust_toolbar as $row) {
+            $i++;
+            $toolbar['Custom'][] = explode(",", $row);
+            if ($i < $count)
+                $toolbar['Custom'][] = "/";
+        }
+
 
         //  detect FV WP Flowplayer
         if (has_action('media_upload_fv-wp-flowplayer')) :
             ?>
-            var g_fv_wp_flowplayer_found = true; 
+            <script type="text/javascript">
+                var g_fv_wp_flowplayer_found = true; 
+            </script>
         <?php else : ?>
-            var g_fv_wp_flowplayer_found = false; 
+            <script type="text/javascript">
+                var g_fv_wp_flowplayer_found = false; 
+            </script>
         <?php
         endif;
 
-        /// Impact support
-        global $post;
-        if ($this->has_impact($post->ID)) {
-            $options['bodyid'] = 'impact-content';
-            $options['bodyclass'] .= ' impact-content-wrap';
-            if ($post->post_type == 'page') {
-                $options['bodyclass'] .= ' page';
-            } else {
-                $options['bodyclass'] .= ' post';
-            }
-        }
 
-
-
-        /*
-          $toolbar['Foliovision-Full'] = array(
-          array('Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo', '-', 'Bold', 'Italic', '-',
-          'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyFull', '-',
-          'OrderedList', 'UnorderedList', '-', 'Outdent', 'Indent', '-',
-          'Link', 'Unlink', 'Anchor', '-', 'kfmBridge', 'FVWPFlowplayer', 'PasteEmbed'),
-          '/',
-          array('FontFormat', 'RemoveFormat', '-', 'Replace', 'Table', 'Rule', 'SpecialChar', '-',
-          'foliopress-more', 'foliopress-next', '-', 'Source', '-', 'FitWindow')
-          );
-
-         */
         //// Include the CKEditor class.
         include_once dirname(__FILE__) . "/ckeditor/ckeditor.php";
         // Create a class instance.
@@ -852,50 +850,85 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 //        $CKEditor->config['toolbar'] = $toolbar[$this->aOptions[self::FVC_TOOLBAR]];
 //        $CKEditor->config['skin'] = $this->aOptions[self::FVC_SKIN];
         //add $editor_styles to CKEditor
-        global $editor_styles;
+        global $editor_styles, $post;
         $cssPath = get_bloginfo('stylesheet_directory');
+
         foreach ($editor_styles as $editor_style) {
-//            $CKEditor_style[] = "$cssPath/$editor_style";
-//            $CKEditor_style[] = "http://iptraker.ontimedesign.net/wp-content/themes/twentyeleven/style.css";
+            $CKEditor_style[] = "$cssPath/$editor_style";
         }
 
         $CKEditor_style[] = trailingslashit(WP_PLUGIN_URL) . basename(dirname(__FILE__)) . '/custom-config/foliopress-editor.php?p=' . $post->ID;
-        $CKEditor_style[] = $CKEditor->basePath . 'test.php';
-//        $CKEditor_style[] = 'http://foliovision.com/site/wp-content/plugins/foliopress-wysiwyg/custom-config/foliopress-editor.php';
-        echo "<pre>";
-        print_r($CKEditor_style);
-        echo "</pre>";
+        if ($this->aOptions[self::FVC_LANG] != 'auto') {
+            $config['language'] = $this->aOptions[self::FVC_LANG];
+            $CKEditor->config['defaultLanguage'] = $this->aOptions[self::FVC_LANG];
+        }
+        $config['contentsLangDirection'] = $this->aOptions['FCKLangDir'];
+        if ($this->aOptions['ProcessHTMLEntities']) /*  affects quotes on = &quot;, off = "  */
+            $config['entities'] = true;
+        else
+            $config['entities'] = false;
 
         $config['contentsCss'] = $CKEditor_style;
-        $config['extraPlugins'] = 'fvmore,timestamp,youtube,fvpasteembed,kfmbridge';
+        $config['disableObjectResizing'] = 'true';
+        $config['extraPlugins'] = 'fvmore,timestamp,kfmbridge,fvpasteembed,fvnextpage,FVWPFlowplayer';
+        if ($this->aOptions[self::CKE_autogrow]) {
+            $config['extraPlugins'].= ",autogrow";
+            if ($this->aOptions[self::CKE_autoGrow_minHeight] > 0)
+                $config['autoGrow_minHeight'] = $this->aOptions[self::CKE_autoGrow_minHeight];
+            if ($this->aOptions[self::CKE_autoGrow_maxHeight] > 0)
+                $config['autoGrow_maxHeight'] = $this->aOptions[self::CKE_autoGrow_maxHeight];
+        }
+
+
+        if ($this->aOptions[self::FVC_WIDTH] > 0) {
+            $config['width'] = $this->aOptions[self::FVC_WIDTH];
+        }
+
+        $config['removeFormatTags'] = 'b,big,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var';
         $config['toolbar'] = $toolbar[$this->aOptions[self::FVC_TOOLBAR]];
         $config['skin'] = $this->aOptions[self::FVC_SKIN];
 
-
-
-
         $CKEditor->config['forcePasteAsPlainText'] = $this->aOptions[self::forcePasteAsPlainText];
-        $CKEditor->config['defaultLanguage'] = $this->aOptions[self::FVC_LANG];
-
-        ///kfm
-//        $CKEditor->config['filebrowserBrowseUrl'] = trailingslashit(WP_PLUGIN_URL) . basename(dirname(__FILE__)) . '/fckeditor/editor/plugins/kfm/';
         $CKEditor->config['filebrowserBrowseUrl'] = $CKEditor->basePath . 'plugins/kfm/';
-//        $CKEditor->config['filebrowserBrowseUrl'] = $CKEditor->basePath.'plugins/ckfinder/';
-//        $CKEditor->config['filebrowserWindowWidth'] = '640';
-//        $CKEditor->config['filebrowserWindowHeight'] = '480';
 
 
+
+        /// Impact support
+        if ($this->has_impact($post->ID)) {
+            $options['bodyid'] = 'impact-content';
+            $options['bodyclass'] .= ' impact-content-wrap';
+            if ($post->post_type == 'page') {
+                $options['bodyclass'] .= ' page';
+            } else {
+                $options['bodyclass'] .= ' post';
+            }
+        }
+        $CKEditor->config['bodyId'] = $options['bodyid'];
+        $CKEditor->config['bodyClass'] = $options['bodyclass'];
+        if ($options['bodyid'] || $options['bodyclass']) {
+            $CKEditor->config['bodyClass'] .= ' wysiwyg';
+        }
+
+        
+        
         $CKEditor->replace("content", $config);
-
-//        print( $this->aOptions[self::FVC_TOOLBAR]);
-
-        echo "<p/>";
-        echo WP_PLUGIN_DIR . '/' . $impact_root . '/css/default.css';
-        echo "<p/>forcePasteAsPlainText=";
-        echo $this->aOptions[self::forcePasteAsPlainText];
-        echo "<p/>FVC_LANG=";
-        echo $this->aOptions[self::FVC_LANG];
-
+        ?>
+        <script type="text/javascript">                                        
+            CKEDITOR.stylesSet.add( 'default',
+            [
+        <? echo ($this->aOptions['customdropdown-corestyles']); ?>
+                                        
+            ]);
+        </script>
+        <style>
+            .cke_styles_panel {
+               
+            }
+            .cke_panel_frame {
+                
+            }
+        </style>
+        <?
         //  remove tinyMCE editor JS in WP 3.3
         $this->loading = true;
     }
@@ -916,21 +949,16 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         <?php else : ?>
                 var g_fv_wp_flowplayer_found = false; 
         <?php endif; ?>
-                                                                			
+                                                                                        			
             function fv_wysiwyg_load(){
                 var oFCKeditor = new FCKeditor( 'content', 
-                '<?php
-        if ($this->aOptions[self::FVC_WIDTH] != 0)
-            print( $this->aOptions[self::FVC_WIDTH] . "px");
-        else
-            print( "100%");
-        ?>', 
+                '', 
         <?php print( $this->iEditorSize); ?> );
                 //oFCKeditor.Config["CustomConfigurationsPath"] = "<?php print( $this->strPluginPath . self::FVC_FCK_CONFIG_RELATIVE_PATH); ?>";
-                                                                	
+                                                                                        	
                 ///  MAGIC MAGIC MAGIC MAGIC *** ***
         <?php $options = $this->aOptions; ?>
-                                                                			
+                                                                                        			
                 /// Impact support
         <?php
         global $post;
@@ -944,104 +972,25 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             }
         }
         ?>
-                                                                						
-                oFCKeditor.Config["ProcessHTMLEntities"]	= <?php if ($options['ProcessHTMLEntities']) echo 'true'; else echo 'false' ?> ;  /*  affects quotes on = &quot;, off = "  */
-        <?php if ($options[fp_wysiwyg_class::FVC_LANG] != 'auto') : ?>
-                    oFCKeditor.Config["AutoDetectLanguage"]	= false ;
-                    oFCKeditor.Config["DefaultLanguage"]		= '<?php echo $options[fp_wysiwyg_class::FVC_LANG]; ?>' ;
-        <?php else : ?>
-                    oFCKeditor.Config["AutoDetectLanguage"]	= true ;
-                    oFCKeditor.Config["DefaultLanguage"]		= 'en' ;
-        <?php endif; ?>
+                                                                                        						
+                      
+                      
+                      
+                      
+                      
+                
+                
                 oFCKeditor.Config["ContentLangDirection"]	= '<?php echo $options["FCKLangDir"]; ?>' ;
-                                                                      
+                                                                                              
                 oFCKeditor.Config["FontFormats"]	= '<?php echo $options["customdropdown-fontformats"]; ?>' ;
-                                                                      
+                                                                                              
                 oFCKeditor.Config["CustomConfigurationsPath" ] = " \
-        \
-        FCKConfig.ToolbarSets['Default'] = [ \
-        ['Source','DocProps','-','Save','NewPage','Preview','-','Templates'], \
-        ['Cut','Copy','Paste','foliopress-paste','PasteText','PasteWord','-','Print','SpellCheck'], \
-        ['Undo','Redo','-','Find','Replace','-','SelectAll','RemoveFormat'], \
-        ['Form','Checkbox','Radio','TextField','Textarea','Select','Button','ImageButton','HiddenField'], \
-        '/', \
-        ['Bold','Italic','Underline','StrikeThrough','-','Subscript','Superscript'], \
-        ['OrderedList','UnorderedList','-','Outdent','Indent'], \
-        ['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'], \
-        ['Link','Unlink','Anchor'], \
-        ['kfmBridge','FVWPFlowplayer','Table','Rule','Smiley','SpecialChar','PageBreak'], \
-        '/', \
-        ['Style','FontFormat','FontName','FontSize'], \
-        ['TextColor','BGColor'] \
-        ]; \
-        \
-        FCKConfig.ToolbarSets['Basic'] = [ \
-        ['Source', 'Bold','Italic','-','OrderedList','UnorderedList','-','Link','Unlink','-','About'] \
-        ]; \
-        \
-        FCKConfig.ToolbarSets['Foliovision'] = [ \
-        ['Cut','Copy','Paste','foliopress-paste','-','Bold','Italic','-','FontFormat','RemoveFormat','-','OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','-','Link','Unlink','Anchor','-','foliopress-more','-','kfmBridge','FVWPFlowplayer','PasteEmbed','-','Source','-','FitWindow'] \
-        ]; \
-        \
-        FCKConfig.ToolbarSets['Foliovision-Full'] = [ \
-        ['Cut','Copy','Paste','-','Undo','Redo','-','Bold','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyFull','-','OrderedList','UnorderedList','-','Outdent','Indent','-','Link','Unlink','Anchor','-','kfmBridge','FVWPFlowplayer','PasteEmbed'], '/', \
-        ['FontFormat','RemoveFormat','-','Replace','Table','Rule','SpecialChar','-','foliopress-more','foliopress-next','-','Source','-','FitWindow'] \
-        ]; \
-        \
-        FCKConfig.ToolbarSets['Custom'] = [ <?php echo str_replace("\r\n", " ", stripslashes($options['customtoolbar'])); ?> ]; \
-        \
-        FCKConfig.CoreStyles = \
-        { \
-        <?php echo str_replace("\r\n", " ", $options['customdropdown-corestyles']); ?>, \
-        'Bold' : { Element : 'strong', Overrides : 'b' }, 'Italic' : { Element : 'em', Overrides : 'i' }, 'Underline' : { Element : 'u' }, 'StrikeThrough' : { Element : 'strike' }, 'Subscript' : { Element : 'sub' }, 'Superscript' : { Element : 'sup' }, \
-        'p' : { Element : 'p' }, 'div' : { Element : 'div' }, 'pre' : { Element : 'pre' }, 'address' : { Element : 'address' }, 'h1' : { Element : 'h1' }, 'h2' : { Element : 'h2' }, 'h3' : { Element : 'h3' }, 'h4' : { Element : 'h4' }, 'h5' : { Element : 'h5' }, 'h6' : { Element : 'h6' }, \
-        'FontFace' : { Element : 'span', Styles : { 'font-family' : '#(\"Font\")' }, Overrides : [ { Element : 'font', Attributes : { 'face' : null } } ] }, \
-        'Size' : { Element : 'span', Styles : { 'font-size' : '#(\"Size\",\"fontSize\")' }, Overrides : [ { Element : 'font', Attributes : { 'size' : null } } ] }, \
-        'Color' : { Element : 'span', Styles : { 'color' : '#(\"Color\",\"color\")' }, Overrides : [ { Element : 'font', Attributes : { 'color' : null } } ] }, \
-        'BackColor' : { Element : 'span', Styles : { 'background-color' : '#(\"Color\",\"color\")' } }, 'SelectionHighlight' : { Element : 'span', Styles : { 'background-color' : 'navy', 'color' : 'white' } } \
-        }; \
-        \
-        FCKToolbarFontFormatCombo.prototype.GetStyles = function() \
-        { \
-        var styles = {} ; \
-        var aNames = FCKLang['FontFormats'].split(';') ; \
-        var oNames = { \
-        <?php echo str_replace("\r\n", " ", $options['customdropdown-fontformatnames']); ?>, \
-                p : aNames[0], pre : aNames[1], address : aNames[2], h1 : aNames[3], h2 : aNames[4], h3 : aNames[5], h4 : aNames[6], h5 : aNames[7], h6 : aNames[8], div : aNames[9] || ( aNames[0] + ' (DIV)') \
-        } ; \
-        var elements = FCKConfig.FontFormats.split(';') ; \
-        \
-        for ( var i = 0 ; i < elements.length ; i++ ) \
-        { \
-                var elementName = elements[ i ] ; \
-                var style = FCKStyles.GetStyle( '_FCK_' + elementName ) ; \
-                if ( style ) \
-                { \
-                        style.Label = oNames[ elementName ] ; \
-                        styles[ '_FCK_' + elementName ] = style ; \
-                } \
-                else { \
-                } \
-        } \
-        \
-        return styles ; \
-        }; \
-        \
         FCKConfig.BodyId = '<?php echo $options['bodyid']; ?>' ;  \
         FCKConfig.BodyClass = '<?php echo $options['bodyclass']; ?>' ;  \
-        FCKConfig.EditorAreaCSS = FCKConfig.BasePath + '../../custom-config/foliopress-editor.php?p=<?php echo $post->ID; ?>'; \
         if( FCKConfig.BodyId || FCKConfig.BodyClass ) { \
         FCKConfig.BodyClass = FCKConfig.BodyClass + ' wysiwyg'; \
         } \
-        FCKConfig.ImageBrowserURL = FCKConfig.BasePath+'plugins/kfm/?lang='+FCKConfig.DefaultLanguage+'&kfm_caller_type=fck&type=Image'; \
-        FCKConfig.ImageUploadURL = FCKConfig.BasePath+'plugins/kfm/?lang='+FCKConfig.DefaultLanguage+'&kfm_caller_type=fck&type=Image'; \
-        FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/<?php print( $this->aOptions[fp_wysiwyg_class::FVC_SKIN]); ?>/'; \
-        \
-        FCKConfig.Plugins.Add( 'kfm' ); \
-        FCKConfig.Plugins.Add( 'kfmBridge' ); \
-        FCKConfig.Plugins.Add( 'foliopress-wp' ); \
         FCKConfig.Plugins.Add( 'foliopress-clean' ); \
-        FCKConfig.Plugins.Add( 'foliopress-paste-embed' ); \
         <?php
         if (count($options[fp_wysiwyg_class::FVC_FPC_TEXTS])) {
             print( 'FCKConfig.FPClean_SpecialText = [');
@@ -1058,135 +1007,130 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         }
         ?> \
         FCKConfig.FPClean_Tags = 'p|div'; \
-        FCKConfig.RemoveFormatTags = 'b,big,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var' ; \
         FCKConfig.Plugins.Add( 'foliopress-preformated' ); \
         FCKConfig.Plugins.Add( 'FVWPFlowplayer' ); \
         FCKConfig.Plugins.Add( 'foliopress-rgb-colors-replacer' ); \
         ";
 
-        <?php if ($options['UseWPLinkDialog']) : ?>
-                    oFCKeditor.Config["FVLinkingDialog"] = 'dialog/fck_link_wp.html';
-                    oFCKeditor.Config["FVLinkingDialogHeight"] = 580;	
-        <?php else : ?>      
-                    oFCKeditor.Config["FVLinkingDialog"] = 'dialog/fck_link.html';
-                    oFCKeditor.Config["FVLinkingDialogHeight"] = 300;
-        <?php endif; ?>
-                                                                			
+                oFCKeditor.Config["FVLinkingDialog"] = 'dialog/fck_link.html';
+                oFCKeditor.Config["FVLinkingDialogHeight"] = 300;
+                                                                                        			
                 ///  MAGIC MAGIC MAGIC MAGIC *** ***
-                                                                				
+                                                                                        				
                 oFCKeditor.BasePath = "<?php print( $this->strFCKEditorPath); ?>";
                 oFCKeditor.Config["BaseHref"] = "<?php print( $_SERVER['SERVER_NAME']); ?>";
                 oFCKeditor.ToolbarSet = "<?php print( $this->aOptions[self::FVC_TOOLBAR]); ?>";
                 oFCKeditor.ReplaceTextarea();
             }
-                                                                		
+                                                                                        		
         <?php
         if ($this->bUseFCK) {
             print( 'fv_wysiwyg_load();');
         }
         ?>
-                                                                		
-        <?php
-        if ($GLOBALS['wp_version'] >= 2.7) :
-            $this->LoadEditorJavaScript();
-        endif;
-        ?>
+                                                                                        		
+        <?php if ($GLOBALS['wp_version'] >= 2.7) : ?>
+                jQuery(document).ready(function() {
+                    window.setTimeout("fv_wysiwyg_startup();", 1000);
+                });
+                                                                                                                                        
+                function fv_wysiwyg_startup() {
+                    if( typeof(FCKeditorAPI) != 'undefined' ) {
+                        FCKeditorAPI.GetInstance('content').GetXHTML(); //  don't remove
+                        if( typeof( FCKeditorAPI.GetInstance('content').EditorDocument ) != 'undefined' ) { //  IE might not be ready to reset the dirty flag yet
+                            FCKeditorAPI.GetInstance('content').ResetIsDirty();
+                        } else {
+                            window.setTimeout("fv_wysiwyg_startup();", 1000);
+                        }
+                        window.setTimeout("fv_wysiwyg_update_content();", 5000);
+                    } else {
+                        setTimeout("fv_wysiwyg_startup();", 1000);
+                    }
+                }
+                                                                                                                                        
+                function fv_wysiwyg_update_content() {
+                    if( typeof(FCKeditorAPI) != 'undefined' ) {
+                        if( FCKeditorAPI.GetInstance('content').IsDirty() ) {
+                            jQuery('#content').val( FCKeditorAPI.GetInstance('content').GetXHTML() );
+                        }
+                        wpWordCount.wc( FCKeditorAPI.GetInstance('content').GetXHTML() );
+                        setTimeout("fv_wysiwyg_update_content();", 5000);
+                    }
+
+                }
+            <?php global $post;   /// 0.5.2 SEO Images             ?>
+                    /**
+                     *	Adds/updates post meta using WP posting screen
+                     */
+                    function FCKSetHTML( html ) {
+                        FCKeditorAPI.GetInstance('content').InsertHtml( html ); //  todo add Safari fix
+                    }		
+                                                                                                                                    		
+                                                                                                                                    		
+                    /**
+                     *	Adds/updates post meta using WP posting screen
+                     */
+                    function FCKSetWPMeta( metaKey, metaValue ) {
+                        // id of the key field
+                                                                                                                                        	
+                        //var keyId = jQuery( '[id$=[key]][value='+metaKey+']' ).attr('id');
+                        var keyId = jQuery( 'input[value="custom_image"]' ).attr('id');
+                        if( keyId ) {
+                            valueId = keyId.replace( /key/, 'value' );
+                                                                                                                                          	
+                            var reg = /\d+/gm;
+                            var metaId = keyId.match( reg );
+                            var textarea = window.parent.jQuery( '#meta\\['+metaId+'\\]\\[value\\]' )
+                                                                                                                                          
+                            textarea.val( metaValue );
+                            window.parent.jQuery( '[class^=add:the-list:meta-'+metaId+'::]' ).click( );  //  update click
+                        }
+                        // if the field doesn't exist
+                        else {
+                            jQuery( '#metakeyinput' ).val( metaKey );
+                            jQuery( '#metavalue' ).val( metaValue );
+                            jQuery( '#addmetasub' ).click( );  //  add click
+                        }
+                    }
+                                                                                                                                        
+                                                                                                                                        
+                    /**
+                     *	Updates field on WP posting screen
+                     */
+                    function FCKSetWPEditorField( metaKey, metaValue ) {
+                        if( jQuery( '#'+metaKey ) ) 
+                            jQuery( '#'+metaKey ).val( metaValue );
+                        if( jQuery( '[name='+metaKey+']' ) ) 
+                            jQuery( '[name='+metaKey+']' ).val( metaValue );
+                    }
+                                                                                                                                        
+                    var SEOImagesPostId = '<?php echo $post->ID; ?>';
+                    var SEOImagesAjaxUrl = '<?php echo admin_url('admin-ajax.php') ?>';
+
+                    var SEOImagesAjaxNonce ='<?php echo wp_create_nonce("seo-images-featured-image-" . $post->ID); ?>';
+                    function FCKSetFeaturedImage( ImageURL ) {
+                        jQuery.ajax({
+
+                            url: SEOImagesAjaxUrl,
+
+                            cache: false,
+
+                            data: ({ action: 'seo_images_featured_image', _ajax_nonce: SEOImagesAjaxNonce, imageURL: ImageURL, thumbnail_id: ImageURL, post_id: SEOImagesPostId }), //  we set image URL to thumbnail_id for SEO Images support
+
+                            type: 'POST',
+
+                            success: function(data) {
+
+                                jQuery( '#postimagediv .inside' ).html( data );
+
+                            }
+
+                        });
+                    }
+        <?php endif; ?>
         </script>
         <?php
         $this->loading = true;
-    }
-
-    function LoadEditorJavaScript() {
-        ?>
-        jQuery(document).ready(function() {
-        window.setTimeout("fv_wysiwyg_startup();", 1000);
-        });
-
-        function fv_wysiwyg_startup() {
-        if( typeof(FCKeditorAPI) != 'undefined' ) {
-        FCKeditorAPI.GetInstance('content').GetXHTML(); //  don't remove
-        if( typeof( FCKeditorAPI.GetInstance('content').EditorDocument ) != 'undefined' ) { //  IE might not be ready to reset the dirty flag yet
-        FCKeditorAPI.GetInstance('content').ResetIsDirty();
-        } else {
-        window.setTimeout("fv_wysiwyg_startup();", 1000);
-        }
-        window.setTimeout("fv_wysiwyg_update_content();", 5000);
-        } else {
-        setTimeout("fv_wysiwyg_startup();", 1000);
-        }
-        }
-
-        function fv_wysiwyg_update_content() {
-        if( typeof(FCKeditorAPI) != 'undefined' ) {
-        if( FCKeditorAPI.GetInstance('content').IsDirty() ) {
-        jQuery('#content').val( FCKeditorAPI.GetInstance('content').GetXHTML() );
-        }
-        wpWordCount.wc( FCKeditorAPI.GetInstance('content').GetXHTML() );
-        setTimeout("fv_wysiwyg_update_content();", 5000);
-        }   
-
-        }
-        <?php global $post;   /// 0.5.2 SEO Images          ?>
-        /**
-        *	Adds/updates post meta using WP posting screen
-        */
-        function FCKSetHTML( html ) {
-        FCKeditorAPI.GetInstance('content').InsertHtml( html ); //  todo add Safari fix
-        }		
-
-
-        /**
-        *	Adds/updates post meta using WP posting screen
-        */
-        function FCKSetWPMeta( metaKey, metaValue ) {
-        // id of the key field
-
-        //var keyId = jQuery( '[id$=[key]][value='+metaKey+']' ).attr('id');
-        var keyId = jQuery( 'input[value="custom_image"]' ).attr('id');
-        if( keyId ) {
-        valueId = keyId.replace( /key/, 'value' );
-
-        var reg = /\d+/gm;
-        var metaId = keyId.match( reg );
-        var textarea = window.parent.jQuery( '#meta\\['+metaId+'\\]\\[value\\]' )
-
-        textarea.val( metaValue );
-        window.parent.jQuery( '[class^=add:the-list:meta-'+metaId+'::]' ).click( );  //  update click
-        }
-        // if the field doesn't exist
-        else {
-        jQuery( '#metakeyinput' ).val( metaKey );
-        jQuery( '#metavalue' ).val( metaValue );
-        jQuery( '#addmetasub' ).click( );  //  add click
-        }
-        }
-
-
-        /**
-        *	Updates field on WP posting screen
-        */
-        function FCKSetWPEditorField( metaKey, metaValue ) {
-        if( jQuery( '#'+metaKey ) ) 
-        jQuery( '#'+metaKey ).val( metaValue );
-        if( jQuery( '[name='+metaKey+']' ) ) 
-        jQuery( '[name='+metaKey+']' ).val( metaValue );
-        }
-
-        var SEOImagesPostId = '<?php echo $post->ID; ?>';
-        var SEOImagesAjaxUrl = '<?php echo admin_url('admin-ajax.php') ?>';
-        var SEOImagesAjaxNonce ='<?php echo wp_create_nonce("seo-images-featured-image-" . $post->ID); ?>';
-        function FCKSetFeaturedImage( ImageURL ) {
-        jQuery.ajax({
-        url: SEOImagesAjaxUrl,
-        cache: false,
-        data: ({ action: 'seo_images_featured_image', _ajax_nonce: SEOImagesAjaxNonce, imageURL: ImageURL, thumbnail_id: ImageURL, post_id: SEOImagesPostId }), //  we set image URL to thumbnail_id for SEO Images support
-        type: 'POST',
-        success: function(data) {
-        jQuery( '#postimagediv .inside' ).html( data );
-        }
-        });
-        }
-        <?php
     }
 
     /**
@@ -1229,7 +1173,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             <?php
         }
 
-        $meta = get_post_meta($post->ID, 'wysiwyg', true);
+        $meta = get_post_meta($post->ID, '_wysiwyg', true);
+        if (!$meta) {
+            $meta = get_post_meta($post->ID, 'wysiwyg', true); //	check old meta
+        }
         if (!isset($meta['plain_text_editing'])) {
             $meta['plain_text_editing'] = false;
         }
@@ -1291,7 +1238,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             /// When user returns from recreate page, thumbnails will be recreated
             if (isset($_POST['recreate_submit'])) {
                 set_time_limit(300);
-                require_once( dirname(__FILE__) . '/fckeditor/editor/plugins/kfm/cleanup.php' );
+                require_once( dirname(__FILE__) . '/ckeditor/plugins/kfm/cleanup.php' );
 
                 $aSetup = array();
                 $aSetup['JPGQuality'] = $this->aOptions[self::FVC_JPEG];
@@ -1340,6 +1287,18 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 $this->aOptions['forcePasteAsPlainText'] = false;
                 if (isset($_POST['forcePasteAsPlainText']))
                     $this->aOptions['forcePasteAsPlainText'] = true;
+
+
+                $this->aOptions['CKE_autogrow'] = false;
+                if (isset($_POST['CKE_autogrow']))
+                    $this->aOptions['CKE_autogrow'] = true;
+
+                $this->aOptions[self::CKE_autoGrow_minHeight] = $_POST['CKE_autoGrow_minHeight'];
+                $this->aOptions[self::CKE_autoGrow_maxHeight] = $_POST['CKE_autoGrow_maxHeight'];
+
+
+
+                ///end addition
 
                 $this->aOptions['multipleimageposting'] = false;
                 if (isset($_POST['MultipleImagePosting']))
@@ -1477,7 +1436,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
         $corestyles = '';
         $fontformats = '';
-        $fontformatnames = '';
+
 
         foreach ($items AS $item) {
             $i++;
@@ -1493,6 +1452,9 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             if (isset($attributes[1])) {
                 foreach ($attributes[1] AS $key => $attribute) {
                     if (strcasecmp('style', $attribute) == 0) {                     //  style
+//                        echo "<pre>  <br />  <br />  ";
+//                        print_r($attributes[2][$key]);
+//                        echo "</pre>";
                         $styles_text .= $attributes[2][$key];
                     } else {                                                      //  everything else
                         if (isset($attributes[2][$key]))
@@ -1502,30 +1464,38 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                     }
                 }
             }
-            $styles_text = preg_replace('/\b([^;]*?):/i', '\'$1\' :', $styles_text);  //  put css property into ''
-            $styles_text = preg_replace('/\b([^\s]*?);/i', '\'$1\', ', $styles_text);  //  put css values into ''
+            $styles = explode(";", $styles_text);
+            if (strlen($styles_text) > 0) {
+                unset($style_array);
+                unset($styles_array);
+                foreach ($styles as $style) {
+                    $style_array = explode(":", $style);
+                    $styles_array[] = "'" . trim($style_array[0]) . "':'" . trim($style_array[1]) . "'";
+                }
+                $styles_text = implode(",", $styles_array);
+            }
+//            $styles_text = preg_replace('/\b([^;]*?):/i', '\'$1\' :', $styles_text);  //  put css property into ''
+//            $styles_text = preg_replace('/\b([^\s]*?);/i', '\'$1\', ', $styles_text);  //  put css values into ''
+//            echo "<p>" . $styles_text . "</p>";
+//            echo "<p>".$attr_text."</p>";
+
 
             $attr_text = rtrim($attr_text, ', ');
             $styles_text = rtrim($styles_text, ', ');
 
             if (strlen($corestyles) > 0)
                 $corestyles .= ",\r\n";
-            $corestyles .= "'" . $element[1] . "_" . $i . "' : { Element : '" . $element[1] . "'";        //  do the proper output
+            $corestyles .= "{ name : '" . $name[1] . "' , element : '" . $element[1] . "'";        //  do the proper output
+//            $corestyles .= "'" . $element[1] . "_" . $i . "' : { Element : '" . $element[1] . "'";        //  do the proper output
             if (strlen($attr_text) > 0)
-                $corestyles .= ", Attributes : { " . $attr_text . " } ";
+                $corestyles .= ", attributes : { " . $attr_text . " } ";
             if (strlen($styles_text) > 0)
-                $corestyles .= ", Styles : { " . $styles_text . " } ";
+                $corestyles .= ", styles : { " . $styles_text . " } ";
 
             $corestyles .= " }";
-
-            $fontformats .= "" . $element[1] . "_" . $i . ";";
-            if (strlen($fontformatnames) > 0)
-                $fontformatnames .= ",\r\n";
-            $fontformatnames .= "" . $element[1] . "_" . $i . " : '" . $name[1] . "'";
         }
-        $this->aOptions['customdropdown-fontformats'] = rtrim($fontformats, ';');
+
         $this->aOptions['customdropdown-corestyles'] = rtrim($corestyles, ',');
-        $this->aOptions['customdropdown-fontformatnames'] = rtrim($fontformatnames, ',');
     }
 
     /**
@@ -1560,7 +1530,9 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
      * @return string Post content not touched by wpautop and wptexturize if it was edited in Foliopress WYSIWYG
      */
     function the_content($content) {
+
         global $post;
+
         global $wp_filter;
 
         ///echo '<!--wysiwyg has_wpautop '.var_export( $this->has_wpautop, true ).'-->';
@@ -1573,11 +1545,12 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             $this->has_wptexturize = has_filter('the_content', 'wptexturize');
         }
 
-        //echo '<!--wysiwyg has_filter wpautop '.var_export( has_filter( 'the_content', 'wpautop' ), true ).'-->';
-        //echo '<!--wysiwyg has_filter wptexturize '.var_export( has_filter( 'the_content', 'wptexturize' ), true ).'-->';    
-
-        $meta = get_post_meta($post->ID, 'wysiwyg', true);
+        $meta = get_post_meta($post->ID, '_wysiwyg', true);
+        if (!$meta) {
+            $meta = get_post_meta($post->ID, 'wysiwyg', true); //	check old meta
+        }
         ///echo '<!--wysiwyg'.var_export( $meta, true ).' vs '.$post->post_modified.'-->';
+
         if ($meta['plain_text_editing'] == 1 || $meta['post_modified'] == $post->post_modified) {
             remove_filter('the_content', 'wpautop');
             remove_filter('the_content', 'wptexturize');
@@ -1589,6 +1562,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 add_filter('the_content', 'wptexturize');
             }
         }
+
         return $content;
     }
 
@@ -1622,7 +1596,13 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         if ($post->post_type == 'revision')
             return $id;
 
-        $meta = get_post_meta($id, 'wysiwyg', true);
+        if ($post->post_type != 'post' && $post->post_type != 'page')
+            return $id;
+
+        $meta = get_post_meta($post->ID, '_wysiwyg', true);
+        if (!$meta) {
+            $meta = get_post_meta($post->ID, 'wysiwyg', true); //	check old meta
+        }
         if (!isset($_POST['_inline_edit'])) {  //  we can't check for this in quick edit       
             if (isset($_POST['plain_text_editing'])) {
                 $meta['plain_text_editing'] = true;
@@ -1633,7 +1613,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
         if (isset($meta['post_modified']) || !isset($_POST['_inline_edit'])) { //  only process post_modified if it already exists or if you are not in quick edit
             $meta['post_modified'] = $post->post_modified;
-            update_post_meta($id, 'wysiwyg', $meta);
+            update_post_meta($id, '_wysiwyg', $meta);
         }
     }
 
