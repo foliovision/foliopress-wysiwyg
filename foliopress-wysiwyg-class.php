@@ -889,7 +889,9 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         $config['skin'] = $this->aOptions[self::FVC_SKIN];
 
         $CKEditor->config['forcePasteAsPlainText'] = $this->aOptions[self::forcePasteAsPlainText];
-        $CKEditor->config['filebrowserBrowseUrl'] = $CKEditor->basePath . 'plugins/kfm/';
+        $CKEditor->config['filebrowserBrowseUrl'] = $CKEditor->basePath . 'plugins/kfm/?lang='.$this->aOptions[self::FVC_LANG].'&kfm_caller_type=fck&type=Image';
+        $CKEditor->config['filebrowserImageUploadUrl'] = $CKEditor->basePath . 'plugins/kfm/?lang='.$this->aOptions[self::FVC_LANG].'&kfm_caller_type=fck&type=Image';
+//        $CKEditor->config['filebrowserBrowseUrl'] = $CKEditor->basePath . 'plugins/kfm/';
 
 
 

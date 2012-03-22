@@ -11,9 +11,9 @@ CKEDITOR.plugins.add( 'kfmbridge',
         CKEDITOR.config.filebrowserImageWindowWidth = screen.width * 0.7;
         CKEDITOR.config.filebrowserImageWindowHeight = screen.height * 0.7;
         
-        var iWidth  = CKEDITOR.config.filebrowserImageWindowWidth;
-        var iHeight = CKEDITOR.config.filebrowserImageWindowHeight;
-        var sUrl    = CKEDITOR.config.ImageBrowserURL;
+        var iWidth  = CKEDITOR.instances.content.config.filebrowserImageWindowWidth;
+        var iHeight = CKEDITOR.instances.content.config.filebrowserImageWindowHeight;
+        var sUrl    = CKEDITOR.instances.content.config.filebrowserBrowseUrl;
                     
         var iLeft = ( screen.width   - iWidth ) / 2;
         var iTop  = ( screen.height - iHeight ) / 2;
