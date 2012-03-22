@@ -910,6 +910,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         if ($options['bodyid'] || $options['bodyclass']) {
             $CKEditor->config['bodyClass'] .= ' wysiwyg';
         }
+        
+//        if($this->bUseFCK) echo "yes"; else echo "no";
 
         
         
@@ -921,6 +923,66 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         <? echo ($this->aOptions['customdropdown-corestyles']); ?>
                                         
             ]);
+            
+            
+       <?php if ($GLOBALS ['wp_version'] >= 2.7) : ?>
+            jQuery(document).ready(function() {
+                    window.setTimeout("fv_wysiwyg_startup();", 1000);
+                });
+                                                                                                                                        
+                function fv_wysiwyg_startup() {
+                    if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
+                        CKEDITOR.instances.content.getSnapshot(); //  don't remove
+                        if( typeof( CKEDITOR.instances.content.document ) != 'undefined' ) { //  IE might not be ready to reset the dirty flag yet
+                            CKEDITOR.instances.content.resetDirty();
+                        } else {
+                            window.setTimeout("fv_wysiwyg_startup();", 1000);
+                        }
+                        window.setTimeout("fv_wysiwyg_update_content();", 5000);
+                    } else {
+                        setTimeout("fv_wysiwyg_startup();", 1000);
+                    }
+                }
+                                                                                                                                        
+                function fv_wysiwyg_update_content() {
+                    if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
+                        if( CKEDITOR.instances.content.checkDirty() ) {
+                            jQuery('#content').val( CKEDITOR.instances.content.getSnapshot() );
+                        }
+                        wpWordCount.wc( CKEDITOR.instances.content.getSnapshot());
+                        setTimeout("fv_wysiwyg_update_content();", 5000);
+                    }
+
+                }
+                
+                
+                
+                    var SEOImagesPostId = '<?php echo $post->ID; ?>';
+                    var SEOImagesAjaxUrl = '<?php echo admin_url ( 'admin-ajax.php' )?>';
+                    var SEOImagesAjaxNonce ='<?php echo wp_create_nonce ( "seo-images-featured-image-" . $post->ID ); ?>';
+                    function FCKSetFeaturedImage( ImageURL ) {
+                        jQuery.ajax({
+
+                            url: SEOImagesAjaxUrl,
+
+                            cache: false,
+
+                            data: ({ action: 'seo_images_featured_image', _ajax_nonce: SEOImagesAjaxNonce, imageURL: ImageURL, thumbnail_id: ImageURL, post_id: SEOImagesPostId }), //  we set image URL to thumbnail_id for SEO Images support
+
+                            type: 'POST',
+
+                            success: function(data) {
+
+                                jQuery( '#postimagediv .inside' ).html( data );
+
+                            }
+
+                        });
+                    }
+       
+       
+       <?php endif; ?>
+            
         </script>
         <style>
             .cke_styles_panel {
