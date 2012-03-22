@@ -11,6 +11,7 @@
         margin-top: 20px;
         overflow-x: hidden;
         overflow-y: hidden;
+
     }
     .foliopress-wysiwyg-tabs li {
         float: left;
@@ -20,11 +21,13 @@
         color: #CC0000;
     }
     .foliopress-wysiwyg-single {
+        width: 800px;    
         display: none;
-        padding: 10px;
+        padding: 0 10px 10px 10px;
         overflow-x: hidden;
         overflow-y: hidden;
-        background-color: #efefef;
+        background-color: #f8f8f8;
+        border-radius: 10px;
     }
 
 </style>
@@ -75,15 +78,15 @@
         ?>
         <ul class="foliopress-wysiwyg-tabs">
             <li><a class="active" href="#" rel="foliopress-wysiwyg-basic">Basic Options</a></li>
-            <li><a href="#" rel="foliopress-wysiwyg-advanced">Advanced Options</a></li>
-            <li><a href="#" rel="foliopress-wysiwyg-kfm">Quick Insert Image (KFM)</a></li>
+            <li><a href="#" rel="foliopress-wysiwyg-advanced">Advanced Options</a></li>            
         </ul>
 
 
         <div id="foliopress-wysiwyg-tables">
             <div id="foliopress-wysiwyg-basic" class="foliopress-wysiwyg-single" style="display: block;">
 
-                <h3>Basic Options</h3>
+                <h2>Basic Options</h2>
+                <h3>CKEditor</h3>
                 <table class="form-table"> 
                     <tr valign="top"> 
                         <th scope="row"><label for="ImagesPath">Path to images on your web server</label></th>
@@ -172,11 +175,39 @@
                         </td>
                     </tr>
                 </table>
+                
+                <h3>SEO Images</h3>
+                <table class="form-table">
+                    <tr valign="top"> 
+                        <th scope="row"><label for="HideMediaButtons">Multiple image posting</label></th>
+                        <td><input id="chkMultipleImagePosting" type="checkbox" name="MultipleImagePosting" value="checkbox" <?php if ($this->aOptions['multipleimageposting']) echo 'checked="checked"'; ?> /><span class="description">Disable if you want image management window to close automatically after posting a single image.</span></td>
+                    </tr> 
+                    <tr>
+                        <th scope="row">Max Image Size</th>
+                        <td>
+                            <label for="MaxWidth">Width <input type="text" name="MaxWidth" value="<?php echo $this->aOptions[self::FVC_MAXW]; ?>" class="small-text" /></label>
+                            <label for="MaxHeight">Height <input type="text" name="MaxHeight" value="<?php echo $this->aOptions[self::FVC_MAXH]; ?>" class="small-text" /></label>
+                            <span class="description">All images with one of dimensions above one of these limits will be sized down when uploading.</span>
+                        </td>
+                    </tr>
+                    <tr valign="top"> 
+                        <th scope="row"><label for="listKFMThumbs">Thumbnail sizes</label></th>
+                        <td>
+                            <select id="listKFMThumbs" style="width: 100px;"></select>
+                            <input type="text" style="width: 80px;" name="AddThumbSize" id="txtAddThumbSize" value="Add new" onclick="if( this.value == 'Add new') this.value=''" />
+                            <input type="button" class="button" value="Add" onclick="KFMAddThumbnail()" />
+                            <input type="hidden" value="0" name="KFMThumbCount" id="hidThumbCount" />
+                            <input type="button" class="button" value="Remove selected" onclick="KFMRemoveThumbnail()" />
+                            <br />
+                        </td>
+                    </tr>
+                </table>
 
             </div>
 
             <div id="foliopress-wysiwyg-advanced" class="foliopress-wysiwyg-single" >
-                <h3>Advanced Options</h3>
+                <h2>Advanced Options</h2>
+                <h3>CKEditor</h3>
                 <table class="form-table">
                     <tr valign="top"> 
                         <th scope="row"><label for="FCKSkins">CKEditor language</label></th>
@@ -206,7 +237,8 @@
                     
 
 
-
+										</tr>
+  
                     <tr valign="top"> 
                         <th scope="row"><label for="listFPClean">FPClean</label></th>
                         <td>
@@ -245,15 +277,102 @@
                                 <label for="ProcessHTMLEntities"><input id="chkProcessHTMLEntities" type="checkbox" name="ProcessHTMLEntities" value="yes" <?php if ($this->aOptions['ProcessHTMLEntities']) echo 'checked="checked"'; ?> /> Process HTML Entities</label><br /><span class="description">If you are using UTF-8, you should leave this option disabled. If you use foreign languages and your website is not UTF-8 (it should be), then you will want to enable this option.</span><br />
                             </fieldset></td>
                     </tr>
-                    <tr valign="top">
+                    <!--<tr valign="top">
                         <th scope="row"></th>
                         <td><fieldset>
                                 <label for="UseWPLinkDialog"><input id="chkUseWPLinkDialog" type="checkbox" name="UseWPLinkDialog" value="yes" <?php if ($this->aOptions['UseWPLinkDialog']) echo 'checked="checked"'; ?> /> Use Wordpress Linking Dialog</label><br /><span class="description">New feature of Wordpress 3.1. Allows you to select a post and insert a link to it.</span><br />
                             </fieldset></td>
-                    </tr>                
+                    </tr>-->                
 
 
                 </table>
+                <h3>SEO Images</h3>
+                <table class="form-table">
+										<tr valign="top"> 
+                        <th scope="row"><label for="FCKSkins">SEO Images Language</label></th>
+                        <td><?php
+                print( '<select name="kfmlang"><option value="auto">Default</option>');
+
+                try {
+                    $aKfmLang = fp_wysiwyg_load_fck_items(realpath($strPath . self::KFM_LANG_RELATIVE_PATH));
+                    foreach ($aKfmLang AS $key => $value) {
+                        if (stripos($value, '.js') === FALSE) {
+                            unset($aKfmLang[$key]);
+                        } else {
+                            $aKfmLang[$key] = str_replace('.js', '', $aKfmLang[$key]);
+                        }
+                    }
+                    fp_wysiwyg_output_options($aKfmLang, $this->aOptions['kfmlang']);
+
+                    print( '</select>');
+                } catch (Exception $ex) {
+                    $bError = true;
+                    print( '</select>');
+                    print( ' ERROR: ' . $ex->getMessage());
+                }
+                ?></td>
+                    </tr>  
+                    
+                    <tr valign="top">
+                        <th scope="row">Thumbnails</th>
+                        <td><fieldset>
+                                <label for="KFMLink"><input id="chkKFMLink" type="checkbox" name="KFMLink" value="yes" onclick="KFMLink_change()" /> Thumbnail image should link to the full-sized image</label><br />
+                                <label for="KFMLightbox"><input id="chkKFMLightbox" type="checkbox" name="KFMLightbox" value="yes" /> Allow full-sized images to be opened with the lightbox effect</label>
+                            </fieldset></td>
+                    </tr>
+                    <tr valign="top"> 
+                        <th scope="row">JPEG Images</th>
+                        <td><label for="JPEGQuality">Quality <input type="text" name="JPEGQuality" value="<?php echo $this->aOptions[self::FVC_JPEG]; ?>" class="small-text" /></label></td>
+                    </tr>
+                    <tr valign="top"> 
+                        <th scope="row">PNG Images</th>
+                        <td><fieldset>
+                                <label for="PNGTransform"><input id="chkPNGTransform" type="checkbox" name="PNGTransform" value="yes" onclick="KFM_CheckPNG( !bPNGTransform );"<?php if ($this->aOptions[self::FVC_PNG]) echo ' checked="checked"'; ?> /> Transform not colorful true-color PNG images to 8-bit color PNG</label><br />
+                                <label for="PNGLimit">Limit of colorful true-color PNG <input type="text" id="txtPNGLimit" name="PNGLimit" value="<?php echo $this->aOptions[self::FVC_PNG_LIMIT]; ?>" class="small-text" /></label>
+                            </fieldset></td>
+                    </tr>
+                    <tr valign="top"> 
+                        <th scope="row">Default directory</th>
+                        <td><fieldset>
+                                <label for="DIRset"><input id="chkDIRset" type="checkbox" name="DIRset" value="yes" onclick="KFM_CheckDIR( !bDIRset );"<?php if ($this->aOptions[self::FVC_DIR]) echo ' checked="checked"'; ?> /> Open the Year/Month directory as default.</label><br />
+                            </fieldset></td>
+                    </tr>
+                    <tr valign="top">
+                        <th scope="row">Use Flash Uploader</th>
+                        <td><fieldset>
+                                <label for="UseFlashUploader"><input id="chkUseFlashUploader" type="checkbox" name="UseFlashUploader" value="yes" onclick="KFMLink_change()" <?php if ($this->aOptions[self::FVC_USE_FLASH_UPLOADER]) echo 'checked="checked"'; ?> /> Flash uploader will enable you to upload multiple images at once. You might want to disable it for better compatibility.</label>
+                            </fieldset></td>
+                    </tr>
+                    
+                    <tr valign="top"> 
+                        <th scope="row">Supported postmeta</th>
+                        <td><fieldset>
+                                <label for="postmeta"><input id="postmeta" type="text" name="postmeta" value="<?php echo $this->aOptions['postmeta']; ?>" class="regular-text" /></label>
+                                <br />
+                                <span class="description">Comma separated list of keys for postmeta values you want to fill in from SEO Images.</span>
+                            </fieldset>
+                        </td>
+                    </tr>
+                    <tr valign="top"> 
+                        <th scope="row">KFM Thumbnail size</th>
+                        <td><label for="KFMThumbnailSize"><input type="text" name="KFMThumbnailSize" value="<?php echo $this->aOptions[self::FVC_KFM_THUMB_SIZE]; ?>" class="small-text" /> px</label><br /><span class="description">Size of the thumnails in the image uploader.</span></td>
+                    </tr>
+                    <tr valign="top"> 
+                        <th scope="row">Image Insert HTML</th>
+                        <td><fieldset>
+                                <label for="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>"><input size="50" id="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>" type="text" name="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>" value='<?php echo stripslashes($this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE]); ?>' class="regular-text" /></label>
+                                <br />
+                                <span class="description">This will be used in JavaScript when inserting images. Use \" to escape " in HTML. Leave empty for defaults!</span>
+                            </fieldset>
+                        </td>
+                    </tr>		
+                    
+                    <tr valign="top">
+                        <th scope="row">Permissions</th>
+                        <td><input type="button" class="button" value="Default settings" onclick="FVWYSIWYGPermisssionsDefault()" /> <input type="button" class="button" value="My server runs in FastCGI or LiteSpeed" onclick="FVWYSIWYGPermisssionsUser()" />&nbsp;&nbsp;<label for="dirperm">Directories <input type="text" id="dirperm" name="dirperm" value="<?php echo $this->aOptions['dirperm']; ?>" class="small-text" /></label> <label for="fileperm">Files <input type="text" id="fileperm" name="fileperm" value="<?php echo $this->aOptions['fileperm']; ?>" class="small-text" /></label><br /><span class="description">We strongly recommend you to test your new settings by creating a directory, uploading some image into it and inserting it into post.</span></td>
+                    </tr>                    
+                    
+								</table>										
                 <br />
                 <!--<p><input type="button" name="expert_options" class="button" value="Expert Options" onclick="jQuery('#divExpert').toggle()" /></p>
                 <div id="divExpert" style="display: none">
@@ -285,123 +404,7 @@
                 </div>-->
             </div>
 
-            <div id="foliopress-wysiwyg-kfm" class="foliopress-wysiwyg-single" >
-                <h3>Quick Insert Image (KFM)</h3>
 
-
-                <table class="form-table">
-                    </tr>
-                    <tr valign="top"> 
-                        <th scope="row"><label for="FCKSkins">SEO Images Language</label></th>
-                        <td><?php
-                print( '<select name="kfmlang"><option value="auto">Default</option>');
-
-                try {
-                    $aKfmLang = fp_wysiwyg_load_fck_items(realpath($strPath . self::KFM_LANG_RELATIVE_PATH));
-                    foreach ($aKfmLang AS $key => $value) {
-                        if (stripos($value, '.js') === FALSE) {
-                            unset($aKfmLang[$key]);
-                        } else {
-                            $aKfmLang[$key] = str_replace('.js', '', $aKfmLang[$key]);
-                        }
-                    }
-                    fp_wysiwyg_output_options($aKfmLang, $this->aOptions['kfmlang']);
-
-                    print( '</select>');
-                } catch (Exception $ex) {
-                    $bError = true;
-                    print( '</select>');
-                    print( ' ERROR: ' . $ex->getMessage());
-                }
-                ?></td>
-                    </tr>
-                    
-                    <tr valign="top">
-                        <th scope="row">Permissions</th>
-                        <td><input type="button" class="button" value="Default settings" onclick="FVWYSIWYGPermisssionsDefault()" /> <input type="button" class="button" value="My server runs in FastCGI or LiteSpeed" onclick="FVWYSIWYGPermisssionsUser()" />&nbsp;&nbsp;<label for="dirperm">Directories <input type="text" id="dirperm" name="dirperm" value="<?php echo $this->aOptions['dirperm']; ?>" class="small-text" /></label> <label for="fileperm">Files <input type="text" id="fileperm" name="fileperm" value="<?php echo $this->aOptions['fileperm']; ?>" class="small-text" /></label><br /><span class="description">We strongly recommend you to test your new settings by creating a directory, uploading some image into it and inserting it into post.</span></td>
-                    </tr>
-                    
-                    <tr valign="top"> 
-                        <th scope="row"><label for="HideMediaButtons">Multiple image posting</label></th>
-                        <td><input id="chkMultipleImagePosting" type="checkbox" name="MultipleImagePosting" value="checkbox" <?php if ($this->aOptions['multipleimageposting']) echo 'checked="checked"'; ?> /><span class="description">Disable if you want image management window to close automatically after posting a single image.</span></td>
-                    </tr> 
-                    <tr>
-                        <th scope="row">Max Image Size</th>
-                        <td>
-                            <label for="MaxWidth">Width <input type="text" name="MaxWidth" value="<?php echo $this->aOptions[self::FVC_MAXW]; ?>" class="small-text" /></label>
-                            <label for="MaxHeight">Height <input type="text" name="MaxHeight" value="<?php echo $this->aOptions[self::FVC_MAXH]; ?>" class="small-text" /></label>
-                            <span class="description">All images with one of dimensions above one of these limits will be sized down when uploading.</span>
-                        </td>
-                    </tr>
-                    <tr valign="top"> 
-                        <th scope="row"><label for="listKFMThumbs">Thumbnail sizes</label></th>
-                        <td>
-                            <select id="listKFMThumbs" style="width: 100px;"></select>
-                            <input type="text" style="width: 80px;" name="AddThumbSize" id="txtAddThumbSize" value="Add new" onclick="if( this.value == 'Add new') this.value=''" />
-                            <input type="button" class="button" value="Add" onclick="KFMAddThumbnail()" />
-                            <input type="hidden" value="0" name="KFMThumbCount" id="hidThumbCount" />
-                            <input type="button" class="button" value="Remove selected" onclick="KFMRemoveThumbnail()" />
-                            <br />
-                        </td>
-                    </tr>
-                    <tr valign="top"> 
-                        <th scope="row">Supported postmeta</th>
-                        <td><fieldset>
-                                <label for="postmeta"><input id="postmeta" type="text" name="postmeta" value="<?php echo $this->aOptions['postmeta']; ?>" class="regular-text" /></label>
-                                <br />
-                                <span class="description">Comma separated list of keys for postmeta values you want to fill in from SEO Images.</span>
-                            </fieldset>
-                        </td>
-                    </tr>
-                    <tr valign="top"> 
-                        <th scope="row">KFM Thumbnail size</th>
-                        <td><label for="KFMThumbnailSize"><input type="text" name="KFMThumbnailSize" value="<?php echo $this->aOptions[self::FVC_KFM_THUMB_SIZE]; ?>" class="small-text" /> px</label><br /><span class="description">Size of the thumnails in the image uploader.</span></td>
-                    </tr>
-                    <tr valign="top"> 
-                        <th scope="row">Image Insert HTML</th>
-                        <td><fieldset>
-                                <label for="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>"><input size="50" id="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>" type="text" name="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>" value='<?php echo stripslashes($this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE]); ?>' class="regular-text" /></label>
-                                <br />
-                                <span class="description">This will be used in JavaScript when inserting images. Use \" to escape " in HTML. Leave empty for defaults!</span>
-                            </fieldset>
-                        </td>
-                    </tr>		
-                    <tr valign="top">
-                        <th scope="row">Thumbnails</th>
-                        <td><fieldset>
-                                <label for="KFMLink"><input id="chkKFMLink" type="checkbox" name="KFMLink" value="yes" onclick="KFMLink_change()" /> Thumbnail image should link to the full-sized image</label><br />
-                                <label for="KFMLightbox"><input id="chkKFMLightbox" type="checkbox" name="KFMLightbox" value="yes" /> Allow full-sized images to be opened with the lightbox effect</label>
-                            </fieldset></td>
-                    </tr>
-                    <tr valign="top"> 
-                        <th scope="row">JPEG Images</th>
-                        <td><label for="JPEGQuality">Quality <input type="text" name="JPEGQuality" value="<?php echo $this->aOptions[self::FVC_JPEG]; ?>" class="small-text" /></label></td>
-                    </tr>
-                    <tr valign="top"> 
-                        <th scope="row">PNG Images</th>
-                        <td><fieldset>
-                                <label for="PNGTransform"><input id="chkPNGTransform" type="checkbox" name="PNGTransform" value="yes" onclick="KFM_CheckPNG( !bPNGTransform );"<?php if ($this->aOptions[self::FVC_PNG]) echo ' checked="checked"'; ?> /> Transform not colorful true-color PNG images to 8-bit color PNG</label><br />
-                                <label for="PNGLimit">Limit of colorful true-color PNG <input type="text" id="txtPNGLimit" name="PNGLimit" value="<?php echo $this->aOptions[self::FVC_PNG_LIMIT]; ?>" class="small-text" /></label>
-                            </fieldset></td>
-                    </tr>
-                    <tr valign="top"> 
-                        <th scope="row">Default directory</th>
-                        <td><fieldset>
-                                <label for="DIRset"><input id="chkDIRset" type="checkbox" name="DIRset" value="yes" onclick="KFM_CheckDIR( !bDIRset );"<?php if ($this->aOptions[self::FVC_DIR]) echo ' checked="checked"'; ?> /> Open the Year/Month directory as default.</label><br />
-                            </fieldset></td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row">Use Flash Uploader</th>
-                        <td><fieldset>
-                                <label for="UseFlashUploader"><input id="chkUseFlashUploader" type="checkbox" name="UseFlashUploader" value="yes" onclick="KFMLink_change()" <?php if ($this->aOptions[self::FVC_USE_FLASH_UPLOADER]) echo 'checked="checked"'; ?> /> Flash uploader will enable you to upload multiple images at once. You might want to disable it for better compatibility.</label>
-                            </fieldset></td>
-                    </tr>
-                </table>
-
-
-
-
-            </div>
         </div>
         <p>
                 <!--<input type="submit" name="options_reset" class="button" value="Reset Changes" />-->

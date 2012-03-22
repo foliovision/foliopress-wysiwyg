@@ -258,7 +258,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         if (!isset($this->aOptions[self::FVC_FPC_TEXTS]))
             $this->aOptions[self::FVC_FPC_TEXTS] = array("*** (\\\\w\\\\*) ***", "\\\\[sniplet (\\\\w\\\\*)\\\\]");
         if (!isset($this->aOptions[self::FVC_JPEG]))
-            $this->aOptions[self::FVC_JPEG] = 80;
+            $this->aOptions[self::FVC_JPEG] = 90;
         if (!isset($this->aOptions[self::FVC_PNG]))
             $this->aOptions[self::FVC_PNG] = true;
         if (!isset($this->aOptions[self::FVC_PNG_LIMIT]))
