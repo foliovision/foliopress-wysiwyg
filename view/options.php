@@ -131,12 +131,13 @@
                             }
         ?></td>
                     </tr>
+                    <?php /*
+                      <tr valign="top">
+                      <th scope="row"><label for="forcePasteAsPlainText">Force Paste As Plain Text</label></th>
+                      <td><input id="forcePasteAsPlainText" type="checkbox" name="forcePasteAsPlainText" value="checkbox" <?php if ($this->aOptions[self::forcePasteAsPlainText] == true) echo 'checked="checked"'; ?> /></td>
 
-                    <tr valign="top">
-                        <th scope="row"><label for="forcePasteAsPlainText">Force Paste As Plain Text</label></th>
-                        <td><input id="forcePasteAsPlainText" type="checkbox" name="forcePasteAsPlainText" value="checkbox" <?php if ($this->aOptions[self::forcePasteAsPlainText] == true) echo 'checked="checked"'; ?> /></td>
-
-                    </tr>
+                      </tr>
+                     */ ?>
 
                     <tr valign="top"> 
                         <th scope="row"><label for="FCKWidth">Width of CKEditor</label></th>
@@ -175,7 +176,7 @@
                         </td>
                     </tr>
                 </table>
-                
+
                 <h3>SEO Images</h3>
                 <table class="form-table">
                     <tr valign="top"> 
@@ -212,33 +213,99 @@
                     <tr valign="top"> 
                         <th scope="row"><label for="FCKSkins">CKEditor language</label></th>
                         <td><?php
-                            //echo realpath($strPath . self::FVC_LANG_RELATIVE_PATH);
-                            print( '<select name="FCKLang"><option value="auto">Autodetect</option>');
+                    $cke_lang = array("af" => "Afrikaans",
+                        "ar" => "Arabic",
+                        "eu" => "Basque",
+                        "bn" => "Bengali/Bangla",
+                        "bs" => "Bosnian",
+                        "bg" => "Bulgarian",
+                        "ca" => "Catalan",
+                        "zh-cn" => "Chinese Simplified",
+                        "zh" => "Chinese Traditional",
+                        "hr" => "Croatian",
+                        "cs" => "Czech",
+                        "da" => "Danish",
+                        "nl" => "Dutch",
+                        "en" => "English",
+                        "en-au" => "English (Australia)",
+                        "en-ca" => "English (Canadian)",
+                        "en-gb" => "English (United Kingdom)",
+                        "eo" => "Esperanto",
+                        "et" => "Estonian",
+                        "fo" => "Faroese",
+                        "fi" => "Finnish",
+                        "fr" => "French",
+                        "fr-ca" => "French (Canada)",
+                        "gl" => "Galician",
+                        "ka" => "Georgian",
+                        "de" => "German",
+                        "el" => "Greek",
+                        "gu" => "Gujarati",
+                        "he" => "Hebrew",
+                        "hi" => "Hindi",
+                        "hu" => "Hungarian",
+                        "is" => "Icelandic",
+                        "it" => "Italian",
+                        "ja" => "Japanese",
+                        "km" => "Khmer",
+                        "ko" => "Korean",
+                        "lv" => "Latvian",
+                        "lt" => "Lithuanian",
+                        "ms" => "Malay",
+                        "mn" => "Mongolian",
+                        "no" => "Norwegian",
+                        "nb" => "Norwegian Bokmal",
+                        "fa" => "Persian",
+                        "pl" => "Polish",
+                        "pt-br" => "Portuguese (Brazil)",
+                        "pt" => "Portuguese (Portugal)",
+                        "ro" => "Romanian",
+                        "ru" => "Russian",
+                        "sr" => "Serbian (Cyrillic)",
+                        "sr-latn" => "Serbian (Latin)",
+                        "sk" => "Slovak",
+                        "sl" => "Slovenian",
+                        "es" => "Spanish",
+                        "sv" => "Swedish",
+                        "th" => "Thai",
+                        "tr" => "Turkish",
+                        "uk" => "Ukrainian",
+                        "vi" => "Vietnamese",
+                        "cy" => "Welsh");
 
-                            try {
-                                $aFCKLang = fp_wysiwyg_load_fck_items(realpath($strPath . self::FVC_LANG_RELATIVE_PATH));
-                                foreach ($aFCKLang AS $key => $value) {
-                                    if (stripos($value, '.js') === FALSE) {
-                                        unset($aFCKLang[$key]);
-                                    } else {
-                                        $aFCKLang[$key] = str_replace('.js', '', $aFCKLang[$key]);
-                                    }
-                                }
-                                fp_wysiwyg_output_options($aFCKLang, $this->aOptions[self::FVC_LANG]);
+                    //echo realpath($strPath . self::FVC_LANG_RELATIVE_PATH);
+                    print( '<select name="FCKLang"><option value="auto">Autodetect</option>');
 
-                                print( '</select>');
-                            } catch (Exception $ex) {
-                                $bError = true;
-                                print( '</select>');
-                                print( ' ERROR: ' . $ex->getMessage());
+                    try {
+                        $aFCKLang = fp_wysiwyg_load_fck_items(realpath($strPath . self::FVC_LANG_RELATIVE_PATH));
+                        foreach ($aFCKLang AS $key => $value) {
+                            if (stripos($value, '.js') === FALSE) {
+                                unset($aFCKLang[$key]);
+                            } else {
+                                $aFCKLang[$key] = str_replace('.js', '', $aFCKLang[$key]);
                             }
-        ?><select name="FCKLangDir"><option value="ltr">Left to right</option><option value="rtl" <?php if ($this->aOptions['FCKLangDir'] == 'rtl') echo 'selected'; ?>>Right to left</option></select></td>
+                        }
 
-                    
+//                        fp_wysiwyg_output_options($cke_lang, $this->aOptions[self::FVC_LANG]);
+                        foreach ($aFCKLang as $curLang) {
+                            echo $curLang . "\n";
+                            if (array_key_exists($curLang, $cke_lang)) {
+                                if ($this->aOptions[self::FVC_LANG] == $curLang)
+                                    $lan_selected = " selected=\"selected\""; else
+                                    $lan_selected = "";
+                                echo "<option value=\"$curLang\"$lan_selected>" . $cke_lang[$curLang] . "</option>\n";
+                            }
+                        }
 
+                        print( '</select>');
+                    } catch (Exception $ex) {
+                        $bError = true;
+                        print( '</select>');
+                        print( ' ERROR: ' . $ex->getMessage());
+                    }
+                    ?><select name="FCKLangDir"><option value="ltr">Left to right</option><option value="rtl" <?php if ($this->aOptions['FCKLangDir'] == 'rtl') echo 'selected'; ?>>Right to left</option></select></td>
+                    </tr>
 
-										</tr>
-  
                     <tr valign="top"> 
                         <th scope="row"><label for="listFPClean">FPClean</label></th>
                         <td>
@@ -252,8 +319,8 @@
                     </tr>
 
                     <tr valign="top">
-                        <th scope="row"><label for="customtoolbar">Custom Toolbar</label></th>
-                        <td><textarea rows="8" cols="80" name="customtoolbar"><?php echo $this->aOptions['customtoolbar']; ?></textarea></td>
+                        <th scope="row"><label for="cke_customtoolbar">Custom Toolbar</label></th>
+                        <td><textarea rows="8" cols="80" name="cke_customtoolbar"><?php echo $this->aOptions['cke_customtoolbar']; ?></textarea></td>
                     </tr>
                     <tr valign="top">
                         <th scope="row"><label for="customdropdown">Dropdown Customization</label></th>
@@ -288,31 +355,31 @@
                 </table>
                 <h3>SEO Images</h3>
                 <table class="form-table">
-										<tr valign="top"> 
+                    <tr valign="top"> 
                         <th scope="row"><label for="FCKSkins">SEO Images Language</label></th>
                         <td><?php
-                print( '<select name="kfmlang"><option value="auto">Default</option>');
+                    print( '<select name="kfmlang"><option value="auto">Default</option>');
 
-                try {
-                    $aKfmLang = fp_wysiwyg_load_fck_items(realpath($strPath . self::KFM_LANG_RELATIVE_PATH));
-                    foreach ($aKfmLang AS $key => $value) {
-                        if (stripos($value, '.js') === FALSE) {
-                            unset($aKfmLang[$key]);
-                        } else {
-                            $aKfmLang[$key] = str_replace('.js', '', $aKfmLang[$key]);
+                    try {
+                        $aKfmLang = fp_wysiwyg_load_fck_items(realpath($strPath . self::KFM_LANG_RELATIVE_PATH));
+                        foreach ($aKfmLang AS $key => $value) {
+                            if (stripos($value, '.js') === FALSE) {
+                                unset($aKfmLang[$key]);
+                            } else {
+                                $aKfmLang[$key] = str_replace('.js', '', $aKfmLang[$key]);
+                            }
                         }
-                    }
-                    fp_wysiwyg_output_options($aKfmLang, $this->aOptions['kfmlang']);
+                        fp_wysiwyg_output_options($aKfmLang, $this->aOptions['kfmlang']);
 
-                    print( '</select>');
-                } catch (Exception $ex) {
-                    $bError = true;
-                    print( '</select>');
-                    print( ' ERROR: ' . $ex->getMessage());
-                }
-                ?></td>
+                        print( '</select>');
+                    } catch (Exception $ex) {
+                        $bError = true;
+                        print( '</select>');
+                        print( ' ERROR: ' . $ex->getMessage());
+                    }
+                    ?></td>
                     </tr>  
-                    
+
                     <tr valign="top">
                         <th scope="row">Thumbnails</th>
                         <td><fieldset>
@@ -343,7 +410,7 @@
                                 <label for="UseFlashUploader"><input id="chkUseFlashUploader" type="checkbox" name="UseFlashUploader" value="yes" onclick="KFMLink_change()" <?php if ($this->aOptions[self::FVC_USE_FLASH_UPLOADER]) echo 'checked="checked"'; ?> /> Flash uploader will enable you to upload multiple images at once. You might want to disable it for better compatibility.</label>
                             </fieldset></td>
                     </tr>
-                    
+
                     <tr valign="top"> 
                         <th scope="row">Supported postmeta</th>
                         <td><fieldset>
@@ -366,13 +433,13 @@
                             </fieldset>
                         </td>
                     </tr>		
-                    
+
                     <tr valign="top">
                         <th scope="row">Permissions</th>
                         <td><input type="button" class="button" value="Default settings" onclick="FVWYSIWYGPermisssionsDefault()" /> <input type="button" class="button" value="My server runs in FastCGI or LiteSpeed" onclick="FVWYSIWYGPermisssionsUser()" />&nbsp;&nbsp;<label for="dirperm">Directories <input type="text" id="dirperm" name="dirperm" value="<?php echo $this->aOptions['dirperm']; ?>" class="small-text" /></label> <label for="fileperm">Files <input type="text" id="fileperm" name="fileperm" value="<?php echo $this->aOptions['fileperm']; ?>" class="small-text" /></label><br /><span class="description">We strongly recommend you to test your new settings by creating a directory, uploading some image into it and inserting it into post.</span></td>
                     </tr>                    
-                    
-								</table>										
+
+                </table>										
                 <br />
                 <!--<p><input type="button" name="expert_options" class="button" value="Expert Options" onclick="jQuery('#divExpert').toggle()" /></p>
                 <div id="divExpert" style="display: none">
@@ -381,10 +448,10 @@
                                 <tr>
                 <td>
                 <?php if (is_writable($strPath . '/' . self::FVC_FCK_CONFIG_RELATIVE_PATH)) : ?>
-                                    <input type="button" class="button" name="edit" value="Edit WYSIWYG config" class="input" onClick="javascript:window.open('<?php echo $_SERVER['REQUEST_URI'] . '&edit=' . urlencode(self::FVC_FCK_CONFIG_RELATIVE_PATH); ?>');">
+                                            <input type="button" class="button" name="edit" value="Edit WYSIWYG config" class="input" onClick="javascript:window.open('<?php echo $_SERVER['REQUEST_URI'] . '&edit=' . urlencode(self::FVC_FCK_CONFIG_RELATIVE_PATH); ?>');">
                 <?php else : ?>
-                                            Foliopress WYSIWYG config file is not writable.
-                <?php endif; ?>
+                                                    Foliopress WYSIWYG config file is not writable.
+<?php endif; ?>
                     
                         <span class="description">Edit custom FCK config file to suit your own purposes.</span><br />
                     
