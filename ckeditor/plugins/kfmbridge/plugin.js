@@ -30,7 +30,7 @@ CKEDITOR.plugins.add( 'kfmbridge',
             command: 'insertKfmbridge',
             icon: this.path + 'images/kfmBridge.png',
             click: function (editor) {
-                window.open(sUrl,'FCKBrowseWindow',sOptions);
+                kfm_window =  window.open(sUrl,'FCKBrowseWindow',sOptions);
             }
         } );
     }

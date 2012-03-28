@@ -787,12 +787,12 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 'Image', 'Flash', 'Table', 'HorizontalRule', 'SpecialChar'
             ),
             '/',
-            array('Styles',  'RemoveFormat', 'Font', 'FontSize', '-', //'Format',
+            array('Styles', 'RemoveFormat', 'Font', 'FontSize', '-', //'Format',
                 'TextColor', 'BGColor')
         );
 
         $toolbar['Foliovision'] = array(
-            array('Cut', 'Copy', 'Paste', 'PasteFromWord', '-', 'Bold', 'Italic', '-', 'Styles',  'RemoveFormat', '-', 'NumberedList',// 'Format',
+            array('Cut', 'Copy', 'Paste', 'PasteFromWord', '-', 'Bold', 'Italic', '-', 'Styles', 'RemoveFormat', '-', 'NumberedList', // 'Format',
                 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', '-', 'Link', 'Unlink', 'Anchor', '-',
                 'Fvmore', '-', 'Kfmbridge', 'FVWPFlowplayer', 'Fvpasteembed', '-', 'Source', '-', 'Maximize')
         );
@@ -808,7 +808,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-',
                 'Link', 'Unlink', 'Anchor', '-', 'Kfmbridge', 'FVWPFlowplayer', 'Fvpasteembed'),
             '/',
-            array('Styles',  'RemoveFormat', '-', 'Replace', 'Table', 'HorizontalRule', 'SpecialChar', '-', //'Format',
+            array('Styles', 'RemoveFormat', '-', 'Replace', 'Table', 'HorizontalRule', 'SpecialChar', '-', //'Format',
                 'Fvmore', 'Fvnextpage', '-', 'Source', '-', 'Maximize', 'Scayt')
         );
 
@@ -837,7 +837,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         <?php
         endif;
 
-        
+
 
         //// Include the CKEditor class.
         include_once dirname(__FILE__) . "/ckeditor/ckeditor.php";
@@ -876,18 +876,18 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             $config['extraPlugins'].= ",autogrow";
             if ($this->aOptions[self::CKE_autoGrow_minHeight] > 0)
                 $config['autoGrow_minHeight'] = $this->aOptions[self::CKE_autoGrow_minHeight];
-                $config['height'] = $this->aOptions[self::CKE_autoGrow_minHeight];
+            $config['height'] = $this->aOptions[self::CKE_autoGrow_minHeight];
             if ($this->aOptions[self::CKE_autoGrow_maxHeight] > 0)
                 $config['autoGrow_maxHeight'] = $this->aOptions[self::CKE_autoGrow_maxHeight];
         } else {
-             $config['height'] = $this->iEditorSize;
+            $config['height'] = $this->iEditorSize;
         }
-        
+
 
         if ($this->aOptions[self::FVC_WIDTH] > 0) {
             $config['width'] = $this->aOptions[self::FVC_WIDTH];
         }
-        
+
         $config['resize_dir'] = 'vertical';
 
         $config['removeFormatTags'] = 'b,big,del,dfn,em,font,i,ins,kbd,q,samp,small,span,strike,strong,sub,sup,tt,u,var';
@@ -922,10 +922,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             CKEDITOR.stylesSet.add( 'default',
             [
         <? echo ($this->aOptions['customdropdown-corestyles']); ?>
-                                                
+                                                        
             ]);
-                    
-                    
+                            
+                            
             function removeEmptyPara() {
                 var para = CKEDITOR.instances.content.document.getElementsByTag('p');
                 if(para.count()>0) {
@@ -939,69 +939,80 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                     }
                 }
             }
+                    
+            window.onunload = function() {
+                if (typeof(kfm_window)!='undefined')
+                {
+                    if(false == kfm_window.closed)
+                    {
+                        kfm_window.close ();
+                    }
+                }
+                return undefined;
+            }
 
-                    
-                    
+                            
+                            
         <?php if ($GLOBALS ['wp_version'] >= 2.7) : ?>
-               jQuery(document).ready(function() {
-                   window.setTimeout("fv_wysiwyg_startup();", 1000);
-               });
-                                                                                                                                                    
-               function fv_wysiwyg_startup() {
-                   if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
-                       CKEDITOR.instances.content.getSnapshot(); //  don't remove
-                       if( typeof( CKEDITOR.instances.content.document ) != 'undefined' ) { //  IE might not be ready to reset the dirty flag yet
-                           CKEDITOR.instances.content.resetDirty();
-                       } else {
-                           window.setTimeout("fv_wysiwyg_startup();", 1000);
-                       }
-                       window.setTimeout("fv_wysiwyg_update_content();", 5000);
-                   } else {
-                       setTimeout("fv_wysiwyg_startup();", 1000);
-                   }
-               }
-                                                                                                                                                    
-               function fv_wysiwyg_update_content() {
-                   if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
-                       if( CKEDITOR.instances.content.checkDirty() ) {
-                           jQuery('#content').val( CKEDITOR.instances.content.getSnapshot() );
-                       }
-                       //if(CKEDITOR.env.webkit) { setTimeout("removeEmptyPara();", 1000);}
-                       wpWordCount.wc( CKEDITOR.instances.content.getSnapshot());
-                       setTimeout("fv_wysiwyg_update_content();", 5000);
-                       
-                   }
+                jQuery(document).ready(function() {
+                    window.setTimeout("fv_wysiwyg_startup();", 1000);
+                });
+                                                                                                                                                                
+                function fv_wysiwyg_startup() {
+                    if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
+                        CKEDITOR.instances.content.getSnapshot(); //  don't remove
+                        if( typeof( CKEDITOR.instances.content.document ) != 'undefined' ) { //  IE might not be ready to reset the dirty flag yet
+                            CKEDITOR.instances.content.resetDirty();
+                        } else {
+                            window.setTimeout("fv_wysiwyg_startup();", 1000);
+                        }
+                        window.setTimeout("fv_wysiwyg_update_content();", 5000);
+                    } else {
+                        setTimeout("fv_wysiwyg_startup();", 1000);
+                    }
+                }
+                                                                                                                                                                
+                function fv_wysiwyg_update_content() {
+                    if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
+                        if( CKEDITOR.instances.content.checkDirty() ) {
+                            jQuery('#content').val( CKEDITOR.instances.content.getSnapshot() );
+                        }
+                        //if(CKEDITOR.env.webkit) { setTimeout("removeEmptyPara();", 1000);}
+                        wpWordCount.wc( CKEDITOR.instances.content.getSnapshot());
+                        setTimeout("fv_wysiwyg_update_content();", 5000);
+                                   
+                    }
 
-               }
-                            
-                            
-                            
-               var SEOImagesPostId = '<?php echo $post->ID; ?>';
-               var SEOImagesAjaxUrl = '<?php echo admin_url('admin-ajax.php') ?>';
-               var SEOImagesAjaxNonce ='<?php echo wp_create_nonce("seo-images-featured-image-" . $post->ID); ?>';
-               function FCKSetFeaturedImage( ImageURL ) {
-                   jQuery.ajax({
+                }
+                                        
+                                        
+                                        
+                var SEOImagesPostId = '<?php echo $post->ID; ?>';
+                var SEOImagesAjaxUrl = '<?php echo admin_url('admin-ajax.php') ?>';
+                var SEOImagesAjaxNonce ='<?php echo wp_create_nonce("seo-images-featured-image-" . $post->ID); ?>';
+                function FCKSetFeaturedImage( ImageURL ) {
+                    jQuery.ajax({
 
-                       url: SEOImagesAjaxUrl,
+                        url: SEOImagesAjaxUrl,
 
-                       cache: false,
+                        cache: false,
 
-                       data: ({ action: 'seo_images_featured_image', _ajax_nonce: SEOImagesAjaxNonce, imageURL: ImageURL, thumbnail_id: ImageURL, post_id: SEOImagesPostId }), //  we set image URL to thumbnail_id for SEO Images support
+                        data: ({ action: 'seo_images_featured_image', _ajax_nonce: SEOImagesAjaxNonce, imageURL: ImageURL, thumbnail_id: ImageURL, post_id: SEOImagesPostId }), //  we set image URL to thumbnail_id for SEO Images support
 
-                       type: 'POST',
+                        type: 'POST',
 
-                       success: function(data) {
+                        success: function(data) {
 
-                           jQuery( '#postimagediv .inside' ).html( data );
+                            jQuery( '#postimagediv .inside' ).html( data );
 
-                       }
+                        }
 
-                   });
-               }
-                   
-                   
+                    });
+                }
+                               
+                               
         <?php endif; ?>
-                    
+                            
         </script>
         <style>
             .cke_styles_panel {
