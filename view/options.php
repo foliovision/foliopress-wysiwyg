@@ -134,7 +134,7 @@
                     <?php /*
                       <tr valign="top">
                       <th scope="row"><label for="forcePasteAsPlainText">Force Paste As Plain Text</label></th>
-                      <td><input id="forcePasteAsPlainText" type="checkbox" name="forcePasteAsPlainText" value="checkbox" <?php if ($this->aOptions[self::forcePasteAsPlainText] == true) echo 'checked="checked"'; ?> /></td>
+                      <td><input id="forcePasteAsPlainText" type="checkbox" name="forcePasteAsPlainText" value="checkbox" <?php if ($this->aOptions[self::forcePasteAsPlainText] == false) echo 'checked="checked"'; ?> /></td>
 
                       </tr>
                      */ ?>

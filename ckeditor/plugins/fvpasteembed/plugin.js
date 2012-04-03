@@ -1,6 +1,6 @@
 /*
-* @example An iframe-based dialog with custom button handling logics.
-*/
+ * @example An iframe-based dialog with custom button handling logics.
+ */
 ( function() {
     CKEDITOR.plugins.add( 'fvpasteembed',
     {
@@ -32,6 +32,8 @@
                         ]
                     }
                     ],
+                    
+                    
                     onOk : function()
                     {
                         for (var i=0; i<window.frames.length; i++) {
@@ -56,3 +58,4 @@
         }
     } );
 } )();
+

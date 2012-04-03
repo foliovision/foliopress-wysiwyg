@@ -116,7 +116,7 @@ CKEDITOR.plugins.add( 'FVWPFlowplayer',
 } );
 
 
-function FCKSetHTML( html ){
+function FCKSetHTMLfp( html ){
     // fixing the buggy InsertHtml in Safari and Chrome, adding empty span solves it (however it creates  <p>&nbsp;</p>)
     if (CKEDITOR.env.webkit) {
         CKEDITOR.instances.content.insertHtml( html+"<p class='cke_remove'></p>" );

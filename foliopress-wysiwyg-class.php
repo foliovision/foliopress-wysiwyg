@@ -274,7 +274,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         /// Addition 2009/10/29   Foliovision
         if (!isset($this->aOptions['cke_customtoolbar']))
             $this->aOptions['cke_customtoolbar'] =
-                    "Cut,Copy,Paste,-,Undo,Redo,-,Bold,Italic,-,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,-,NumberedList,BulletedList,-,Outdent,Indent,-,Link,Unlink,Anchor,-,Kfmbridge,FVWPFlowplayer,Fvpasteembed,\nStyles,RemoveFormat,-,Replace,Table,HorizontalRule,SpecialChar,-,Fvmore,Fvnextpage,-,Source,-,Maximize,Scayt";
+                    "Cut,Copy,Paste,PasteFromWord,-,Undo,Redo,-,Bold,Italic,-,JustifyLeft,JustifyCenter,JustifyRight,JustifyBlock,-,NumberedList,BulletedList,-,Outdent,Indent,Blockquote,-,Link,Unlink,Anchor,-,Kfmbridge,FVWPFlowplayer,Fvpasteembed,\nStyles,RemoveFormat,-,Replace,Table,HorizontalRule,SpecialChar,-,Fvmore,Fvnextpage,-,Source,-,Maximize";
 
         //  todo - add content
         if (!isset($this->aOptions['customdropdown']))
@@ -336,7 +336,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
         /// Addition 2012/02/15
         if (!isset($this->aOptions['forcePasteAsPlainText']))
-            $this->aOptions['forcePasteAsPlainText'] = false;
+            $this->aOptions['forcePasteAsPlainText'] = true;
 
 
         if (!isset($this->aOptions['CKE_autogrow']))
@@ -803,13 +803,13 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
 
         $toolbar['Foliovision-Full'] = array(
-            array('Cut', 'Copy', 'Paste', '-', 'Undo', 'Redo', '-', 'Bold', 'Italic', '-',
+            array('Cut', 'Copy', 'Paste', 'PasteFromWord', '-', 'Undo', 'Redo', '-', 'Bold', 'Italic', '-',
                 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-',
-                'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-',
+                'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', '-',
                 'Link', 'Unlink', 'Anchor', '-', 'Kfmbridge', 'FVWPFlowplayer', 'Fvpasteembed'),
             '/',
             array('Styles', 'RemoveFormat', '-', 'Replace', 'Table', 'HorizontalRule', 'SpecialChar', '-', //'Format',
-                'Fvmore', 'Fvnextpage', '-', 'Source', '-', 'Maximize', 'Scayt')
+                'Fvmore', 'Fvnextpage', '-', 'Source', '-', 'Maximize')
         );
 
         //make custom toolbar
@@ -857,6 +857,9 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         foreach ($editor_styles as $editor_style) {
             $CKEditor_style[] = "$cssPath/$editor_style";
         }
+        if (count($CKEditor_style) > 0) {
+            $options['bodyclass'] .= " mceContentBody";
+        }
 
         $CKEditor_style[] = trailingslashit(WP_PLUGIN_URL) . basename(dirname(__FILE__)) . '/custom-config/foliopress-editor.php?p=' . $post->ID;
         if ($this->aOptions[self::FVC_LANG] != 'auto') {
@@ -871,7 +874,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
         $config['contentsCss'] = $CKEditor_style;
         $config['disableObjectResizing'] = 'true';
-        $config['extraPlugins'] = 'fvmore,timestamp,kfmbridge,fvpasteembed,fvnextpage,FVWPFlowplayer';
+        $config['extraPlugins'] = 'fvmore,timestamp,kfmbridge,fvpasteembed,fvnextpage,FVWPFlowplayer,foliopress-clean';
         if ($this->aOptions[self::CKE_autogrow]) {
             $config['extraPlugins'].= ",autogrow";
             if ($this->aOptions[self::CKE_autoGrow_minHeight] > 0)
@@ -914,7 +917,16 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             $CKEditor->config['bodyClass'] .= ' wysiwyg';
         }
 
-//        if($this->bUseFCK) echo "yes"; else echo "no";
+
+        if (count($this->aOptions['FPCTexts'])) {
+            for ($i = 0; $i < count($this->aOptions['FPCTexts']); $i++) {
+                    $this->aOptions['FPCTexts'][$i] = stripslashes($this->aOptions['FPCTexts'][$i]);
+            } 
+            $CKEditor->config['FPClean_SpecialText'] = $this->aOptions['FPCTexts'];
+        }
+        $CKEditor->config['FPClean_Tags'] = 'p|div';
+
+
 
         $CKEditor->replace("content", $config);
         ?>
@@ -922,10 +934,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             CKEDITOR.stylesSet.add( 'default',
             [
         <? echo ($this->aOptions['customdropdown-corestyles']); ?>
-                                                        
+                                                                        
             ]);
-                            
-                            
+                                            
+                                            
             function removeEmptyPara() {
                 var para = CKEDITOR.instances.content.document.getElementsByTag('p');
                 if(para.count()>0) {
@@ -939,8 +951,15 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                     }
                 }
             }
-                    
+                                    
             window.onunload = function() {
+                //update content
+                var editor = CKEDITOR.instances.content;
+                var strText = editor.getData();
+                strText = FPClean_ClearTags(strText);
+                editor.setData(strText);
+                
+                
                 if (typeof(kfm_window)!='undefined')
                 {
                     if(false == kfm_window.closed)
@@ -951,13 +970,13 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 return undefined;
             }
 
-                            
-                            
+                                            
+                                            
         <?php if ($GLOBALS ['wp_version'] >= 2.7) : ?>
                 jQuery(document).ready(function() {
                     window.setTimeout("fv_wysiwyg_startup();", 1000);
                 });
-                                                                                                                                                                
+                                                                                                                                                                                        
                 function fv_wysiwyg_startup() {
                     if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
                         CKEDITOR.instances.content.getSnapshot(); //  don't remove
@@ -971,7 +990,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                         setTimeout("fv_wysiwyg_startup();", 1000);
                     }
                 }
-                                                                                                                                                                
+                                                                                                                                                                                        
                 function fv_wysiwyg_update_content() {
                     if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
                         if( CKEDITOR.instances.content.checkDirty() ) {
@@ -980,13 +999,13 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                         //if(CKEDITOR.env.webkit) { setTimeout("removeEmptyPara();", 1000);}
                         wpWordCount.wc( CKEDITOR.instances.content.getSnapshot());
                         setTimeout("fv_wysiwyg_update_content();", 5000);
-                                   
+                                                           
                     }
 
                 }
-                                        
-                                        
-                                        
+                                                                
+                                                                
+                                                                
                 var SEOImagesPostId = '<?php echo $post->ID; ?>';
                 var SEOImagesAjaxUrl = '<?php echo admin_url('admin-ajax.php') ?>';
                 var SEOImagesAjaxNonce ='<?php echo wp_create_nonce("seo-images-featured-image-" . $post->ID); ?>';
@@ -1009,10 +1028,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
                     });
                 }
-                               
-                               
+                                                       
+                                                       
         <?php endif; ?>
-                            
+                                            
         </script>
         <style>
             .cke_styles_panel {
@@ -1178,9 +1197,9 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                     $this->aOptions[self::FVC_HIDEMEDIA] = false;
 
                 /// Addition 2012/02/15
-                $this->aOptions['forcePasteAsPlainText'] = false;
+                $this->aOptions['forcePasteAsPlainText'] = true;
                 if (isset($_POST['forcePasteAsPlainText']))
-                    $this->aOptions['forcePasteAsPlainText'] = true;
+                    $this->aOptions['forcePasteAsPlainText'] = false;
 
 
                 $this->aOptions['CKE_autogrow'] = false;
@@ -1399,8 +1418,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
      *
      * @return string Post content with no empty paragraph tags
      */
-    function remove_blank_p($content) {
-        return str_replace('<p>&nbsp;</p>', '', $content);
+    function cke_foliopress_clean($content) {
+        $result = preg_replace('#<p[^>]*>(\s|&nbsp;?)*</p>#', '', $content);
+        //$content = str_replace('<p>&nbsp;</p>', '', $content);
+        return $result;
     }
 
     /**

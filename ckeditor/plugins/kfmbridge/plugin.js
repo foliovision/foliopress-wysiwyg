@@ -1,7 +1,7 @@
 /* 
  * kfmbridge for CKEditor
  * 
-*/
+ */
 
 
 CKEDITOR.plugins.add( 'kfmbridge',
@@ -40,7 +40,21 @@ CKEDITOR.plugins.add( 'kfmbridge',
 function FCKSetHTML( html ){
     // fixing the buggy InsertHtml in Safari and Chrome, adding empty span solves it (however it creates  <p>&nbsp;</p>)
     if (CKEDITOR.env.webkit) {
-        CKEDITOR.instances.content.insertHtml( html+"<p class='cke_remove'>&nbsp;</p>" );
+        var userAgent = window.navigator.userAgent;
+        if (userAgent.match(/Chrome/i)){	
+            //var tmpElement = CKEDITOR.dom.element.createFromHtml( '<p class="ckeRemove"/>' );
+            //CKEDITOR.instances.content.insertElement( tmpElement );
+            //tmpElement.remove();	
+            CKEDITOR.instances.content.insertHtml( html );
+            CKEDITOR.instances.content.insertText( '\n' );
+        } else if (userAgent.match(/Safari/i)) {            
+            //var tmpElement = CKEDITOR.dom.element.createFromHtml( '<p class="ckeRemove"/>' );
+            //CKEDITOR.instances.content.insertElement( tmpElement );
+            CKEDITOR.instances.content.insertHtml( html );
+            CKEDITOR.instances.content.insertText( '\n' );
+            kfm_window.focus();
+        } 
+        
     } else {
         CKEDITOR.instances.content.insertHtml( html);
     }
