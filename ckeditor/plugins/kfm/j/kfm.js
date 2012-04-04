@@ -335,7 +335,7 @@ kfm.build=function(){
     				category:'edit',
     				extensions: ['jpg','png','gif'],
     				doFunction:function(){kfmAdd_PostMeta( id, aPostMeta[i] );} //zUhrikova, when want to show in new window
-    			});	   
+    			});
       }
 
       if( g_bFeaturedImage ) {

@@ -264,7 +264,7 @@ function CopyToClipboard( sText ){
 function kfmAdd_PostMeta( id, sPostMeta ) {
     x_kfm_getFileUrl( id, 0, 0, function( url ){
 		if( kfm_file_handler=='return' || kfm_file_handler=='fckeditor'|| kfm_file_handler=='download'){
-            kfmSetWPMeta( sPostMeta, url );
+                kfmSetWPMeta( sPostMeta, url );
             //if( sThumbField == 'thesis_thumb' ) {
                 kfmSetWPEditorField( sPostMeta, url );
             //}

@@ -920,8 +920,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
         if (count($this->aOptions['FPCTexts'])) {
             for ($i = 0; $i < count($this->aOptions['FPCTexts']); $i++) {
-                    $this->aOptions['FPCTexts'][$i] = stripslashes($this->aOptions['FPCTexts'][$i]);
-            } 
+                $this->aOptions['FPCTexts'][$i] = stripslashes($this->aOptions['FPCTexts'][$i]);
+            }
             $CKEditor->config['FPClean_SpecialText'] = $this->aOptions['FPCTexts'];
         }
         $CKEditor->config['FPClean_Tags'] = 'p|div';
@@ -934,10 +934,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             CKEDITOR.stylesSet.add( 'default',
             [
         <? echo ($this->aOptions['customdropdown-corestyles']); ?>
-                                                                        
+                                                                                
             ]);
-                                            
-                                            
+                                                    
+                                                    
             function removeEmptyPara() {
                 var para = CKEDITOR.instances.content.document.getElementsByTag('p');
                 if(para.count()>0) {
@@ -951,15 +951,15 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                     }
                 }
             }
-                                    
+                                            
             window.onunload = function() {
                 //update content
                 var editor = CKEDITOR.instances.content;
                 var strText = editor.getData();
                 strText = FPClean_ClearTags(strText);
                 editor.setData(strText);
-                
-                
+                        
+                        
                 if (typeof(kfm_window)!='undefined')
                 {
                     if(false == kfm_window.closed)
@@ -970,13 +970,13 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 return undefined;
             }
 
-                                            
-                                            
+                                                    
+                                                    
         <?php if ($GLOBALS ['wp_version'] >= 2.7) : ?>
                 jQuery(document).ready(function() {
                     window.setTimeout("fv_wysiwyg_startup();", 1000);
                 });
-                                                                                                                                                                                        
+                                                                                                                                                                                                    
                 function fv_wysiwyg_startup() {
                     if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
                         CKEDITOR.instances.content.getSnapshot(); //  don't remove
@@ -990,7 +990,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                         setTimeout("fv_wysiwyg_startup();", 1000);
                     }
                 }
-                                                                                                                                                                                        
+                                                                                                                                                                                                    
                 function fv_wysiwyg_update_content() {
                     if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
                         if( CKEDITOR.instances.content.checkDirty() ) {
@@ -999,13 +999,51 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                         //if(CKEDITOR.env.webkit) { setTimeout("removeEmptyPara();", 1000);}
                         wpWordCount.wc( CKEDITOR.instances.content.getSnapshot());
                         setTimeout("fv_wysiwyg_update_content();", 5000);
-                                                           
+                                                                       
                     }
 
                 }
-                                                                
-                                                                
-                                                                
+                            
+                            
+                /**
+                 *	Adds/updates post meta using WP posting screen
+                 */
+                function FCKSetWPMeta( metaKey, metaValue ) {
+                    // id of the key field
+                                                                                                                                                    	
+                    //var keyId = jQuery( '[id$=[key]][value='+metaKey+']' ).attr('id');
+                    var keyId = jQuery( 'input[value="custom_image"]' ).attr('id');
+                    if( keyId ) {
+                        valueId = keyId.replace( /key/, 'value' );
+                                                                                                                                                      	
+                        var reg = /\d+/gm;
+                        var metaId = keyId.match( reg );
+                        var textarea = window.parent.jQuery( '#meta\\['+metaId+'\\]\\[value\\]' )
+                                                                                                                                                      
+                        textarea.val( metaValue );
+                        window.parent.jQuery( '[class^=add:the-list:meta-'+metaId+'::]' ).click( );  //  update click
+                    }
+                    // if the field doesn't exist
+                    else {
+                        jQuery( '#metakeyinput' ).val( metaKey );
+                        jQuery( '#metavalue' ).val( metaValue );
+                        jQuery( '#addmetasub' ).click( );  //  add click
+                    }
+                }
+                                                                                                                                                    
+                                                                                                                                                    
+                /**
+                 *	Updates field on WP posting screen
+                 */
+                function FCKSetWPEditorField( metaKey, metaValue ) {
+                    if( jQuery( '#'+metaKey ) ) 
+                        jQuery( '#'+metaKey ).val( metaValue );
+                    if( jQuery( '[name='+metaKey+']' ) ) 
+                        jQuery( '[name='+metaKey+']' ).val( metaValue );
+                }
+                                                                            
+                                                                            
+                                                                            
                 var SEOImagesPostId = '<?php echo $post->ID; ?>';
                 var SEOImagesAjaxUrl = '<?php echo admin_url('admin-ajax.php') ?>';
                 var SEOImagesAjaxNonce ='<?php echo wp_create_nonce("seo-images-featured-image-" . $post->ID); ?>';
@@ -1028,10 +1066,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
                     });
                 }
-                                                       
-                                                       
+                                                                   
+                                                                   
         <?php endif; ?>
-                                            
+                                                    
         </script>
         <style>
             .cke_styles_panel {
