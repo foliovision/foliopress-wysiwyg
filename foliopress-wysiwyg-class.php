@@ -926,7 +926,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         }
         $CKEditor->config['FPClean_Tags'] = 'p|div';
 
-
+				$CKEditor->config['disableNativeSpellChecker'] = false;
+				//$CKEditor->config['FPClean_Tags'] = 'p|div';
 
         $CKEditor->replace("content", $config);
         ?>
