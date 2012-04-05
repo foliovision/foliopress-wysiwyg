@@ -328,14 +328,18 @@ kfm.build=function(){
       for( var i in aPostMeta ) {
           if( typeof( aPostMeta[i] ) != 'string' || !aPostMeta[i].length ) {
               continue;
-          }
-  	      context_categories['edit'].add({
-    				name: 'meta-'+i,
+          }         
+					var metaItem = {
+						name: 'meta-'+i,
     				title: 'Use as \''+aPostMeta[i]+'\' meta',
-    				category:'edit',
-    				extensions: ['jpg','png','gif'],
-    				doFunction:function(){kfmAdd_PostMeta( id, aPostMeta[i] );} //zUhrikova, when want to show in new window
-    			});
+    				category:'edit'
+       		};
+       		metaItem.doFunction=function(k){
+            return function(){
+              kfmAdd_PostMeta(id, k);
+            }
+       		}(aPostMeta[i]);
+          if(kfm_vars.permissions.file.mk)context_categories['edit'].add(metaItem);                    
       }
 
       if( g_bFeaturedImage ) {
