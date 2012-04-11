@@ -18,7 +18,6 @@ FPClean.strTags = '';
 CKEDITOR.plugins.add( 'foliopress-clean',
 {
     requires  : [ 'fakeobjects', 'htmldataprocessor' ],
-
     
     afterInit : function( editor )
     {
@@ -36,8 +35,7 @@ CKEDITOR.plugins.add( 'foliopress-clean',
             
             strText = FPClean_ClearTags(strText);
             this.setData(strText);
-            
-            
+     
         });
     }
     
@@ -54,6 +52,7 @@ function FPClean_ClearTags( strText ){
 
 	strChange = strChange.replace (/<p>\s*&nbsp;<\/p>/gi,"");
         strChange = strChange.replace (/<p>\s*&#160;<\/p>/gi,"");
+        strChange = strChange.replace (/\s\s+/gi,"");
 
 	return strChange;
 }
