@@ -188,4 +188,4 @@ if ($fp_wysiwyg->has_impact($post_id)) :
     <?php endif; ?>
 <?php endif; ?>
 
-.cke_skin_foliovision_container body { width: 100%; !important }
+.cke_skin_foliovision_container body { width: 100% !important }
