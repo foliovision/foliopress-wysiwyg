@@ -187,3 +187,5 @@ if ($fp_wysiwyg->has_impact($post_id)) :
         .FCK__UnknownObject { border: 1px solid silver; }
     <?php endif; ?>
 <?php endif; ?>
+
+.cke_skin_foliovision_container body { width: 100%; !important }
