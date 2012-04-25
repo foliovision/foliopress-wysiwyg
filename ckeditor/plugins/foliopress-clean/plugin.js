@@ -27,14 +27,15 @@ CKEDITOR.plugins.add( 'foliopress-clean',
         editor.on( 'mode', function( e )
         {
             var strText = '';
-            if ( this.mode == 'wysiwyg')
+            //if ( this.mode == 'wysiwyg')
+            //    strText = this.getData();
+            
+            if ( this.mode == 'source') {
                 strText = this.getData();
             
-            if ( this.mode == 'source')
-                strText = this.getData();
-            
-            strText = FPClean_ClearTags(strText);
-            this.setData(strText);
+                strText = FPClean_ClearTags(strText);
+                this.setData(strText);
+            }
      
         });
     }
@@ -52,7 +53,8 @@ function FPClean_ClearTags( strText ){
 
 	strChange = strChange.replace (/<p>\s*&nbsp;<\/p>/gi,"");
         strChange = strChange.replace (/<p>\s*&#160;<\/p>/gi,"");
-        strChange = strChange.replace (/\s\s+/gi,"");
+        strChange = strChange.replace (/\s\s+/gi,"\n");
+        strChange = strChange.replace (/<p>\n/gi,"<p>");
 
 	return strChange;
 }
