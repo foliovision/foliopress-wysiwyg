@@ -324,9 +324,9 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         if (!isset($this->aOptions['kfmlang']))
             $this->aOptions['kfmlang'] = 'en';
         if (!isset($this->aOptions['dirperm']))
-            $this->aOptions['dirperm'] = '777';
+            $this->aOptions['dirperm'] = '755';
         if (!isset($this->aOptions['fileperm']))
-            $this->aOptions['fileperm'] = '666';
+            $this->aOptions['fileperm'] = '644';
         /// End of addition
         if (!isset($this->aOptions['filter_wp_thumbnails']))
             $this->aOptions['filter_wp_thumbnails'] = true;
@@ -853,9 +853,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         //add $editor_styles to CKEditor
         global $editor_styles, $post;
         $cssPath = get_bloginfo('stylesheet_directory');
-
-        foreach ($editor_styles as $editor_style) {
-            $CKEditor_style[] = "$cssPath/$editor_style";
+        if ($editor_styles) {
+            foreach ($editor_styles as $editor_style) {
+                $CKEditor_style[] = "$cssPath/$editor_style";
+            }
         }
         if (count($CKEditor_style) > 0) {
             $options['bodyclass'] .= " mceContentBody";
@@ -931,14 +932,31 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
         $CKEditor->replace("content", $config);
         ?>
-        <script type="text/javascript">                                        
+        <script type="text/javascript">
+            jQuery("#publish").click( function(event) {
+                event.preventDefault();
+                //alert('clean up first');
+                //todo - cleanup and regex replace on save
+                document.body.onbeforeunload='';
+                test_me();
+                jQuery('#post').submit();
+            })
+            
+            jQuery(document).ready(function() {
+                CKEDITOR.instances.content.on( 'submit', function( e ) 
+                {
+                    alert('submit');
+                    console.log("submit");//afterCommandExec
+                });
+            });
+            
             CKEDITOR.stylesSet.add( 'default',
             [
         <? echo ($this->aOptions['customdropdown-corestyles']); ?>
-                                                                                                        
+                                                                                                                
             ]);
-                                                                            
-                                                                            
+                                                                                    
+                                                                                    
             function removeEmptyPara() {
                 var para = CKEDITOR.instances.content.document.getElementsByTag('p');
                 if(para.count()>0) {
@@ -952,10 +970,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                     }
                 }
             }
-                                                                    
+                                                                            
             window.onunload = function() {
-                                                       
-                                                
+                                                               
+                                                        
                 if (typeof(kfm_window)!='undefined')
                 {
                     if(false == kfm_window.closed)
@@ -966,13 +984,13 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 return undefined;
             }
 
-                                                                            
-                                                                            
+                                                                                    
+                                                                                    
         <?php if ($GLOBALS ['wp_version'] >= 2.7) : ?>
                 jQuery(document).ready(function() {
                     window.setTimeout("fv_wysiwyg_startup();", 1000);
                 });
-                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                    
                 function fv_wysiwyg_startup() {
                     if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
                         CKEDITOR.instances.content.getSnapshot(); //  don't remove
@@ -986,7 +1004,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                         setTimeout("fv_wysiwyg_startup();", 1000);
                     }
                 }
-                                                                                                                                                                                                                                        
+                                                                                                                                                                                                                                                    
                 function fv_wysiwyg_update_content() {
                     if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
                         if( CKEDITOR.instances.content.checkDirty() ) {
@@ -995,27 +1013,27 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                         //if(CKEDITOR.env.webkit) { setTimeout("removeEmptyPara();", 1000);}
                         wpWordCount.wc( CKEDITOR.instances.content.getSnapshot());
                         setTimeout("fv_wysiwyg_update_content();", 5000);
-                                                                                                           
+                                                                                                                       
                     }
 
                 }
-                                                                
-                                                                
+                                                                            
+                                                                            
                 /**
                  *	Adds/updates post meta using WP posting screen
                  */
                 function FCKSetWPMeta( metaKey, metaValue ) {
                     // id of the key field
-                                                                                                                                                                                        	
+                                                                                                                                                                                                    	
                     //var keyId = jQuery( '[id$=[key]][value='+metaKey+']' ).attr('id');
                     var keyId = jQuery( 'input[value="custom_image"]' ).attr('id');
                     if( keyId ) {
                         valueId = keyId.replace( /key/, 'value' );
-                                                                                                                                                                                          	
+                                                                                                                                                                                                      	
                         var reg = /\d+/gm;
                         var metaId = keyId.match( reg );
                         var textarea = window.parent.jQuery( '#meta\\['+metaId+'\\]\\[value\\]' )
-                                                                                                                                                                                          
+                                                                                                                                                                                                      
                         textarea.val( metaValue );
                         window.parent.jQuery( '[class^=add:the-list:meta-'+metaId+'::]' ).click( );  //  update click
                     }
@@ -1026,8 +1044,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                         jQuery( '#addmetasub' ).click( );  //  add click
                     }
                 }
-                                                                                                                                                                                        
-                                                                                                                                                                                        
+                                                                                                                                                                                                    
+                                                                                                                                                                                                    
                 /**
                  *	Updates field on WP posting screen
                  */
@@ -1037,9 +1055,9 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                     if( jQuery( '[name='+metaKey+']' ) ) 
                         jQuery( '[name='+metaKey+']' ).val( metaValue );
                 }
-                                                                                                                
-                                                                                                                
-                                                                                                                
+                                                                                                                            
+                                                                                                                            
+                                                                                                                            
                 var SEOImagesPostId = '<?php echo $post->ID; ?>';
                 var SEOImagesAjaxUrl = '<?php echo admin_url('admin-ajax.php') ?>';
                 var SEOImagesAjaxNonce ='<?php echo wp_create_nonce("seo-images-featured-image-" . $post->ID); ?>';
@@ -1062,10 +1080,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
                     });
                 }
-                                                                                                       
-                                                                                                       
+                                                                                                                   
+                                                                                                                   
         <?php endif; ?>
-                                                                            
+                                                                                    
         </script>
         <style>
             .cke_styles_panel {
@@ -1457,9 +1475,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         $result = preg_replace('/\s\s+/', '', $result);
         
         foreach ($this->aOptions['FPCTexts'] as $regex) {
-            
-            $result = preg_replace('/(?:\x3C)(?:p|div)(?:\x3E)([\s\n]*?'.$this->FVclean_ConvertString(stripslashes($regex)).')(?:\x3C)(?:\x2F)(?:p|div)(?:\x3E)/', '$1', $result);
 
+            $result = preg_replace('/(?:\x3C)(?:p|div)(?:\x3E)([\s\n]*?' . $this->FVclean_ConvertString(stripslashes($regex)) . ')(?:\x3C)(?:\x2F)(?:p|div)(?:\x3E)/', '$1', $result);
         }
         return $result;
     }

@@ -117,7 +117,7 @@ $kfm->defaultSetting('allow_directory_edit',1);
 $kfm->defaultSetting('allow_directory_move',0);
 $kfm->defaultSetting('folder_drag_action',3);
 $kfm->defaultSetting('default_directories',array());
-$kfm->defaultSetting('default_directory_permission', ($aFckOptions["dirperm"])?$aFckOptions["dirperm"]:777 );   //changed from 755 zUhrikova
+$kfm->defaultSetting('default_directory_permission', ($aFckOptions["dirperm"])?$aFckOptions["dirperm"]:755 );   //changed from 755 zUhrikova
 $kfm->defaultSetting('banned_folders',array('/^\./'));
 $kfm->defaultSetting('allowed_folders',array());
 //files
@@ -139,7 +139,7 @@ $kfm->defaultSetting('use_imagemagick',1);
 $kfm->defaultSetting('allow_file_upload',1);
 $kfm->defaultSetting('only_allow_image_upload',0);
 $kfm->defaultSetting('use_multiple_file_upload',($bUseFlashUloader)?$bUseFlashUloader:0);
-$kfm->defaultSetting('default_upload_permission', ($aFckOptions["fileperm"])?$aFckOptions["fileperm"]:666);  //changed from 644 zUhrikova
+$kfm->defaultSetting('default_upload_permission', ($aFckOptions["fileperm"])?$aFckOptions["fileperm"]:644);  //changed from 644 zUhrikova
 $kfm->defaultSetting('banned_upload_extensions',array());
 $kfm->defaultSetting('max_image_upload_width', ($iMaxWidth)?$iMaxWidth:1000);
 $kfm->defaultSetting('max_image_upload_height', ($iMaxHeight)?$iMaxHeight:1000);

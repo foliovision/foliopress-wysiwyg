@@ -134,8 +134,8 @@ $kfm_thumb_size = ($aFckOptions["KFMThumbnailSize"])?$aFckOptions["KFMThumbnailS
 $kfm_default_file_selection_handler='return_url';
 
 #Permissions for uploaded files. Old, removed
-$kfm_default_upload_permission = ($aFckOptions["fileperm"])?$aFckOptions["fileperm"]:777;
-$kfm_default_directory_permission = ($aFckOptions["dirperm"])?$aFckOptions["dirperm"]:666;
+$kfm_default_upload_permission = ($aFckOptions["fileperm"])?$aFckOptions["fileperm"]:755;
+$kfm_default_directory_permission = ($aFckOptions["dirperm"])?$aFckOptions["dirperm"]:644;
 
 # what happens if someone double-clicks a file or presses enter on one? use 'return' for FCKeditor
 $kfm_file_handler='return'; # values allowed: download, return
