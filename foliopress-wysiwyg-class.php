@@ -933,22 +933,42 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         $CKEditor->replace("content", $config);
         ?>
         <script type="text/javascript">
-            jQuery("#publish").click( function(event) {
-                event.preventDefault();
-                //alert('clean up first');
-                //todo - cleanup and regex replace on save
-                document.body.onbeforeunload='';
-                test_me();
-                jQuery('#post').submit();
-            })
             
-            jQuery(document).ready(function() {
-                CKEDITOR.instances.content.on( 'submit', function( e ) 
-                {
-                    alert('submit');
-                    console.log("submit");//afterCommandExec
-                });
+            var fv_clean_content = false;
+            jQuery("#publish").live('click', function(e){
+                if (fv_clean_content === true) {
+                    fv_clean_content = false; 
+                    return; 
+                }
+
+                e.preventDefault();
+                fv_clean_ckeditor();
+                
+
+                fv_clean_content = true; 
+                if(CKEDITOR.env.ie == true) {
+                    //todo - trigger not working in ie
+                    jQuery('#post').submit();
+                } else {
+                    jQuery(this).trigger('click');
+                }
             });
+            
+            function fv_clean_ckeditor() {
+                if(fv_clean_content === false) {
+                    var editor = CKEDITOR.instances.content;
+                    //console.log(editor.mode);
+                    if ( editor.mode == 'wysiwyg') {
+                        var strText = editor.getData();
+                        strText = media_source_filter(strText);
+                        strText = FPClean_ClearTags(strText);
+                        editor.destroy();
+                        jQuery('#content').val( strText );
+                        //setTimeout(function(){return},500);
+                    }
+                }
+            }
+            
             
             CKEDITOR.stylesSet.add( 'default',
             [
@@ -988,8 +1008,11 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                                                                                     
         <?php if ($GLOBALS ['wp_version'] >= 2.7) : ?>
                 jQuery(document).ready(function() {
+ 
                     window.setTimeout("fv_wysiwyg_startup();", 1000);
                 });
+                
+                
                                                                                                                                                                                                                                                     
                 function fv_wysiwyg_startup() {
                     if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
@@ -1007,8 +1030,18 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                                                                                                                                                                                                                                                     
                 function fv_wysiwyg_update_content() {
                     if( typeof(CKEDITOR.instances.content) != 'undefined' ) {
+                        
                         if( CKEDITOR.instances.content.checkDirty() ) {
-                            jQuery('#content').val( CKEDITOR.instances.content.getSnapshot() );
+                            //console.log(current_mode);
+                            var strText = (CKEDITOR.instances.content.getData());
+                            
+                            if(current_mode  == 'wysiwyg') {
+                                strText = media_source_filter(strText);
+                                strText = FPClean_ClearTags(strText);
+                                
+                            }
+                            console.log(strText);
+                            jQuery('#content').val( strText );
                         }
                         //if(CKEDITOR.env.webkit) { setTimeout("removeEmptyPara();", 1000);}
                         wpWordCount.wc( CKEDITOR.instances.content.getSnapshot());
@@ -1017,6 +1050,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                     }
 
                 }
+                
+                
                                                                             
                                                                             
                 /**

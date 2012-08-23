@@ -76,7 +76,7 @@ add_filter( 'media_buttons_context', array(&$fp_wysiwyg, 'fv_remove_mediabuttons
 add_action('admin_print_scripts', array(&$fp_wysiwyg, 'add_admin_js'));
 add_action('content_edit_pre', array(&$fp_wysiwyg, 'content_edit_pre'));
 
-add_filter('content_save_pre', array(&$fp_wysiwyg, 'cke_foliopress_clean'));
+//add_filter('content_save_pre', array(&$fp_wysiwyg, 'cke_foliopress_clean'));
 //add_filter('content_save_pre', array(&$fp_wysiwyg, 'remove_blank_p'));
 
 if( $GLOBALS['wp_version'] >= 2.7 ) {
