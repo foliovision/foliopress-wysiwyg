@@ -59,7 +59,28 @@ CKEDITOR.plugins.add( 'foliopress-clean',
         
         //CKEDITOR.editor.prototype.dataReady
         editor.on('insertHtml', function(e) {
-            e.data = media_wysiwyg_filter(e.data);
+            if(this.mode == 'wysiwyg') {
+                e.data = media_wysiwyg_filter(e.data);
+            } else {
+                //console.log('WP media in source mode');
+                TextToInsert = e.data;
+                var input = document.getElementsByClassName('cke_source cke_enable_context_menu')[0];
+                input.focus();
+                if(typeof input.selectionStart != 'undefined')
+                {
+                    var start = input.selectionStart;
+                    var end = input.selectionEnd;
+
+                    input.value = input.value.substr(0, start) + TextToInsert + input.value.substr(end);
+                    
+                    var pos;
+
+                    pos = start+TextToInsert.length;
+
+                    input.selectionStart = pos;
+                    input.selectionEnd = pos;
+                }
+            }
             //console.log('insertHtml');
         });
         
