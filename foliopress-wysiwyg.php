@@ -11,8 +11,17 @@ Author URI: http://www.foliovision.com
 register_activation_hook(__FILE__,'fp_wysiwyg_activate');
 
 function fp_wysiwyg_activate() {
-	if( get_option( 'default_post_edit_rows' ) < 20 )
-		update_option( 'default_post_edit_rows', 20 );
+    if (is_plugin_active('ckeditor-for-wordpress/ckeditor_wordpress.php')) {
+        //plugin is activated
+        wp_die ('<h2>Warning, conflicting plugin is active!<br /><br />Please, deactivate CKEditor for WordPress</h2>');
+    }
+    if (is_plugin_active('fckeditor-for-wordpress-plugin/deans_fckeditor.php')) {
+        //plugin is activated
+        wp_die ('<h2>Warning, conflicting plugin is active!<br /><br />Please, deactivate Dean\'s FCKEditor For Wordpress</h2>');
+    }
+
+    if (get_option('default_post_edit_rows') < 20)
+        update_option('default_post_edit_rows', 20);
 }
 
 define( 'FV_FCK_NAME', 'Foliopress WYSIWYG' );

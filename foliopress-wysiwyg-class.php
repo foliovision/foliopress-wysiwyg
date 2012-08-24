@@ -289,7 +289,12 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 <pre>Formatted</pre>
 <code>code</code>
 <span style="background-color: green;">Highlight green</span>
-<span style="background-color: red; font-style:italic;">Highlight italic red</span>';
+<span style="background-color: red; font-style:italic;">Highlight italic red</span>
+<div class="wp-caption alignnone">WP media no aligment</div>
+<div class="wp-caption alignleft">WP media no left</div>
+<div class="wp-caption aligncenter">WP media center</div>
+<div class="wp-caption alignright">WP media right</div>';
+    
         $this->parse_dropdown_menu();
 
         if (!isset($this->aOptions['multipleimageposting']))
