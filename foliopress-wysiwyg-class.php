@@ -289,11 +289,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 <pre>Formatted</pre>
 <code>code</code>
 <span style="background-color: green;">Highlight green</span>
-<span style="background-color: red; font-style:italic;">Highlight italic red</span>
-<div class="wp-caption alignnone">WP media no aligment</div>
-<div class="wp-caption alignleft">WP media no left</div>
-<div class="wp-caption aligncenter">WP media center</div>
-<div class="wp-caption alignright">WP media right</div>';
+<span style="background-color: red; font-style:italic;">Highlight italic red</span>';
     
         $this->parse_dropdown_menu();
 
@@ -814,7 +810,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 'Link', 'Unlink', 'Anchor', '-', 'Kfmbridge', 'FVWPFlowplayer', 'Fvpasteembed'),
             '/',
             array('Styles', 'RemoveFormat', '-', 'Replace', 'Table', 'HorizontalRule', 'SpecialChar', '-', //'Format',
-                'Fvmore', 'Fvnextpage', '-', 'Source', '-', 'Maximize')
+                'Fvmore', 'Fvnextpage', '-', 'Source', '-', 'Maximize','-','fvcaption')
         );
 
         //make custom toolbar
@@ -866,7 +862,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         if (count($CKEditor_style) > 0) {
             $options['bodyclass'] .= " mceContentBody";
         }
-
+        
+        //$CKEditor_style[] = 'http://localhost/wp/wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css';
         $CKEditor_style[] = trailingslashit(WP_PLUGIN_URL) . basename(dirname(__FILE__)) . '/custom-config/foliopress-editor.php?p=' . $post->ID;
         if ($this->aOptions[self::FVC_LANG] != 'auto') {
             $config['language'] = $this->aOptions[self::FVC_LANG];
@@ -881,6 +878,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         $config['contentsCss'] = $CKEditor_style;
         $config['disableObjectResizing'] = 'true';
         $config['extraPlugins'] = 'fvmore,timestamp,kfmbridge,fvpasteembed,fvnextpage,FVWPFlowplayer,foliopress-clean';
+        $config['extraPlugins'].= ',fvcaption';
         if ($this->aOptions[self::CKE_autogrow]) {
             $config['extraPlugins'].= ",autogrow";
             if ($this->aOptions[self::CKE_autoGrow_minHeight] > 0)
@@ -1045,7 +1043,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                                 strText = FPClean_ClearTags(strText);
                                 
                             }
-                            console.log(strText);
+                            //console.log(strText);
                             jQuery('#content').val( strText );
                         }
                         //if(CKEDITOR.env.webkit) { setTimeout("removeEmptyPara();", 1000);}
