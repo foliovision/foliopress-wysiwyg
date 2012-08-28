@@ -259,7 +259,7 @@
 			editor.ui.addButton('fvcaption', {
 				label : 'FV Align WordPress Media',
 				command : commandName,
-				icon : this.path + "images/align-left.png"
+				icon : this.path + "images/align.png"
 			});
 			editor.addCommand(commandName, new CKEDITOR.dialogCommand('FVCaptionAlign'));
 
