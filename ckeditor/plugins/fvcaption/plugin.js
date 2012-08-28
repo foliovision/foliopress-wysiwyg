@@ -1,6 +1,6 @@
 (function() {
 	//var selected = false;
-	//var caption = new Object();
+	var caption = new Object();
 	var align = false;
 
 	var fvCaption = {
@@ -182,14 +182,15 @@
 								align = 'alignnone';
 							this.setValueOf('fvcaption', 'aligment', align);
 
-							document.getElementById(this.getButton('ok').domId).style.display = 'inline-block';
-                                                        
-                                                        var lable = jQuery(":radio[value=alignnone]").attr('aria-labelledby');
-                                                        jQuery('#'+lable).addClass('align image-align-none-label');
-                                                        
+							var lable = jQuery(":radio[value=alignnone]").attr('aria-labelledby');
+							jQuery('#' + lable).addClass('align image-align-none-label');
+							jQuery('#' + this.getButton('ok').domId).show();
+							//document.getElementById(this.getButton('ok').domId).style.display = 'inline-block';
+
 						} else {
 							//this.disableButton("ok");
-							document.getElementById(this.getButton('ok').domId).style.display = 'none';
+							//document.getElementById(this.getButton('ok').domId).style.display = 'none';
+							jQuery('#' + this.getButton('ok').domId).hide();
 							this.hidePage('fvcaption');
 							this.selectPage('fvcaption_none');
 						}
@@ -204,42 +205,45 @@
 						} else
 							new_align = '';
 
-						var elem = this.getParentEditor().getSelection().getSelectedElement();
+						//var elem = this.getParentEditor().getSelection().getSelectedElement();
 						//get the current selected element
-						this.setupContent(elem);
+						//this.setupContent(elem);
 
 						var selected = false;
 						var selection = editor.getSelection();
 
 						if (CKEDITOR.env.ie) {
-							selection.unlock(true);
-						}
-						var el = selection.getStartElement();
-
-						if (el.is('div') && el.hasClass('wp-caption')) {
-							el.removeClass(align);
-							el.addClass(new_align);
+							//console.log(caption);
+							caption.removeClass(align);
+							caption.addClass(new_align);
 							selected = true;
-						}
-						if (!selected) {
-							var parent = el.getParent();
-							if (parent.is('div') && parent.hasClass('wp-caption')) {
-								parent.removeClass(align);
-								parent.addClass(new_align);
+							//selection.unlock(true);
+						} else {
+							var el = selection.getStartElement();
+
+							if (el.is('div') && el.hasClass('wp-caption')) {
+								el.removeClass(align);
+								el.addClass(new_align);
 								selected = true;
 							}
-						}
-						if (!selected) {
-							var wrap = parent.getParent();
-							if (wrap.hasClass('wp-caption')) {
-								wrap.removeClass(align);
-								wrap.addClass(new_align);
-								selected = true;
+							if (!selected) {
+								var parent = el.getParent();
+								if (parent.is('div') && parent.hasClass('wp-caption')) {
+									parent.removeClass(align);
+									parent.addClass(new_align);
+									selected = true;
+								}
+							}
+							if (!selected) {
+								var wrap = parent.getParent();
+								if (wrap.hasClass('wp-caption')) {
+									wrap.removeClass(align);
+									wrap.addClass(new_align);
+									selected = true;
+								}
 							}
 						}
 
-						//wrap.removeClass( 'alignright' )
-						//wrap.addClass( 'aligncenter' )
 						//console.log (align);
 						//console.log (caption);
 						//alert(this.getValueOf('fvcaption', 'aligment'));
