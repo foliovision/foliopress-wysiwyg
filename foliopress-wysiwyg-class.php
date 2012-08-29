@@ -769,6 +769,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
     function LoadCKEditor() {
         if ($this->checkUserAgent())
             return;
+        
+        if(!$this->aOptions['convertcaptions']) {
+            $cap_button = true;//'fvcaption';
+        } else $cap_button = false;
 
         $toolbar['Default'] = array(
             array('Source', '-',
@@ -797,6 +801,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', '-', 'Link', 'Unlink', 'Anchor', '-',
                 'Fvmore', '-', 'Kfmbridge', 'FVWPFlowplayer', 'Fvpasteembed', '-', 'Source', '-', 'Maximize')
         );
+        
 
         $toolbar['Basic'] = array(
             array('Source', 'Bold', 'Italic', '-', 'NumberedList', 'BulletedList', '-', 'Link', 'Unlink', '-', 'About')
@@ -810,9 +815,19 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 'Link', 'Unlink', 'Anchor', '-', 'Kfmbridge', 'FVWPFlowplayer', 'Fvpasteembed'),
             '/',
             array('Styles', 'RemoveFormat', '-', 'Replace', 'Table', 'HorizontalRule', 'SpecialChar', '-', //'Format',
-                'Fvmore', 'Fvnextpage', '-', 'Source', '-', 'Maximize','-','fvcaption')
+                'Fvmore', 'Fvnextpage', '-', 'Source', '-', 'Maximize')
         );
-
+        if(!$this->aOptions['convertcaptions']) {
+            $tool_temp = implode(",",$toolbar['Foliovision-Full'][0]);
+            $tool_temp = str_replace('Kfmbridge', 'Kfmbridge,fvcaption', $tool_temp);
+            $toolbar['Foliovision-Full'][0] = explode(",",$tool_temp);
+            
+            $tool_temp = implode(",",$toolbar['Foliovision'][0]);
+            $tool_temp = str_replace('Kfmbridge', 'Kfmbridge,fvcaption', $tool_temp);
+            $toolbar['Foliovision'][0] = explode(",",$tool_temp);
+        }
+        
+        
         //make custom toolbar
         $tmp_cust_toolbar = explode("\n", $this->aOptions['cke_customtoolbar']);
         $count = count($tmp_cust_toolbar);
@@ -863,7 +878,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             $options['bodyclass'] .= " mceContentBody";
         }
         
-        //$CKEditor_style[] = 'http://localhost/wp/wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css';
+        $CKEditor_style[] = 'http://localhost/wp/wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css';
         $CKEditor_style[] = trailingslashit(WP_PLUGIN_URL) . basename(dirname(__FILE__)) . '/custom-config/foliopress-editor.php?p=' . $post->ID;
         if ($this->aOptions[self::FVC_LANG] != 'auto') {
             $config['language'] = $this->aOptions[self::FVC_LANG];
@@ -874,11 +889,14 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             $config['entities'] = true;
         else
             $config['entities'] = false;
-
+        //print_r($CKEditor_style);
+        
         $config['contentsCss'] = $CKEditor_style;
         $config['disableObjectResizing'] = 'true';
         $config['extraPlugins'] = 'fvmore,timestamp,kfmbridge,fvpasteembed,fvnextpage,FVWPFlowplayer,foliopress-clean';
-        $config['extraPlugins'].= ',fvcaption';
+        if(!$this->aOptions['convertcaptions']) {
+            $config['extraPlugins'].= ',fvcaption';
+        }
         if ($this->aOptions[self::CKE_autogrow]) {
             $config['extraPlugins'].= ",autogrow";
             if ($this->aOptions[self::CKE_autoGrow_minHeight] > 0)
