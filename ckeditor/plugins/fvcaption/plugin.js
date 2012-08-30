@@ -97,27 +97,32 @@
 	};
 	CKEDITOR.plugins.add('fvcaption', {
 
-		//requires:['dialog'],
+		requires:['dialog', 'iframedialog'],
 		init : function(editor) {
 
 			CKEDITOR.dialog.add('FVCaptionAlign', function() {
 
 				return {
 					title : 'FV Align WordPress Media',
-					minWidth : 550,
-					minHeight : 200,
+					minWidth : 400,
+					minHeight : 150,
 					contents : [{
 						id : 'fvcaption',
 						label : 'FV Align WordPress Media',
+                                                style : 'width :100%; text-align:center;',
 						expand : true,
 						elements : [{
 							type : 'html',
-							html : '<br />'
+                                                        html: '<br />'
+							//html : '<table cellpadding="5" style="width: 80%; "><tbody><tr ><td width="20%" nowrap="nowrap"><strong>Alignment</strong></td><td width="20%" nowrap="nowrap"><input  name="aligment_radio" value="alignnone" id="alignnone" type="radio"><label id="alignnone_label" for="alignnone"> <img src="'+CKEDITOR.plugins.get('fvcaption').path+'images/align-none.png" alt="None" align="middle"/> None</label></td>  <td width="20%" nowrap="nowrap"><input  name="aligment_radio" value="alignleft" id="alignleft" type="radio"><label id="alignleft_label" for="alignleft">Left</label></td>  <td width="20%" nowrap="nowrap"><input  name="aligment_radio" value="aligncenter" id="aligncenter" type="radio"><label id="aligncenter_label" for="aligncenter">Center</label></td>  <td width="20%" nowrap="nowrap"><input  name="aligment_radio" value="alignright" id="alignright" type="radio"><label id="alignright_label" for="alignright">Right</label></td></tr></tbody></table>'
 						}, {
 							type : 'radio',
 							id : 'aligment',
-							style : 'width :80%',
-							items : [['None', 'alignnone'], ['Left', 'alignleft'], ['Center', 'aligncenter'], ['Right', 'alignright']],
+							//style : 'width :80%',
+							items : [['<img src="'+CKEDITOR.plugins.get('fvcaption').path+'images/align-none.png" alt="None" style="vertical-align:middle;" /> None', 'alignnone'], 
+                                                                 ['<img src="'+CKEDITOR.plugins.get('fvcaption').path+'images/align-left.png" alt="Left" style="vertical-align:middle;" /> Left', 'alignleft'], 
+                                                                 ['<img src="'+CKEDITOR.plugins.get('fvcaption').path+'images/align-center.png" alt="Center" style="vertical-align:middle;" /> Center', 'aligncenter'], 
+                                                                 ['<img src="'+CKEDITOR.plugins.get('fvcaption').path+'images/align-right.png" alt="Right" style="vertical-align:middle;" /> Right', 'alignright']],
 							onClick : function() {
 								// this = CKEDITOR.ui.dialog.radio
 								// alert('Current value: ' + this.getValue());
@@ -182,9 +187,10 @@
 								align = 'alignnone';
 							this.setValueOf('fvcaption', 'aligment', align);
 
-							var lable = jQuery(":radio[value=alignnone]").attr('aria-labelledby');
-							jQuery('#' + lable).addClass('align image-align-none-label');
+							//var lable = jQuery(":radio[value=alignnone]").attr('aria-labelledby');
+							//jQuery('#' + lable).addClass('align image-align-none-label');
 							jQuery('#' + this.getButton('ok').domId).show();
+                                                        //jQusery('#'+align).attr('checked', true);
 							//document.getElementById(this.getButton('ok').domId).style.display = 'inline-block';
 
 						} else {
