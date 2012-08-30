@@ -868,17 +868,23 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 //        $CKEditor->config['skin'] = $this->aOptions[self::FVC_SKIN];
         //add $editor_styles to CKEditor
         global $editor_styles, $post;
+        
+        //echo  get_stylesheet_uri()."<br />" ;
+
         $cssPath = get_bloginfo('stylesheet_directory');
+        
         if ($editor_styles) {
             foreach ($editor_styles as $editor_style) {
-                $CKEditor_style[] = "$cssPath/$editor_style";
+                $url = "$cssPath/$editor_style";
+                $cssheaders = (get_headers($url, 1));
+                if($cssheaders[0] == 'HTTP/1.1 200 OK')
+                    $CKEditor_style[] = "$cssPath/$editor_style";
             }
         }
         if (count($CKEditor_style) > 0) {
             $options['bodyclass'] .= " mceContentBody";
         }
         
-        $CKEditor_style[] = 'http://localhost/wp/wp-includes/js/tinymce/plugins/wpeditimage/css/editimage.css';
         $CKEditor_style[] = trailingslashit(WP_PLUGIN_URL) . basename(dirname(__FILE__)) . '/custom-config/foliopress-editor.php?p=' . $post->ID;
         if ($this->aOptions[self::FVC_LANG] != 'auto') {
             $config['language'] = $this->aOptions[self::FVC_LANG];
@@ -889,7 +895,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             $config['entities'] = true;
         else
             $config['entities'] = false;
-        //print_r($CKEditor_style);
+        
         
         $config['contentsCss'] = $CKEditor_style;
         $config['disableObjectResizing'] = 'true';
@@ -933,12 +939,13 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 $options['bodyclass'] .= ' post';
             }
         }
-        $CKEditor->config['bodyId'] = $options['bodyid'];
-        $CKEditor->config['bodyClass'] = $options['bodyclass'];
-        if ($options['bodyid'] || $options['bodyclass']) {
+        
+        $CKEditor->config['bodyId'] = $this->aOptions['bodyid'];
+        $CKEditor->config['bodyClass'] = $this->aOptions['bodyclass'].$options['bodyclass'];
+        if ($CKEditor->config['bodyId'] || $CKEditor->config['bodyClass']) {
             $CKEditor->config['bodyClass'] .= ' wysiwyg';
         }
-
+        
 
         if (count($this->aOptions['FPCTexts'])) {
             for ($i = 0; $i < count($this->aOptions['FPCTexts']); $i++) {
@@ -949,7 +956,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         $CKEditor->config['FPClean_Tags'] = 'p|div';
 
         $CKEditor->config['disableNativeSpellChecker'] = false;
-
+        
 
         $CKEditor->replace("content", $config);
         ?>
