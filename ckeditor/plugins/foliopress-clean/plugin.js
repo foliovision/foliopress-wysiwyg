@@ -193,6 +193,7 @@ function media_source_filter(content) {
         //console.log(ret);
         //return ret;*/
     }
+    
 function FPClean_ClearEmptyTags( strText ){
     var strChange = strText;
     strChange = strChange.replace (/<p>\s*&nbsp;<\/p>/gi,"");
@@ -203,6 +204,8 @@ function FPClean_ClearEmptyTags( strText ){
     strChange = strChange.replace (/<p>\n/gi,"<p>");
     strChange = strChange.replace (/<p>\s*(<br>|<br*\/>)\s*<\/p>/gi,"");
     strChange = strChange.replace (/<p><\/p>/gi,"");
+    strChange = strChange.replace (/<span style=\"display: none;\s*\">\s*<\/span>/gi,"");
+    
 
     return strChange;
 }
@@ -223,6 +226,8 @@ function FPClean_ClearTags( strText ){
     strChange = strChange.replace (/<p>\n/gi,"<p>");
     strChange = strChange.replace (/<p>\s*(<br>|<br*\/>)\s*<\/p>/gi,"");
     strChange = strChange.replace (/<p><\/p>/gi,"");
+    strChange = strChange.replace (/<span style=\"display: none;\s*\">(&nbsp;|\s*)<\/span>/gi,"");
+    
 
     return strChange;
 }

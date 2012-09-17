@@ -278,7 +278,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
         //  todo - add content
         if (!isset($this->aOptions['customdropdown']))
-            $this->aOptions['customdropdown'] = '<h5 class="">Centered image</h5>
+            $this->aOptions['customdropdown'] = '<h5 class="center">Centered image</h5>
 <h5 class="left">Left aligned image</h5>
 <h5 class="right">Right aligned image</h5>
 <p>Normal paragraph</p>
@@ -901,7 +901,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         $config['disableObjectResizing'] = 'true';
         $config['extraPlugins'] = 'fvmore,timestamp,kfmbridge,fvpasteembed,fvnextpage,FVWPFlowplayer,foliopress-clean';
         if(!$this->aOptions['convertcaptions']) {
-            $config['extraPlugins'].= ',fvcaption';
+            $config['extraPlugins'].= ',fvcaption,fvjustify';
+            $config['removePlugins'].= 'justify';
         }
         if ($this->aOptions[self::CKE_autogrow]) {
             $config['extraPlugins'].= ",autogrow";
@@ -974,10 +975,12 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 
 
                 fv_clean_content = true; 
-                if(CKEDITOR.env.ie == true) {
+                if(CKEDITOR.env.ie == true || CKEDITOR.env.opera) {
                     //todo - trigger not working in ie
+                    //console.log('ie post content');
                     jQuery('#post').submit();
                 } else {
+                    //console.log('!ie post content');
                     jQuery(this).trigger('click');
                 }
             });
