@@ -204,7 +204,9 @@ function FPClean_ClearEmptyTags( strText ){
     strChange = strChange.replace (/<p>\n/gi,"<p>");
     strChange = strChange.replace (/<p>\s*(<br>|<br*\/>)\s*<\/p>/gi,"");
     strChange = strChange.replace (/<p><\/p>/gi,"");
-    strChange = strChange.replace (/<span style=\"display: none;\s*\">\s*<\/span>/gi,"");
+    //strChange = strChange.replace (/<span style=\"display: none;\s*\">\s*<\/span>/gi,"");
+    strChange = strChange.replace (/<span[^>]*>\s*&nbsp;<\/span>/gi,"");
+    strChange = strChange.replace (/<div\s+id=\"wrc-float-icon\".*?>.*?<\/div>/gi, '');//safari/chrome clean up
     
 
     return strChange;
@@ -226,8 +228,9 @@ function FPClean_ClearTags( strText ){
     strChange = strChange.replace (/<p>\n/gi,"<p>");
     strChange = strChange.replace (/<p>\s*(<br>|<br*\/>)\s*<\/p>/gi,"");
     strChange = strChange.replace (/<p><\/p>/gi,"");
-    strChange = strChange.replace (/<span style=\"display: none;\s*\">(&nbsp;|\s*)<\/span>/gi,"");
-    
+    //strChange = strChange.replace (/<span style=\"display: none;\s*\">(&nbsp;|\s*)<\/span>/gi,"");
+    strChange = strChange.replace (/<span[^>]*>\s*&nbsp;<\/span>/gi,"");
+    strChange = strChange.replace (/<div\s+id=\"wrc-float-icon\".*?>.*?<\/div>/gi, '');//safari/chrome clean up
 
     return strChange;
 }

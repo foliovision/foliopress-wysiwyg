@@ -287,9 +287,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 <h3>Header 3</h3>
 <h4>Header 4</h4>
 <pre>Formatted</pre>
-<code>code</code>
-<span style="background-color: green;">Highlight green</span>
-<span style="background-color: red; font-style:italic;">Highlight italic red</span>';
+<code>code</code>';
     
         $this->parse_dropdown_menu();
 
@@ -797,7 +795,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         );
 
         $toolbar['Foliovision'] = array(
-            array('Cut', 'Copy', 'Paste', 'PasteFromWord', '-', 'Bold', 'Italic', '-', 'Styles', 'RemoveFormat', '-', 'NumberedList', // 'Format',
+            array('Cut', 'Copy', 'Paste', 'PasteFromWord', '-', 'Bold', 'Italic', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight','-','Styles', 'RemoveFormat', '-', 'NumberedList', // 'Format',
                 'BulletedList', '-', 'Outdent', 'Indent', 'Blockquote', '-', 'Link', 'Unlink', 'Anchor', '-',
                 'Fvmore', '-', 'Kfmbridge', 'FVWPFlowplayer', 'Fvpasteembed', '-', 'Source', '-', 'Maximize')
         );
@@ -817,7 +815,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             array('Styles', 'RemoveFormat', '-', 'Replace', 'Table', 'HorizontalRule', 'SpecialChar', '-', //'Format',
                 'Fvmore', 'Fvnextpage', '-', 'Source', '-', 'Maximize')
         );
-        if(!$this->aOptions['convertcaptions']) {
+        /*if(!$this->aOptions['convertcaptions']) {
             $tool_temp = implode(",",$toolbar['Foliovision-Full'][0]);
             $tool_temp = str_replace('Kfmbridge', 'Kfmbridge,fvcaption', $tool_temp);
             $toolbar['Foliovision-Full'][0] = explode(",",$tool_temp);
@@ -825,7 +823,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             $tool_temp = implode(",",$toolbar['Foliovision'][0]);
             $tool_temp = str_replace('Kfmbridge', 'Kfmbridge,fvcaption', $tool_temp);
             $toolbar['Foliovision'][0] = explode(",",$tool_temp);
-        }
+        }*/
         
         
         //make custom toolbar
@@ -901,9 +899,11 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         $config['disableObjectResizing'] = 'true';
         $config['extraPlugins'] = 'fvmore,timestamp,kfmbridge,fvpasteembed,fvnextpage,FVWPFlowplayer,foliopress-clean';
         if(!$this->aOptions['convertcaptions']) {
-            $config['extraPlugins'].= ',fvcaption,fvjustify';
-            $config['removePlugins'].= 'justify';
+            //$config['extraPlugins'].= ',fvcaption';
+            $config['extraPlugins'].= ',fvjustify';
+            $config['removePlugins'].= 'justify,image';
         }
+        $config['justifyClasses'] = array ('alignleft', 'aligncenter', 'alignright', 'alignjustify' );
         if ($this->aOptions[self::CKE_autogrow]) {
             $config['extraPlugins'].= ",autogrow";
             if ($this->aOptions[self::CKE_autoGrow_minHeight] > 0)

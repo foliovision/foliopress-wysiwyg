@@ -15,7 +15,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
             //check if is selected caption (or any element inside div 
             var captionSelected = false;
                 
-            //console.log(element);
+             if (!CKEDITOR.env.webkit && CKEDITOR.instances.content.getSelection().getType() == CKEDITOR.SELECTION_ELEMENT ) {
+                element = CKEDITOR.instances.content.getSelection().getSelectedElement();
+            }
 
             if (element.is('div') && element.hasClass('wp-caption')) {
                 //alert('ie-div');
@@ -38,17 +40,26 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                     var captionSelected = true;
                 }
             }
-            
-            //console.log(captionSelected);
-                
+ 
             useComputedState = useComputedState === undefined || useComputedState;
-
+            
+            
             var align;
             if (captionSelected) {
                 align = caption.getAttribute('class').replace('wp-caption', '').replace(/\s*/, '').replace('align','');
-            } else if ( useComputedState ) {
+            } else if ( useComputedState && typeof(CKEDITOR.instances.content.config.justifyClasses) === 'undefined') {
                 align = element.getComputedStyle( 'text-align' );
-                        
+            } else if (typeof(CKEDITOR.instances.content.config.justifyClasses) === 'object') {
+                //aligment with classes
+                
+                var classes = CKEDITOR.instances.content.config.justifyClasses;
+
+                if ( element.hasClass( classes[ 0 ] ) ) align = 'left';
+                if ( element.hasClass( classes[ 1 ] ) ) align = 'center';
+                if ( element.hasClass( classes[ 2 ] ) ) align = 'right';
+                if ( element.hasClass( classes[ 3 ] ) ) align = 'justify';
+                
+                return align;
             } else {
                 while ( !element.hasAttribute || !( element.hasAttribute( 'align' ) || element.getStyle( 'text-align' ) ) )
                 {
@@ -64,8 +75,7 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
             align && ( align = align.replace( /(?:-(?:moz|webkit)-)?(?:start|auto)/i, '' ) );
 
             !align && useComputedState && ( align = element.getComputedStyle( 'direction' ) == 'rtl' ? 'right' : 'left' );
-            
-            console.log(align);
+
             return align;
         }
         catch (e)
@@ -79,13 +89,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
         if ( evt.editor.readOnly )
             return;
         
-        if (!CKEDITOR.env.webkit && CKEDITOR.instances.content.getSelection().getType() == CKEDITOR.SELECTION_ELEMENT ) {
-            console.log( 'An element is selected' );
-            var elem = CKEDITOR.instances.content.getSelection().getSelectedElement();
-        //console.log(elem);
-        //console.log('ss');
-        }
-         
         evt.editor.getCommand( this.name ).refresh2( evt.data.path );
     }
 
@@ -175,7 +178,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     justifyCommand.prototype = {
         exec : function( editor )
         {
-            //console.log(this.value);
             var selection = editor.getSelection();
             var enterMode = editor.config.enterMode;
                                 
@@ -197,14 +199,8 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
             var captionSelected = false;
             var el = selection.getStartElement();
             if (!CKEDITOR.env.webkit && CKEDITOR.instances.content.getSelection().getType() == CKEDITOR.SELECTION_ELEMENT ) {
-                //console.log( 'An element is selected' );
                 var el = CKEDITOR.instances.content.getSelection().getSelectedElement();
-                console.log('el');
-                console.log(el);
             }
-            console.log('aaa');
-            console.log(CKEDITOR.instances.content.getSelection().getType());
-            console.log(CKEDITOR.SELECTION_ELEMENT);
             
 
             if (el.is('div') && el.hasClass('wp-caption')) {
@@ -240,13 +236,10 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                     }
                         
                 } else {
-                    console.log('do nothing');
+                    
+                    //console.log('do nothing');
                 }
-                //console.log(align);
-                //console.log(this.value);
-                //console.log(caption);
-                        
-            
+
                 return;
             } else {
                 //default justify action
@@ -294,7 +287,6 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
 
         refresh2 : function( path )
         {
-            
             var firstBlock = path.block || path.blockLimit;
             
             this.setState( firstBlock.getName() != 'body' &&
@@ -309,35 +301,39 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     {
         init : function( editor )
         {
-            var left = new justifyCommand( editor, 'justifyleft', 'left' ),
-            center = new justifyCommand( editor, 'justifycenter', 'center' ),
-            right = new justifyCommand( editor, 'justifyright', 'right' ),
-            justify = new justifyCommand( editor, 'justifyblock', 'justify' );
+            var left = new justifyCommand( editor, 'fvjustifyleft', 'left' ),
+            center = new justifyCommand( editor, 'fvjustifycenter', 'center' ),
+            right = new justifyCommand( editor, 'fvjustifyright', 'right' ),
+            justify = new justifyCommand( editor, 'fvjustifyblock', 'justify' );
 
-            editor.addCommand( 'justifyleft', left );
-            editor.addCommand( 'justifycenter', center );
-            editor.addCommand( 'justifyright', right );
-            editor.addCommand( 'justifyblock', justify );
+            editor.addCommand( 'fvjustifyleft', left );
+            editor.addCommand( 'fvjustifycenter', center );
+            editor.addCommand( 'fvjustifyright', right );
+            editor.addCommand( 'fvjustifyblock', justify );
 
             editor.ui.addButton( 'JustifyLeft',
             {
                 label : editor.lang.justify.left,
-                command : 'justifyleft'
+                command : 'fvjustifyleft',
+                icon : this.path + "images/fvjustifyleft.png"
             } );
             editor.ui.addButton( 'JustifyCenter',
             {
                 label : editor.lang.justify.center,
-                command : 'justifycenter'
+                command : 'fvjustifycenter',
+                icon : this.path + "images/fvjustifycenter.png"
             } );
             editor.ui.addButton( 'JustifyRight',
             {
                 label : editor.lang.justify.right,
-                command : 'justifyright'
+                command : 'fvjustifyright',
+                icon : this.path + "images/fvjustifyright.png"
             } );
             editor.ui.addButton( 'JustifyBlock',
             {
                 label : editor.lang.justify.block,
-                command : 'justifyblock'
+                command : 'fvjustifyblock',
+                icon : this.path + "images/fvjustifyblock.png"
             } );
 
             editor.on( 'selectionChange', CKEDITOR.tools.bind( onSelectionChange, left ) );
@@ -351,13 +347,3 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
     });
 })();
 
- /**
- * List of classes to use for aligning the contents. If it's null, no classes will be used
- * and instead the corresponding CSS values will be used. The array should contain 4 members, in the following order: left, center, right, justify.
- * @name CKEDITOR.config.justifyClasses
- * @type Array
- * @default null
- * @example
- * // Use the classes 'AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify'
- * config.justifyClasses = [ 'AlignLeft', 'AlignCenter', 'AlignRight', 'AlignJustify' ];
- */
