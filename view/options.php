@@ -161,10 +161,10 @@
                             <div id="imagesOption_wpmedia" class="imagesOption" style="border: #eee solid 1px;background-color:#ddd;<?php if ($this->aOptions[self::FVC_HIDEMEDIA] == true) echo 'display:none;'; ?>"> <blockquote>
 
                                     <p class="description">In order to use full functionality of the the aligment buttons you need to add following code to you theme css:</p><pre>
-.entry-content .alignleft { text-align:left; }
-.entry-content .aligncenter { text-align:center; }
-.entry-content .alignright { text-align:right; }
-.entry-content .alignjustify { text-align:justify; }</pre><br />
+.entry-content p.alignleft { text-align:left; }
+.entry-content p.aligncenter { text-align:center; }
+.entry-content p.alignright { text-align:right; }
+.entry-content p.alignjustify { text-align:justify; }</pre><br />
                                     <p class="description">The Convert <code>[caption]</code> shortcodes has to be disabled</p>
                                 </blockquote></div>
                             <input type="radio" id="radio2" name="imagesOption" value="rdHideSEOimages" <?php if ($this->aOptions[self::FVC_HIDEMEDIA] == true) echo 'checked="checked"'; ?> /><label for="radio2" > Enable SEO Images</label>

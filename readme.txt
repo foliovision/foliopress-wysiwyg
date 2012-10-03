@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: wysiwyg,editor,foliopress,image,images,seo,lightbox,fck,tinymce,editor
 Requires at least: 3.1 
-Tested up to: 3.2.1
+Tested up to: 3.4.2
 Stable tag: trunk
 
 Foliopress WYSIWYG is the editor you were always hoping for, every time you installed a new content management system.
@@ -23,7 +23,7 @@ Foliopress WYSIWYG is the editor you were always hoping for, every time you inst
 * Foliopress WYSIWYG does **true WYSIWYG**. You can actually see the text in your edit box the same way it is in your content box (simple three step point and click configuration).
 * Foliopress WYSIWYG will never go out of date: Foliopress WYSIWYG is assembled from best of breed open source projects so it will always be on the cutting edge of web design. The parts are carefully assembled as modules with no modifications to core code so you can always drop the latest version of the core libraries in for a seamless and instant upgrade.
 * Foliopress WYSIWYG is so easy and fun to use, that you just might want to retire your word processor and write all your documents online.
-* Uses FCKEditor (FCK) with upgrades, equivalent to CKEditor.
+* Uses CKEditor (FCKeditor before) with upgrades.
 * Includes a fully extended toolbar just like tinyMCE Advanced.
 
 [Support](http://foliovision.com/seo-tools/wordpress/plugins/wysiwyg) |
@@ -124,6 +124,11 @@ You need to use a plugin like [WP Slimbox 2](http://wordpress.org/extend/plugins
 The ImageMagick binary must be executable from PHP and be available as /bin/convert. We will add automated checks for this. ImageMagick provides superior image quality than standard PHP GD library!
 
 == Changelog ==
+
+= 2.0.0 =
+
+* Wordpress Uploader used by default. Alignment buttons added to work with images and captions.
+* SEO Images is optional - for users who upgrade from previous versions
 
 = 0.9.22 =
 * Wordpress 3.3 display issues fix
@@ -235,6 +240,9 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 * SEO Images are now compatible with FTP uploaded files. Read a manual on how to upload files and prepare them on handling with SEO Images.
 
 == Upgrade Notice ==
+
+= 2.0.0 =
+* Beta release! First version which utilizes new CKEditor instead of FCKEditor. Please test carefully after upgrade.
 
 = 0.9.22 =
 * IE9 still won't work, but try switching it to IE8 compatibility mode. If the upgrade takes too long, you might need to do the manual upgrade or first delete the plugin and then install it through Wordpress. Make sure you clear your browser cache after upgrade.
