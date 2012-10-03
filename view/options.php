@@ -78,8 +78,7 @@
         ?>
         <ul class="foliopress-wysiwyg-tabs">
             <li><a class="active" href="#" rel="foliopress-wysiwyg-basic">Basic Options</a></li>
-            <li><a href="#" rel="foliopress-wysiwyg-advanced">Advanced Options</a></li>
-            <li><a href="#" rel="foliopress-wysiwyg-images" id="SEOImages_link">SEO Images</a></li>               
+            <li><a href="#" rel="foliopress-wysiwyg-advanced">Advanced Options</a></li>            
         </ul>
 
 
@@ -151,32 +150,10 @@
                             <span class="description">auto minimum height</span>                      <input type="text" name="CKE_autoGrow_maxHeight" value="<?php print( $this->aOptions[self::CKE_autoGrow_maxHeight]); ?>" class="small-text" />
                             <span class="description">auto maximum height (0 will disable auto minimum and maximum height)</span></td>
                     </tr>
-
-
-
-
                     <tr valign="top">
-                        <th scope="row"><label for="HideMediaButtons">Image options</label></th>
-                        <td><input type="radio" id="radio1" name="imagesOption" value="rdHideMediaButtons" <?php if ($this->aOptions[self::FVC_HIDEMEDIA] == false) echo 'checked="checked"'; ?> /><label for="radio1" > Enable Wordpress uploader buttons</label><br />
-                            <div id="imagesOption_wpmedia" class="imagesOption" style="border: #eee solid 1px;background-color:#ddd;<?php if ($this->aOptions[self::FVC_HIDEMEDIA] == true) echo 'display:none;'; ?>"> <blockquote>
-
-                                    <p class="description">In order to use full functionality of the the aligment buttons you need to add following code to you theme css:</p><pre>
-.entry-content .alignleft { text-align:left; }
-.entry-content .aligncenter { text-align:center; }
-.entry-content .alignright { text-align:right; }
-.entry-content .alignjustify { text-align:justify; }</pre><br />
-                                    <p class="description">The Convert <code>[caption]</code> shortcodes has to be disabled</p>
-                                </blockquote></div>
-                            <input type="radio" id="radio2" name="imagesOption" value="rdHideSEOimages" <?php if ($this->aOptions[self::FVC_HIDEMEDIA] == true) echo 'checked="checked"'; ?> /><label for="radio2" > Enable SEO Images</label>
-                            <div id="imagesOption_seoimages" class="imagesOption" style="border: #eee solid 1px;background-color:#ddd;<?php if ($this->aOptions[self::FVC_HIDEMEDIA] == false) echo 'display:none;'; ?>"><blockquote>
-                                    <p class="description">Additional options in SEO Images tab</p>
-
-                                </blockquote></div>
-
-
-                            <div style="display:none;">   <input id="chkHideMediaButtons" type="checkbox" name="HideMediaButtons" value="checkbox" <?php if ($this->aOptions[self::FVC_HIDEMEDIA] == false) echo 'checked="checked"'; ?> /></div></td>
+                        <th scope="row"><label for="HideMediaButtons">Enable Wordpress uploader buttons</label></th>
+                        <td><input id="chkHideMediaButtons" type="checkbox" name="HideMediaButtons" value="checkbox" <?php if ($this->aOptions[self::FVC_HIDEMEDIA] == false) echo 'checked="checked"'; ?> /></td>
                     </tr>
-
 
 
 
@@ -185,7 +162,6 @@
                         <th scope="row">WYSIWYG CSS styles</th>
                         <td><fieldset>
                                 <label for="bodyid"><input id="bodyid" type="text" name="bodyid" value="<?php echo $this->aOptions['bodyid']; ?>" class="regular-text" /> Post ID</label><br />
-
                                 <label for="bodyclass"><input id="bodyclass" type="text" name="bodyclass" value="<?php echo $this->aOptions['bodyclass']; ?>" class="regular-text" /> Post class</label>
                                 <br />
                                 <span class="description">Enter the name of the class used for styling of the articles on the front page. If necessary, use multiple classes (separated by blank spaces) or add the ID of the container element.</span>
@@ -201,7 +177,32 @@
                     </tr>
                 </table>
 
-
+                <h3>SEO Images</h3>
+                <table class="form-table">
+                    <tr valign="top"> 
+                        <th scope="row"><label for="HideMediaButtons">Multiple image posting</label></th>
+                        <td><input id="chkMultipleImagePosting" type="checkbox" name="MultipleImagePosting" value="checkbox" <?php if ($this->aOptions['multipleimageposting']) echo 'checked="checked"'; ?> /><span class="description">Disable if you want image management window to close automatically after posting a single image.</span></td>
+                    </tr> 
+                    <tr>
+                        <th scope="row">Max Image Size</th>
+                        <td>
+                            <label for="MaxWidth">Width <input type="text" name="MaxWidth" value="<?php echo $this->aOptions[self::FVC_MAXW]; ?>" class="small-text" /></label>
+                            <label for="MaxHeight">Height <input type="text" name="MaxHeight" value="<?php echo $this->aOptions[self::FVC_MAXH]; ?>" class="small-text" /></label>
+                            <span class="description">All images with one of dimensions above one of these limits will be sized down when uploading.</span>
+                        </td>
+                    </tr>
+                    <tr valign="top"> 
+                        <th scope="row"><label for="listKFMThumbs">Thumbnail sizes</label></th>
+                        <td>
+                            <select id="listKFMThumbs" style="width: 100px;"></select>
+                            <input type="text" style="width: 80px;" name="AddThumbSize" id="txtAddThumbSize" value="Add new" onclick="if( this.value == 'Add new') this.value=''" />
+                            <input type="button" class="button" value="Add" onclick="KFMAddThumbnail()" />
+                            <input type="hidden" value="0" name="KFMThumbCount" id="hidThumbCount" />
+                            <input type="button" class="button" value="Remove selected" onclick="KFMRemoveThumbnail()" />
+                            <br />
+                        </td>
+                    </tr>
+                </table>
 
             </div>
 
@@ -352,98 +353,31 @@
 
 
                 </table>
-
-                <br />
-                <!--<p><input type="button" name="expert_options" class="button" value="Expert Options" onclick="jQuery('#divExpert').toggle()" /></p>
-                <div id="divExpert" style="display: none">
-                        <h3>Expert Options</h3>
-                        <table class="form-table">
-                                <tr>
-                <td>
-                <?php if (is_writable($strPath . '/' . self::FVC_FCK_CONFIG_RELATIVE_PATH)) : ?>
-                                                                        <input type="button" class="button" name="edit" value="Edit WYSIWYG config" class="input" onClick="javascript:window.open('<?php echo $_SERVER['REQUEST_URI'] . '&edit=' . urlencode(self::FVC_FCK_CONFIG_RELATIVE_PATH); ?>');">
-                <?php else : ?>
-                                                                                Foliopress WYSIWYG config file is not writable.
-                <?php endif; ?>
-                    
-                        <span class="description">Edit custom FCK config file to suit your own purposes.</span><br />
-                    
-                    <h3 style="display: inline;">Be aware that editing this file may cause serious malfunctions in FCK behaviour and other problems.</h3> <br />
-                        <a href="http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide/Configuration/Configuration_File" target="_blank">Documentation 
-                        of FCK config file</a>.
-                        
-                </td>
-                <td align="right" style="width: 100px; font-size: large;">
-                        
-                </td>
-            </tr>
-                                <tr>
-                <td><input type="submit" name="recreate" class="button"  value="Recreate thumbnails" /> <span class="description">All thumbnails, even special thumbnails will be recreated!</span></td>
-            </tr>
-                        </table>
-                </div>-->
-            </div>
-            <div id="foliopress-wysiwyg-images" class="foliopress-wysiwyg-single">
-
-                <h2>SEO Images</h2>
-
-
-
-
-
-
-
-                <table class="form-table">
-                    <tr valign="top"> 
-                        <th scope="row"><label for="HideMediaButtons">Multiple image posting</label></th>
-                        <td><input id="chkMultipleImagePosting" type="checkbox" name="MultipleImagePosting" value="checkbox" <?php if ($this->aOptions['multipleimageposting']) echo 'checked="checked"'; ?> /><span class="description">Disable if you want image management window to close automatically after posting a single image.</span></td>
-                    </tr> 
-                    <tr>
-                        <th scope="row">Max Image Size</th>
-                        <td>
-                            <label for="MaxWidth">Width <input type="text" name="MaxWidth" value="<?php echo $this->aOptions[self::FVC_MAXW]; ?>" class="small-text" /></label>
-                            <label for="MaxHeight">Height <input type="text" name="MaxHeight" value="<?php echo $this->aOptions[self::FVC_MAXH]; ?>" class="small-text" /></label>
-                            <span class="description">All images with one of dimensions above one of these limits will be sized down when uploading.</span>
-                        </td>
-                    </tr>
-                    <tr valign="top"> 
-                        <th scope="row"><label for="listKFMThumbs">Thumbnail sizes</label></th>
-                        <td>
-                            <select id="listKFMThumbs" style="width: 100px;"></select>
-                            <input type="text" style="width: 80px;" name="AddThumbSize" id="txtAddThumbSize" value="Add new" onclick="if( this.value == 'Add new') this.value=''" />
-                            <input type="button" class="button" value="Add" onclick="KFMAddThumbnail()" />
-                            <input type="hidden" value="0" name="KFMThumbCount" id="hidThumbCount" />
-                            <input type="button" class="button" value="Remove selected" onclick="KFMRemoveThumbnail()" />
-                            <br />
-                        </td>
-                    </tr>
-                </table>
-
-                <h3>SEO Images Andvanved Option</h3>
+                <h3>SEO Images</h3>
                 <table class="form-table">
                     <tr valign="top"> 
                         <th scope="row"><label for="FCKSkins">SEO Images Language</label></th>
                         <td><?php
-                print( '<select name="kfmlang"><option value="auto">Default</option>');
+                    print( '<select name="kfmlang"><option value="auto">Default</option>');
 
-                try {
-                    $aKfmLang = fp_wysiwyg_load_fck_items(realpath($strPath . self::KFM_LANG_RELATIVE_PATH));
-                    foreach ($aKfmLang AS $key => $value) {
-                        if (stripos($value, '.js') === FALSE) {
-                            unset($aKfmLang[$key]);
-                        } else {
-                            $aKfmLang[$key] = str_replace('.js', '', $aKfmLang[$key]);
+                    try {
+                        $aKfmLang = fp_wysiwyg_load_fck_items(realpath($strPath . self::KFM_LANG_RELATIVE_PATH));
+                        foreach ($aKfmLang AS $key => $value) {
+                            if (stripos($value, '.js') === FALSE) {
+                                unset($aKfmLang[$key]);
+                            } else {
+                                $aKfmLang[$key] = str_replace('.js', '', $aKfmLang[$key]);
+                            }
                         }
-                    }
-                    fp_wysiwyg_output_options($aKfmLang, $this->aOptions['kfmlang']);
+                        fp_wysiwyg_output_options($aKfmLang, $this->aOptions['kfmlang']);
 
-                    print( '</select>');
-                } catch (Exception $ex) {
-                    $bError = true;
-                    print( '</select>');
-                    print( ' ERROR: ' . $ex->getMessage());
-                }
-                ?></td>
+                        print( '</select>');
+                    } catch (Exception $ex) {
+                        $bError = true;
+                        print( '</select>');
+                        print( ' ERROR: ' . $ex->getMessage());
+                    }
+                    ?></td>
                     </tr>  
 
                     <tr valign="top">
@@ -505,9 +439,36 @@
                         <td><input type="button" class="button" value="Default settings" onclick="FVWYSIWYGPermisssionsDefault()" /> <input type="button" class="button" value="My server runs in FastCGI or LiteSpeed" onclick="FVWYSIWYGPermisssionsUser()" />&nbsp;&nbsp;<label for="dirperm">Directories <input type="text" id="dirperm" name="dirperm" value="<?php echo $this->aOptions['dirperm']; ?>" class="small-text" /></label> <label for="fileperm">Files <input type="text" id="fileperm" name="fileperm" value="<?php echo $this->aOptions['fileperm']; ?>" class="small-text" /></label><br /><span class="description">We strongly recommend you to test your new settings by creating a directory, uploading some image into it and inserting it into post.</span></td>
                     </tr>                    
 
-                </table>	
-
-
+                </table>										
+                <br />
+                <!--<p><input type="button" name="expert_options" class="button" value="Expert Options" onclick="jQuery('#divExpert').toggle()" /></p>
+                <div id="divExpert" style="display: none">
+                        <h3>Expert Options</h3>
+                        <table class="form-table">
+                                <tr>
+                <td>
+                <?php if (is_writable($strPath . '/' . self::FVC_FCK_CONFIG_RELATIVE_PATH)) : ?>
+                                            <input type="button" class="button" name="edit" value="Edit WYSIWYG config" class="input" onClick="javascript:window.open('<?php echo $_SERVER['REQUEST_URI'] . '&edit=' . urlencode(self::FVC_FCK_CONFIG_RELATIVE_PATH); ?>');">
+                <?php else : ?>
+                                                    Foliopress WYSIWYG config file is not writable.
+<?php endif; ?>
+                    
+                        <span class="description">Edit custom FCK config file to suit your own purposes.</span><br />
+                    
+                    <h3 style="display: inline;">Be aware that editing this file may cause serious malfunctions in FCK behaviour and other problems.</h3> <br />
+                        <a href="http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide/Configuration/Configuration_File" target="_blank">Documentation 
+                        of FCK config file</a>.
+                        
+                </td>
+                <td align="right" style="width: 100px; font-size: large;">
+                        
+                </td>
+            </tr>
+                                <tr>
+                <td><input type="submit" name="recreate" class="button"  value="Recreate thumbnails" /> <span class="description">All thumbnails, even special thumbnails will be recreated!</span></td>
+            </tr>
+                        </table>
+                </div>-->
             </div>
 
 
@@ -526,28 +487,7 @@
     </form> 
 </div>
 <script type="text/javascript">
-    jQuery(document).ready(function() {
-        jQuery( "input[name=imagesOption]").change(function() {
-            if(jQuery(this).val() == 'rdHideMediaButtons') {
-                jQuery("input[name=HideMediaButtons]").live().prop("checked", true);
-                jQuery("input[name=convertcaptions]").removeAttr('checked');
-            } else {
-                jQuery("input[name=HideMediaButtons]").removeAttr('checked');
-                //jQuery("input[name=convertcaptions]").live().prop("checked", true);
-            }
-            jQuery('.imagesOption').toggle();
-        });
-        
-        if(jQuery("input[name=imagesOption]:checked").val() == 'rdHideMediaButtons') {
-            //jQuery("#SEOImages_link").unbind('click');
-        }
-        
-        jQuery("#SEOImages_link").click(function(){
-            if(jQuery("input[name=imagesOption]:checked").val() == 'rdHideMediaButtons') {
-                alert('Please note that you have to enable SEO Images on Basic Options tab!');
-            }
-        });
-    });
+	
     KFMLinkLightboxStart( <?php
                    $iLink = ($this->aOptions[self::FVC_KFM_LINK]) ? 1 : 0;
                    $iLight = ($this->aOptions[self::FVC_KFM_LIGHTBOX]) ? 1 : 0;

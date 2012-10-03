@@ -74,7 +74,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
      * Plugin version
      * @var string
      */
-    var $strVersion = '2.0.0';
+    var $strVersion = '0.9.20';
 
     /**
      * Custom options array.
@@ -186,7 +186,6 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
      */
     const FVC_FV_REGEX_PATH = 'include/foliovision-regex.js';
     const FVC_HIDEMEDIA = 'HideMediaButtons';
-    const FVC_HIDESEOimages = 'HIDESEOimages';//todo - control with HideMediaButtons
     const FVC_MAXW = 'MaxWidth';
     const FVC_MAXH = 'MaxHeight';
 
@@ -268,18 +267,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             $this->aOptions[self::FVC_DIR] = true;
         if (!isset($this->aOptions[self::FVC_KFM_THUMB_SIZE]))
             $this->aOptions[self::FVC_KFM_THUMB_SIZE] = 128;
-        //upgrade from version 0.9xx set FVC_HIDEMEDIA to true and FVC_HIDESEOimages = false
-        if (isset($this->aOptions[self::FVC_HIDEMEDIA]) && !isset($this->aOptions[self::FVC_HIDESEOimages])) {
-            $this->aOptions[self::FVC_HIDEMEDIA] = true;
-            $this->aOptions[self::FVC_HIDESEOimages] = false;
-        } else {
         /// Addition 2009/06/02  mVicenik Foliovision
         if (!isset($this->aOptions[self::FVC_HIDEMEDIA]))
-            $this->aOptions[self::FVC_HIDEMEDIA] = false;
-        if (!isset($this->aOptions[self::FVC_HIDESEOimages]))
-            $this->aOptions[self::FVC_HIDESEOimages] = true;
+            $this->aOptions[self::FVC_HIDEMEDIA] = true;
         /// End of addition
-        }
         /// Addition 2009/10/29   Foliovision
         if (!isset($this->aOptions['cke_customtoolbar']))
             $this->aOptions['cke_customtoolbar'] =
@@ -309,7 +300,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         if (!isset($this->aOptions['autowpautop']))
             $this->aOptions['autowpautop'] = true;
         if (!isset($this->aOptions['convertcaptions']))
-            $this->aOptions['convertcaptions'] = false;
+            $this->aOptions['convertcaptions'] = true;
 
         if (!isset($this->aOptions[self::FVC_MAXW]))
             $this->aOptions[self::FVC_MAXW] = 960;
@@ -824,15 +815,15 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
             array('Styles', 'RemoveFormat', '-', 'Replace', 'Table', 'HorizontalRule', 'SpecialChar', '-', //'Format',
                 'Fvmore', 'Fvnextpage', '-', 'Source', '-', 'Maximize')
         );
-        if($this->aOptions[self::FVC_HIDESEOimages]) {
+        /*if(!$this->aOptions['convertcaptions']) {
             $tool_temp = implode(",",$toolbar['Foliovision-Full'][0]);
-            $tool_temp = str_replace('Kfmbridge,', '', $tool_temp);
+            $tool_temp = str_replace('Kfmbridge', 'Kfmbridge,fvcaption', $tool_temp);
             $toolbar['Foliovision-Full'][0] = explode(",",$tool_temp);
             
             $tool_temp = implode(",",$toolbar['Foliovision'][0]);
-            $tool_temp = str_replace('Kfmbridge,', '', $tool_temp);
+            $tool_temp = str_replace('Kfmbridge', 'Kfmbridge,fvcaption', $tool_temp);
             $toolbar['Foliovision'][0] = explode(",",$tool_temp);
-        }
+        }*/
         
         
         //make custom toolbar
@@ -907,11 +898,11 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         $config['contentsCss'] = $CKEditor_style;
         $config['disableObjectResizing'] = 'true';
         $config['extraPlugins'] = 'fvmore,timestamp,kfmbridge,fvpasteembed,fvnextpage,FVWPFlowplayer,foliopress-clean';
-        //if(!$this->aOptions['convertcaptions']) {
+        if(!$this->aOptions['convertcaptions']) {
             //$config['extraPlugins'].= ',fvcaption';
             $config['extraPlugins'].= ',fvjustify';
-            $config['removePlugins'].= 'justify';
-        //}
+            $config['removePlugins'].= 'justify,image';
+        }
         $config['justifyClasses'] = array ('alignleft', 'aligncenter', 'alignright', 'alignjustify' );
         if ($this->aOptions[self::CKE_autogrow]) {
             $config['extraPlugins'].= ",autogrow";
@@ -1320,11 +1311,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                     $this->aOptions[self::FVC_KFM_LIGHTBOX] = true;
 
                 $this->aOptions[self::FVC_HIDEMEDIA] = true;
-                $this->aOptions[self::FVC_HIDESEOimages] = false;
-                if (isset($_POST['HideMediaButtons'])) {
+                if (isset($_POST['HideMediaButtons']))
                     $this->aOptions[self::FVC_HIDEMEDIA] = false;
-                    $this->aOptions[self::FVC_HIDESEOimages] = true;
-                }
 
                 /// Addition 2012/02/15
                 $this->aOptions['forcePasteAsPlainText'] = true;
