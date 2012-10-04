@@ -893,6 +893,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         }
         
         $CKEditor_style[] = trailingslashit(WP_PLUGIN_URL) . basename(dirname(__FILE__)) . '/custom-config/foliopress-editor.php?p=' . $post->ID;
+        $CKEditor_style[] = trailingslashit(WP_PLUGIN_URL) . basename(dirname(__FILE__)) . '/custom-config/foliopress-align.css';
         if ($this->aOptions[self::FVC_LANG] != 'auto') {
             $config['language'] = $this->aOptions[self::FVC_LANG];
             $CKEditor->config['defaultLanguage'] = $this->aOptions[self::FVC_LANG];
@@ -966,7 +967,6 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         $CKEditor->config['FPClean_Tags'] = 'p|div';
 
         $CKEditor->config['disableNativeSpellChecker'] = false;
-        
 
         $CKEditor->replace("content", $config);
         ?>
@@ -1050,6 +1050,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
                 jQuery(document).ready(function() {
  
                     window.setTimeout("fv_wysiwyg_startup();", 1000);
+                   
                 });
                 
                 

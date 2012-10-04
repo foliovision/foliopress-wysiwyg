@@ -26,6 +26,11 @@ CKEDITOR.plugins.add( 'foliopress-clean',
     {
         // Adds the comment processing rules to the data filter, so comments
         // are replaced by fake elements.
+        editor.on('beforeCommandExec',function(e)
+                {
+                    if (e.data.name == 'maximize') 
+                        jQuery("#wpadminbar").toggle();
+                });
         
         editor.on( 'mode', function( e )
         {

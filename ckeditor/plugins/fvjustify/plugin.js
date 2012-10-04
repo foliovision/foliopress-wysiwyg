@@ -14,8 +14,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
         try {
             //check if is selected caption (or any element inside div 
             var captionSelected = false;
+            var imageSelected = false;
                 
-             if (!CKEDITOR.env.webkit && CKEDITOR.instances.content.getSelection().getType() == CKEDITOR.SELECTION_ELEMENT ) {
+            if (!CKEDITOR.env.webkit && CKEDITOR.instances.content.getSelection().getType() == CKEDITOR.SELECTION_ELEMENT ) {
                 element = CKEDITOR.instances.content.getSelection().getSelectedElement();
             }
 
@@ -40,13 +41,29 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                     var captionSelected = true;
                 }
             }
- 
-            useComputedState = useComputedState === undefined || useComputedState;
             
+            //check if img is selected?
+            if(!captionSelected) {
+                var img_selection = CKEDITOR.instances.content.getSelection();
+                var img_el = img_selection.getSelectedElement();
+                
+                if(img_el != null) {
+                    if (img_el.getName() == 'img') {
+                        if(img_el.getAttribute('class') != null) {
+                            imageSelected = true;
+                            var imgAlign = img_el.getAttribute('class').match(/align(\w+)/i);
+                        }                    
+                    }
+                }
+            }
+
+            useComputedState = useComputedState === undefined || useComputedState;
             
             var align;
             if (captionSelected) {
                 align = caption.getAttribute('class').replace('wp-caption', '').replace(/\s*/, '').replace('align','');
+            } else if (imageSelected) {
+                align = imgAlign[1];
             } else if ( useComputedState && typeof(CKEDITOR.instances.content.config.justifyClasses) === 'undefined') {
                 align = element.getComputedStyle( 'text-align' );
             } else if (typeof(CKEDITOR.instances.content.config.justifyClasses) === 'object') {
@@ -190,6 +207,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                             
             var bookmarks = selection.createBookmarks(),
             ranges = selection.getRanges( true );
+            
+            //console.log(bookmarks);
+            //console.log(ranges);
 
             var cssClassName = this.cssClassName,
             iterator,
@@ -224,9 +244,30 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                     var captionSelected = true;
                 }
             }
+            
+            //check if img is selected?
+
+            if(!captionSelected) {
+                var img_selection = CKEDITOR.instances.content.getSelection();
+                console.log(img_selection);
+                var img_el = img_selection.getSelectedElement();
+                if(img_el != null) {
+                    if (img_el.getName() == 'img') {
+                        captionSelected = true;
+                        caption = img_el;             
+                    }
+                }
+            }
+            
+            
             if (captionSelected) {
-                var align = caption.getAttribute('class').replace('wp-caption', '').replace(/\s*/, '');
-                                
+                
+                //var align = caption.getAttribute('class').replace('wp-caption', '').replace(/\s*/, '');
+                var align = caption.getAttribute('class').match(/align(\w+)/i)[0];
+                 
+                console.log(align);
+                console.log(caption.getName());
+                 
                 caption.removeClass(align);
                 if(this.value != 'justify') {
                     if(align == 'align'+this.value) {
@@ -236,10 +277,9 @@ For licensing, see LICENSE.html or http://ckeditor.com/license
                     }
                         
                 } else {
-                    
-                    //console.log('do nothing');
+                //console.log('do nothing');
                 }
-
+                console.log(caption.getAttribute('class').match(/align(\w+)/i)[0]);
                 return;
             } else {
                 //default justify action
