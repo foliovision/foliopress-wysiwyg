@@ -185,7 +185,9 @@ function kfm_fileUploadForm_flash(){
 				document.getElementById('kfm_uploadProgress').innerHTML='file '+window.swfUpload.kfm_file_at+' :'+percent+'%';
 			},
 			upload_error_handler : function(a){
-				for(i in a)alert(i+"\n"+a[i]);
+				var string = "File upload error!\n\n";
+				for(i in a) string += i+":\n"+a[i]+"\n\n";
+				alert(string);
 			},
 			upload_success_handler:function(a,sdata){
 				++window.swfUpload.kfm_file_at;

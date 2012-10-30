@@ -185,39 +185,46 @@ function FV_CreateResizedCopyGIF( $strSource, $strTo, $iDestWidth, $iDestHeight,
 }
 
 function FV_CreateResizedCopy( $strSource, $strTo, $iDestWidth, $iDestHeight, $aImageInfo = '', $iJPGQuality = 95, $aOptions = array() ){
-	$iJPGQuality = intval( $iJPGQuality );
-	if( $iJPGQuality < 1 || $iJPGQuality > 100 ) $iJPGQuality = 95; 	
-   if( !$aImageInfo ) $aImageInfo = getimagesize( $strSource );
-	
-	$strType = substr( $aImageInfo['mime'], 6 );
-	$strFunctionLoad = 'imagecreatefrom' . $strType;
-	$strFunctionSave = 'image' . $strType;
-	
-	if( !function_exists( $strFunctionLoad ) || !function_exists( $strFunctionSave ) )
-		return 'server cannot handle image of type "' . $strType . '"';
-	
-	if( 'png' == $strType ){
-		FV_CreateResizedCopyPNG( $strSource, $strTo, $iDestWidth, $iDestHeight, $aImageInfo, $aOptions );
+
+	global $kfm;
+	if( $kfm->setting('use_imagemagick') ) {
+		FV_useImageMagick($strSource,'resize '.$iDestWidth.'x'.$iDestHeight,$strTo);
 		return true;
 	}
 	
-	if( 'gif' == $strType ){
-		FV_CreateResizedCopyGIF( $strSource, $strTo, $iDestWidth, $iDestHeight, $aImageInfo );
-		return true;
-	}
-	
-	$imgSource = $strFunctionLoad( $strSource );
-	$imgDest = imagecreatetruecolor( $iDestWidth, $iDestHeight );
-	
-	imagealphablending( $imgDest, false );
-	imagecopyresampled( $imgDest, $imgSource, 0, 0, 0, 0, $iDestWidth, $iDestHeight, $aImageInfo[0], $aImageInfo[1] );
-	imagesavealpha( $imgDest, true );
-	
-	$strFunctionSave( $imgDest, $strTo, ( $strType == 'jpeg' ? $iJPGQuality : 9 ) );
-	
-	imagedestroy( $imgDest );
-	imagedestroy( $imgSource );
-	
+		$iJPGQuality = intval( $iJPGQuality );
+		if( $iJPGQuality < 1 || $iJPGQuality > 100 ) $iJPGQuality = 95; 	
+		 if( !$aImageInfo ) $aImageInfo = getimagesize( $strSource );
+		
+		$strType = substr( $aImageInfo['mime'], 6 );
+		$strFunctionLoad = 'imagecreatefrom' . $strType;
+		$strFunctionSave = 'image' . $strType;
+		
+		if( !function_exists( $strFunctionLoad ) || !function_exists( $strFunctionSave ) )
+			return 'server cannot handle image of type "' . $strType . '"';
+		
+		if( 'png' == $strType ){
+			FV_CreateResizedCopyPNG( $strSource, $strTo, $iDestWidth, $iDestHeight, $aImageInfo, $aOptions );
+			return true;
+		}
+		
+		if( 'gif' == $strType ){
+			FV_CreateResizedCopyGIF( $strSource, $strTo, $iDestWidth, $iDestHeight, $aImageInfo );
+			return true;
+		}
+		
+		$imgSource = $strFunctionLoad( $strSource );
+		$imgDest = imagecreatetruecolor( $iDestWidth, $iDestHeight );
+		
+		imagealphablending( $imgDest, false );
+		imagecopyresampled( $imgDest, $imgSource, 0, 0, 0, 0, $iDestWidth, $iDestHeight, $aImageInfo[0], $aImageInfo[1] );
+		imagesavealpha( $imgDest, true );
+		
+		$strFunctionSave( $imgDest, $strTo, ( $strType == 'jpeg' ? $iJPGQuality : 9 ) );
+		
+		imagedestroy( $imgDest );
+		imagedestroy( $imgSource );
+
 	return true;
 }
 
@@ -238,4 +245,19 @@ function FV_RecreateSpecialThumb( $iSize, $strImagePath, $strImageDestPath, $aOp
 	 
 	return FV_CreateResizedCopy( $strImagePath, $strImageDestPath, $iThumbWidth, $iThumbHeight, $aImageInfo, $iJPGQuality, $aOptions );
 }
+
+function FV_useImageMagick($from,$action,$to){
+	if( !@file_exists(IMAGEMAGICK_PATH) ) {
+		return true;
+	}
+	$retval=true;
+	$arr=array();
+	
+//		passthru(IMAGEMAGICK_PATH.' '.$from.' -'.$action.' '.$to.'',$arr,$retval);
+
+	exec(IMAGEMAGICK_PATH.' "'.escapeshellcmd($from).'" -'.escapeshellcmd($action).' "'.escapeshellcmd($to).'"',$arr,$retval);
+
+	return $retval;
+}
+
 ?>
