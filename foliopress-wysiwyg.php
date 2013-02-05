@@ -64,7 +64,9 @@ if( $GLOBALS['wp_version'] >= 3.0 ) {
 //register_activation_hook( __FILE__, array( &$fp_wysiwyg, 'PluginActivate' ) );
 
 add_filter( 'media_buttons_context', array(&$fp_wysiwyg, 'fv_remove_mediabuttons') );
-add_action('admin_print_scripts', array(&$fp_wysiwyg, 'add_admin_js'));
+if( stripos( $_SERVER['REQUEST_URI'], 'post.php' ) !== FALSE || stripos( $_SERVER['REQUEST_URI'], 'post-new' ) !== FALSE ) {
+  add_action('admin_print_scripts', array(&$fp_wysiwyg, 'add_admin_js'));
+}
 add_action('content_edit_pre', array(&$fp_wysiwyg, 'content_edit_pre'));
 
 add_filter('content_save_pre', array(&$fp_wysiwyg, 'remove_blank_p'));
