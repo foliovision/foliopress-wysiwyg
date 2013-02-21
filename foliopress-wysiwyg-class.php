@@ -491,7 +491,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	 * Outputs into head section of html document script for FCK to load
 	 */
   function FckLoadAdminHead(){		  
-    if( strpos( $_SERVER['REQUEST_URI'], 'post-new.php' ) || strpos( $_SERVER['REQUEST_URI'], 'page-new.php' ) || strpos( $_SERVER['REQUEST_URI'], 'post.php' ) || strpos( $_SERVER['REQUEST_URI'], 'page.php' ) ) :
+    if( ( strpos( $_SERVER['REQUEST_URI'], 'post-new.php' ) || strpos( $_SERVER['REQUEST_URI'], 'page-new.php' ) || strpos( $_SERVER['REQUEST_URI'], 'post.php' ) || strpos( $_SERVER['REQUEST_URI'], 'page.php' ) ) && post_type_supports( get_post_type(), 'editor' ) ) :
     ?>
   <script type="text/javascript" src="<?php print( $this->strFCKEditorPath ); ?>fckeditor.js"></script>
   <style type="text/css">
@@ -699,7 +699,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
    * This function starts FCKEditor through javascript.
    */
 	function LoadFCKEditor(){
-	  if( $this->checkUserAgent() ) return;
+	  if( $this->checkUserAgent() || !post_type_supports( get_post_type(), 'editor' ) ) return;
 ?>		
 		<script type="text/javascript">
 		<?php  //  detect FV WP Flowplayer
