@@ -326,7 +326,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	 * Init certain variables
 	 */			
 	function admin_init() {
-	  if( $this->is_min_wp( '2.6' ) ) {
+	  if( $this->is_min_wp( '3.3' ) ) {
+	    $this->strPluginPath = trim( plugins_url( '', __FILE__ ), '/' ).'/';
+	    $this->strFCKEditorPath = trim( plugins_url( 'fckeditor', __FILE__ ), '/' ).'/';
+	  } else if( $this->is_min_wp( '2.6' ) ) {
 	    $this->strPluginPath = trailingslashit( WP_PLUGIN_URL ) . basename( dirname( __FILE__ ) ) . '/';
 	    $this->strFCKEditorPath = trailingslashit( WP_PLUGIN_URL ) . basename( dirname( __FILE__ ) ) . '/fckeditor/';
 	  } else { 
