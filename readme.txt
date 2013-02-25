@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: wysiwyg,editor,foliopress,image,images,seo,lightbox,fck,tinymce,editor
 Requires at least: 3.1 
-Tested up to: 3.5
+Tested up to: 3.5.1
 Stable tag: trunk
 
 Foliopress WYSIWYG is the editor you were always hoping for, every time you installed a new content management system.
@@ -32,7 +32,7 @@ Foliopress WYSIWYG is the editor you were always hoping for, every time you inst
 == Installation ==
 
 You can use the built in installer and upgrader, or you can install the plugin
-manually.
+manually. 
 
 == Screenshots ==
 
@@ -124,6 +124,10 @@ You need to use a plugin like [WP Slimbox 2](http://wordpress.org/extend/plugins
 The ImageMagick binary must be executable from PHP and be available as /bin/convert. We will add automated checks for this. ImageMagick provides superior image quality than standard PHP GD library!
 
 == Changelog ==
+
+= 2.6.8.1 =
+
+* Bugfix for editor size setting. New Wordpress goes not have a setting for number of editor rows anymore, so we have it in plugin settings now (Height of FCKEditor). 
 
 = 2.6.8 =
 

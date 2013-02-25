@@ -94,6 +94,10 @@
 				?></td>
 			</tr>
 			<tr valign="top"> 
+                <th scope="row"><label for="FCKWidth">Height of FCKEditor</label></th>
+				<td><input type="text" name="default_post_edit_rows" value="<?php print( get_option('default_post_edit_rows') ); ?>" class="small-text" /><span class="description">(Enter number of rows)</span></td>
+			</tr>			
+			<tr valign="top"> 
                 <th scope="row"><label for="FCKWidth">Width of FCKEditor</label></th>
 				<td><input type="text" name="FCKWidth" value="<?php print( $this->aOptions[self::FVC_WIDTH] ); ?>" class="small-text" /><span class="description">(0 is default, for unlimited width)</span></td>
 			</tr>

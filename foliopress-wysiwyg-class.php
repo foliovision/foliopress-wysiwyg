@@ -5,7 +5,7 @@
  * Main class that handles all implementation of plugin into WordPress. All WordPress actions and filters are handled here
  *  
  * @author Foliovision s.r.o. <info@foliovision.com>
- * @version 0.9.22
+ * @version 2.6.8.1
  * @package foliopress-wysiwyg
  */
 
@@ -516,7 +516,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
     $domain = preg_replace( '~^(.*?//.*?)/.*$~', '$1', get_bloginfo('url' ) );
 		$wp_uploads = str_replace( $domain, '', $wp_upload_dir['baseurl'] );	  
 	  
-	  $file = $wp_upload_dir['basedir'].preg_replace( '~^'.$wp_uploads.'~', '', $_POST['imageURL'] );
+	  $file = rtrim($wp_upload_dir['basedir'],'/').'/'.preg_replace( '~^'.$wp_uploads.'~', '', $_POST['imageURL'] );
 
 	  if( $this->process_featured_images && file_exists($file) ) {
         $wp_filetype = wp_check_filetype( basename($file), null );
@@ -1092,6 +1092,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 			
 			/// This is regular saving of options that are on the main Options page
 			if( isset( $_POST['options_save'] ) ){
+			
+			  if( isset( $_POST['default_post_edit_rows'] ) ) {
+			    update_option('default_post_edit_rows', intval( $_POST['default_post_edit_rows'] ) );
+			  }
 
 				$this->aOptions[self::FVC_IMAGES_CHANGED]=false;
 				if ($this->aOptions[self::FVC_IMAGES] != $_POST['ImagesPath']){
