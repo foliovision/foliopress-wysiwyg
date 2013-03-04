@@ -24,7 +24,12 @@
 *  our editing.
 */
 
-/*<?php require_once( dirname( __FILE__ ) . '/../foliopress-wysiwyg-class.php' ); ?> todo - some better way how to overcome problems with warnings */
+/*<?php
+if( file_exists( dirname(__FILE__) . '/../../../../wp-load.php' ) )
+	require_once( realpath( dirname(__FILE__) . '/../../../../wp-load.php' ) );
+else
+	require_once( realpath( dirname(__FILE__) . '/../../../../wp-config.php' ) );
+?> todo - some better way how to overcome problems with warnings */
 
 <?php
 $options = get_option( FV_FCK_OPTIONS );
