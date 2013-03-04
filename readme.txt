@@ -125,6 +125,11 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 == Changelog ==
 
+= 2.6.8.2 =
+
+* Bugfix for setting of featured image
+* Bugfix for editor CSS loader (it was throwing PHP warnings)
+
 = 2.6.8.1 =
 
 * Bugfix for editor size setting. New Wordpress goes not have a setting for number of editor rows anymore, so we have it in plugin settings now (Height of FCKEditor). 
