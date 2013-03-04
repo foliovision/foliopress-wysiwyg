@@ -150,8 +150,8 @@ if ($kfm->setting('allow_file_upload')) {
 									$iNewHeight = $toDir->maxWidth() * $iRatio;	
 									$iNewWidth = $toDir->maxWidth();
 								} else {	//	fit portrait
-									$iNewWidth = $toDir->maxWidth();
-									$iNewHeight = $toDir->maxWidth()*$iRatio;
+									$iNewHeight = $toDir->maxHeight();
+									$iNewWidth = $toDir->maxHeight() / $iRatio;
 								}							
 							}
 							
