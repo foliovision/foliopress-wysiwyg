@@ -553,7 +553,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
       		$thumbnail_html = wp_get_attachment_image( $thumbnail_id, 'thumbnail' );
       		if ( !empty( $thumbnail_html ) ) {
       			update_post_meta( $post_ID, '_thumbnail_id', $thumbnail_id );
-      			die( _wp_post_thumbnail_html( $thumbnail_id ) );
+      			die( _wp_post_thumbnail_html( $thumbnail_id, $post_ID ) );
       		}          
         }        
          
