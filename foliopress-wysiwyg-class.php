@@ -376,8 +376,9 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
       $html .= '<p class="hide-if-no-js"><a title="Set Featured image with Foliopress WYSIWYG\'s Image Manager" href="#" id="seo-images-featured-image" '.$onclick.'>Set featured image with SEO Images</a></p>';
   	  return $html;
 	  } else if( stripos( $html, 'set-post-thumbnail' ) !== FALSE && stripos( $html, '<img' ) !== FALSE ) {
-	    $html = preg_replace( '~(id="set-post-thumbnail"[^>]*?)class="thickbox">~', '$1>', $html );
-	    $html = preg_replace( '~href="media-upload.*?type=image.*?TB_iframe=1"~', 'href="#" '.$onclick, $html );
+	    $html = str_replace( 'set-post-thumbnail', 'set-post-thumbnail-fp-wysiwyg', $html );
+	    $html = str_replace( 'class="thickbox"', '', $html );	    
+	    $html = preg_replace( '~href=".*?type=image.*?TB_iframe=1"~', 'href="#" '.$onclick, $html );
 	    return $html;
 	  }
 	}	
