@@ -137,26 +137,30 @@ if ($kfm->setting('allow_file_upload')) {
 						if($aImageInfo[0] > $toDir->maxWidth() || $aImageInfo[1] > $toDir->maxHeight()) {
 							$iRatio = (int) $aImageInfo[1]/$aImageInfo[0];
 								
-							if( $toDir->maxWidth() >= $toDir->maxHeight() ) {	//	fit into landscape
-								if($aImageInfo[0] > $aImageInfo[1]) {
-									$iNewHeight = $toDir->maxWidth() * $iRatio;	
+							if($aImageInfo[0] > $aImageInfo[1]) {									
+								if( $aImageInfo[0] > $toDir->maxWidth() ) {
 									$iNewWidth = $toDir->maxWidth();
+									$iNewHeight = $iNewWidth * $iRatio;	
+								} else if( $aImageInfo[1] > $toDir->maxHeight() ) {
+									$iNewHeight = $toDir->maxHeight();
+									$iNewWidth = $iNewWidth / $iRatio;
 								} else {
-									$iNewWidth = $toDir->maxHeight() / $iRatio;
+									$iNewWidth = $aImageInfo[0];
+									$iNewHeight = $iNewWidth * $iRatio;	
+								}																								
+							} else {
+								if( $aImageInfo[1] > $toDir->maxHeight() ) {
 									$iNewHeight = $toDir->maxHeight();
-								}
-							} else {	//	fit into portrait
-								if($aImageInfo[0] > $aImageInfo[1]) {	//	fit landscape
-									$iNewHeight = $toDir->maxWidth() * $iRatio;	
+									$iNewWidth = $iNewHeight / $iRatio;		
+								} else if( $aImageInfo[0] > $toDir->maxWidth() ) {
 									$iNewWidth = $toDir->maxWidth();
-								} else {	//	fit portrait
-									$iNewHeight = $toDir->maxHeight();
-									$iNewWidth = $toDir->maxHeight() / $iRatio;
-								}							
+									$iNewHeight = $iNewWidth * $iRatio;			
+								} else {
+									$iNewHeight = $aImageInfo[1];
+									$iNewWidth = $iNewHeight / $iRatio;		
+								}														
 							}
-							
-					
-							
+																	
 							FV_CreateResizedCopy($tmpname, $tmpname, $iNewWidth, $iNewHeight, $aImageInfo);
 						}
 					}
