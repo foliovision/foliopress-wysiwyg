@@ -129,6 +129,8 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 * Bugfix for setting of featured image
 * Bugfix for editor CSS loader (it was throwing PHP warnings)
+* Bugfix for custom post types without editor support
+* Bugfix for image size limit on upload
 
 = 2.6.8.1 =
 
