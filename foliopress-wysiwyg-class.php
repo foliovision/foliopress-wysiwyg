@@ -1348,12 +1348,12 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
     $meta = get_post_meta( $post->ID, 'wysiwyg', true );
     ///echo '<!--wysiwyg'.var_export( $meta, true ).' vs '.$post->post_modified.'-->';
 
-    if( $meta['plain_text_editing'] == 1 || $meta['post_modified'] == $post->post_modified ) {
-
+    if(
+      ( isset($meta['plain_text_editing']) && $meta['plain_text_editing'] == 1 ) || 
+      ( isset($meta['post_modified']) && $meta['post_modified'] == $post->post_modified )
+    ) {
       remove_filter ('the_content',  'wpautop');
-
       remove_filter ('the_content',  'wptexturize');
-
     }
 
     else {
