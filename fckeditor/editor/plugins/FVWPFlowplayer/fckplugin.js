@@ -24,33 +24,8 @@ var FVWPFV = function( strName ){
  * If a#fvwpfp_insert exists, click it. If no, grab any of the other media buttons, convert it to fv-wp-flowplayer type, insert it and click it. 
  */
 FVWPFV.prototype.Execute=function(){
-
-    if( window.parent.jQuery( 'a#fvwpfp_insert' ).length > 0 ) {
-        window.parent.jQuery( 'a#fvwpfp_insert' ).click();
-    } else {
-        if( window.parent.jQuery( '#media-buttons a:first-child' ).length > 0 ) {
-          buttons_id = '#media-buttons';
-        } else if( window.parent.jQuery( '#wp-content-media-buttons a:first-child' ).length > 0 ) {
-          buttons_id = '#wp-content-media-buttons';
-        }
-
-        if( buttons_id ) {
-            var href = window.parent.jQuery( buttons_id+' a:first-child' ).attr( 'href' );
-            if( href.match( /media-upload.php/ ) ) {  //  pre WP 3.5
-              if( href.match( /type=/ ) ) {
-                href = href.replace( /type=.*?&/, 'type=fv-wp-flowplayer' );
-              } else {  //  for wordpress 3.3
-                href = href.replace( /TB_iframe=/, 'type=fv-wp-flowplayer&amp;TB_iframe=' );
-              }       
-            } else {
-              href= 'media-upload.php?post_id='+window.parent.jQuery('#post_ID').val()+'&type=fv-wp-flowplayer&TB_iframe=true&width=500&height=300';
-            }
-
-            window.parent.jQuery( buttons_id ).append( '<a id="fvwpfp_insert" class="thickbox" href='+href+'" title="Add FV WP Flowplayer"></a>' );
-            window.parent.jQuery( '#fvwpfp_insert' ).click();
-            window.parent.jQuery( '#fvwpfp_insert' ).remove();
-        }
-
+    if( window.parent.jQuery( 'a.fv-wordpress-flowplayer-button' ).length > 0 ) {
+        window.parent.jQuery( 'a.fv-wordpress-flowplayer-button' ).click();
     }
 }
 

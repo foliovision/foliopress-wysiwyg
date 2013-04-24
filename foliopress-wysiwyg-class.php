@@ -707,7 +707,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 ?>		
 		<script type="text/javascript">
 		<?php  //  detect FV WP Flowplayer
-		if( has_action( 'media_upload_fv-wp-flowplayer' ) ) : ?>
+		if( has_action( 'media_upload_fvplayer' ) ) : ?>
 			var g_fv_wp_flowplayer_found = true; 
 		<?php else : ?>
 			var g_fv_wp_flowplayer_found = false; 
@@ -1352,8 +1352,11 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
       ( isset($meta['plain_text_editing']) && $meta['plain_text_editing'] == 1 ) || 
       ( isset($meta['post_modified']) && $meta['post_modified'] == $post->post_modified )
     ) {
+
       remove_filter ('the_content',  'wpautop');
+
       remove_filter ('the_content',  'wptexturize');
+
     }
 
     else {
