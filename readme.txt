@@ -125,6 +125,11 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 == Changelog ==
 
+= 2.6.8.3 =
+
+* Fix for new FV Flowplayer button
+* Fix for some PHP warnings
+
 = 2.6.8.2 =
 
 * Bugfix for setting of featured image
