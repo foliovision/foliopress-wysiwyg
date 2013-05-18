@@ -707,7 +707,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 ?>		
 		<script type="text/javascript">
 		<?php  //  detect FV WP Flowplayer
-		if( has_action( 'media_upload_fvplayer' ) ) : ?>
+		if( has_action( 'media_upload_fvplayer_video' ) ) : ?>
 			var g_fv_wp_flowplayer_found = true; 
 		<?php else : ?>
 			var g_fv_wp_flowplayer_found = false; 
