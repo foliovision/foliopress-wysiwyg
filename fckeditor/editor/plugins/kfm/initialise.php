@@ -15,14 +15,23 @@ if(function_exists("date_default_timezone_set") && function_exists("date_default
 
 // { load classes and helper functions
 
-if(!function_exists('__autoload')){
-	function __autoload($class_name) {  
-		if (file_exists(KFM_BASE_PATH . 'classes/'  . $class_name . '.php')) 
+// if(!function_exists('__autoload')){
+//    function __autoload($class_name) {  
+//       if (file_exists(KFM_BASE_PATH . 'classes/'  . $class_name . '.php')) 
+//     require_once KFM_BASE_PATH . 'classes/' . $class_name . '.php';
+//    }
+// }
+
+if(!function_exists('fv_kfm_autoload')){
+   function fv_kfm_autoload($class_name) {  
+      if (file_exists(KFM_BASE_PATH . 'classes/'  . $class_name . '.php')) 
     require_once KFM_BASE_PATH . 'classes/' . $class_name . '.php';
-	}
+   }
 }
+
 //var_dump( class_exists( 'kfmSession') );
 //spl_autoload_register(__autoload);
+spl_autoload_register( 'fv_kfm_autoload' );
 
 require KFM_BASE_PATH.'includes/lang.php';
 require KFM_BASE_PATH.'includes/db.php';
