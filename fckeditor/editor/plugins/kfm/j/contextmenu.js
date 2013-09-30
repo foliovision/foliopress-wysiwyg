@@ -153,20 +153,21 @@ function kfmAdd_returnImage( id, bFormat){
 }
 // Added zUhrikova 22/02/2010 Foliovision
 // opens image in new tab
-function kfmAdd_returnImageWindow( id ){
-	x_kfm_getFileUrl(id,0,0,function(url){
-      if( kfm_file_handler=='return' || kfm_file_handler=='fckeditor'|| kfm_file_handler=='download' ){
-      	if( g_objPreviewWindow == null || g_objPreviewWindow.closed ){
-			  g_objPreviewWindow = window.open( url, "preview" );
-		   }else if( g_strPreviousUrl != url ){
-			  g_objPreviewWindow = window.open( url, "preview" );
-			  g_objPreviewWindow.focus();
-		    }else{
-			    g_objPreviewWindow.focus();
-		     }
-          g_strPreviousUrl = url;
-		 }
-   });
+function kfmAdd_returnImageWindow( id ) {
+	window.open( "", "preview" );
+	x_kfm_getFileUrl(id,0,0,function(url) {
+		if( kfm_file_handler=='return' || kfm_file_handler=='fckeditor'|| kfm_file_handler=='download' ) {
+			if( g_objPreviewWindow == null || g_objPreviewWindow.closed ) {
+				g_objPreviewWindow = window.open( url, "preview" );
+			} else if( g_strPreviousUrl != url ){
+				g_objPreviewWindow = window.open( url, "preview" );
+				g_objPreviewWindow.focus();
+			} else{		
+				g_objPreviewWindow.focus();
+			}
+			g_strPreviousUrl = url;
+		}
+	} );
 }
 ///  Addition    23/07/09    Foliovision
 /**
