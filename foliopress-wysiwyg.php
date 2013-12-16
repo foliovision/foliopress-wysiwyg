@@ -3,17 +3,10 @@
 Plugin Name: FolioPress WYSIWYG
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/wysiwyg
 Description: WYSIWYG FCKEditor with custom Image Management and nice skin.
-Version: 2.6.8.3
+Version: 2.6.8.4
 Author: Foliovision s r.o.
 Author URI: http://www.foliovision.com
 */
-
-register_activation_hook(__FILE__,'fp_wysiwyg_activate');
-
-function fp_wysiwyg_activate() {
-	if( get_option( 'default_post_edit_rows' ) < 20 )
-		update_option( 'default_post_edit_rows', 28 );
-}
 
 define( 'FV_FCK_NAME', 'Foliopress WYSIWYG' );
 define( 'FV_FCK_OPTIONS', 'fp_wysiwyg' );

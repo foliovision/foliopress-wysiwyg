@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: wysiwyg,editor,foliopress,image,images,seo,lightbox,fck,tinymce,editor
 Requires at least: 3.1 
-Tested up to: 3.5.1
+Tested up to: 3.8
 Stable tag: trunk
 
 Foliopress WYSIWYG is the editor you were always hoping for, every time you installed a new content management system.
@@ -124,6 +124,11 @@ You need to use a plugin like [WP Slimbox 2](http://wordpress.org/extend/plugins
 The ImageMagick binary must be executable from PHP and be available as /bin/convert. We will add automated checks for this. ImageMagick provides superior image quality than standard PHP GD library!
 
 == Changelog ==
+
+= 2.6.8.4 =
+
+* Fix for FV Flowplayer button
+* Fix for editor height when upgrading Wordpress to 3.7 version
 
 = 2.6.8.3 =
 

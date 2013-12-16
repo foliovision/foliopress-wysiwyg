@@ -65,7 +65,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	 * Plugin version
 	 * @var string
 	 */
-	var $strVersion = '0.9.19';
+	var $strVersion = '2.6.8.4';
 	/**
 	 * Custom options array.
 	 * Array of options that are stored in database:
@@ -286,6 +286,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
     update_option( FV_FCK_OPTIONS, $this->aOptions );    
 
 		//$this->KillTinyMCE( null );
+  
 	}
 	
 	
@@ -326,6 +327,14 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	 * Init certain variables
 	 */			
 	function admin_init() {
+    
+    if( version_compare( $this->strVersion, get_option( 'fp_wysiwyg_version') ) == 1 ) {
+      if( get_option( 'default_post_edit_rows' ) < 20 ) {
+        update_option( 'default_post_edit_rows', 30 );
+      }
+      update_option( 'fp_wysiwyg_version', $this->strVersion );
+    }
+    
 	  if( $this->is_min_wp( '3.3' ) ) {
 	    $this->strPluginPath = trim( plugins_url( '', __FILE__ ), '/' ).'/';
 	    $this->strFCKEditorPath = trim( plugins_url( 'fckeditor', __FILE__ ), '/' ).'/';
@@ -976,6 +985,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
   		  });
     }
 		<?php endif; ?>
+    var fp_wysiwyg_crh_interval = setInterval( function() {
+      jQuery('#content-resize-handle').remove();
+      window.clearInterval(fp_wysiwyg_crh_interval);
+    }, 250 );
 		</script>
 <?php 
     $this->loading = true;

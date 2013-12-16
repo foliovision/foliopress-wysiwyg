@@ -1,22 +1,10 @@
 // send html to the post editor
 function send_to_editor(h) {
 	var oEditor = FCKeditorAPI.GetInstance('content') ;
-	if (typeof oEditor != 'undefined')
+	if (typeof oEditor != 'undefined' && h.length > 0 )
 	{
 		oEditor.InsertHtml(h);
 	}
-	/*if ( typeof tinyMCE != 'undefined' && ( ed = tinyMCE.activeEditor ) && !ed.isHidden() ) {
-		ed.focus();
-		if (tinymce.isIE)
-			ed.selection.moveToBookmark(tinymce.EditorManager.activeEditor.windowManager.bookmark);
-
-		if ( h.indexOf('[caption') != -1 )
-			h = ed.plugins.wpeditimage._do_shcode(h);
-		
-		ed.execCommand('mceInsertContent', false, h);
-	} else
-		edInsertContent(edCanvas, h);
-	*/
 	tb_remove();
 }
 
@@ -52,10 +40,6 @@ jQuery(function($) {
 		{
 			oEditor.Focus();
 		}
-/*		if ( typeof tinyMCE != 'undefined' &&  tinyMCE.activeEditor ) {
-			tinyMCE.get('content').focus();
-			tinyMCE.activeEditor.windowManager.bookmark = tinyMCE.activeEditor.selection.getBookmark('simple');
-		}*/
 	});
 
 	$(window).resize( function() { tb_position() } );
