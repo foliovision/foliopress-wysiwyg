@@ -1,412 +1,427 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Foliopress wysiwyg\n"
+"Project-Id-Version: FolioPress WYSIWYG v2.6.8.4\n"
+"Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-18 11:57+0100\n"
-"PO-Revision-Date: 2013-12-18 11:58+0100\n"
+"PO-Revision-Date: 2013-12-18 11:09:54+0000\n"
 "Last-Translator: \n"
 "Language-Team: Foliopress\n"
-"Language: sk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
 "X-Generator: Poedit 1.6.2\n"
-"X-Poedit-Basepath: .\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Poedit-Language: \n"
+"X-Poedit-Country: \n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Bookmarks: \n"
 "X-Poedit-SearchPath-0: ..\n"
+"X-Textdomain-Support: yes"
 
-#: ../foliopress-wysiwyg-class.php:319
-msgid ""
-"PHP GD Library or ImageMagick not installed! Foliopress WYSIWYG will not be "
-"able to handle your images!"
-msgstr ""
-"PHP GB Library alebo ImageMagick nieje nainštalovaný! Foliopress WYSIWYG "
-"nebude môcť spracovať Vaše obrázky!"
+#: foliopress-wysiwyg-class.php:319
+#@ fp_wysiwyg
+msgid "PHP GD Library or ImageMagick not installed! Foliopress WYSIWYG will not be able to handle your images!"
+msgstr "PHP GB Library alebo ImageMagick nieje nainštalovaný! Foliopress WYSIWYG nebude môcť spracovať Vaše obrázky!"
 
-#: ../foliopress-wysiwyg-class.php:385
+#: foliopress-wysiwyg-class.php:385
+#@ fp_wysiwyg
 msgid "Set Featured image with Foliopress WYSIWYG's Image Manager"
 msgstr "Nastav najlepšie obrázky pomocou Foliopress WYSIWYG Image Manager"
 
-#: ../foliopress-wysiwyg-class.php:385
+#: foliopress-wysiwyg-class.php:385
+#@ fp_wysiwyg
 msgid "Set featured image with SEO Images"
 msgstr "Nastav najlepšie obrázky pomocou SEO obrázkov"
 
-#: ../foliopress-wysiwyg-class.php:413
+#: foliopress-wysiwyg-class.php:413
+#@ fp_wysiwyg
 msgid "String you entered is not well bracketed !"
 msgstr "String ktorý ste vložili nemá správne vložené zátvorky !"
 
-#: ../foliopress-wysiwyg-class.php:414
+#: foliopress-wysiwyg-class.php:414
+#@ fp_wysiwyg
 msgid "Please write correct size into text box !"
 msgstr "Prosím vyplnte správnu veľkosť do textového poľa!"
 
-#: ../foliopress-wysiwyg-class.php:582
-msgid ""
-"File not found in Wordpress Media directory. Is the image uploads path same "
-"as Foliopress WYSIWYG Path?"
-msgstr ""
-"Súbor nebol nájdený v zložké Wordpress Media. Je cesta k obrázku rovnaká ako "
-"cesta k Foliopress WYSIWYG?"
+#: foliopress-wysiwyg-class.php:582
+#@ fp_wysiwyg
+msgid "File not found in Wordpress Media directory. Is the image uploads path same as Foliopress WYSIWYG Path?"
+msgstr "Súbor nebol nájdený v zložké Wordpress Media. Je cesta k obrázku rovnaká ako cesta k Foliopress WYSIWYG?"
 
-#: ../foliopress-wysiwyg-class.php:1031
+#: foliopress-wysiwyg-class.php:1031
+#@ fp_wysiwyg
 msgid "Author"
 msgstr "Autor"
 
-#: ../foliopress-wysiwyg-class.php:1053
+#: foliopress-wysiwyg-class.php:1053
+#@ fp_wysiwyg
 msgid "Plain text editing"
 msgstr "Úprava v plain texte"
 
-#: ../foliopress-wysiwyg-class.php:1053
-msgid ""
-"This will disable WYSIWYG editor for this post, as well as all the WP "
-"formating routines (wptexturize and wpautop). Turn this option off only if "
-"you are sure this post won't get destroyed by it."
-msgstr ""
-"Toto pole vypne WYSIWYG editor pre tento článok takisto aj všetky WP "
-"formátovania (wptexturize a wpautop). Túto možnosť vypnite len ak ste si "
-"istý, že článok sa tým nezdeformuje."
+#: foliopress-wysiwyg-class.php:1053
+#@ fp_wysiwyg
+msgid "This will disable WYSIWYG editor for this post, as well as all the WP formating routines (wptexturize and wpautop). Turn this option off only if you are sure this post won't get destroyed by it."
+msgstr "Toto pole vypne WYSIWYG editor pre tento článok takisto aj všetky WP formátovania (wptexturize a wpautop). Túto možnosť vypnite len ak ste si istý, že článok sa tým nezdeformuje."
 
-#: ../foliopress-wysiwyg-class.php:1060 ../foliopress-wysiwyg-class.php:1061
+#: foliopress-wysiwyg-class.php:1060
+#: foliopress-wysiwyg-class.php:1061
+#@ fp_wysiwyg
 msgid "Post Author"
 msgstr "Autor"
 
-#: ../foliopress-wysiwyg-class.php:1235
-msgid ""
-"SEO Images (KFM) config.ini file is read-only. In order to change options "
-"this file has to be rewritten."
-msgstr ""
-"SEO obrázky (KFM) config.ini súbor je iba na čítanie. V prípade, že chcete "
-"zmeniť nastavenia tomuto súbor musí byť prepísaný."
+#: foliopress-wysiwyg-class.php:1235
+#@ fp_wysiwyg
+msgid "SEO Images (KFM) config.ini file is read-only. In order to change options this file has to be rewritten."
+msgstr "SEO obrázky (KFM) config.ini súbor je iba na čítanie. V prípade, že chcete zmeniť nastavenia tomuto súbor musí byť prepísaný."
 
-#: ../foliopress-wysiwyg-class.php:1236
-msgid ""
-"Please adjust the file permissions to this file. For further help, read the "
-"manual !"
-msgstr ""
-"Prosím nastavte práva pre tento súbor. Pre viac informácii čítajte manuál !"
+#: foliopress-wysiwyg-class.php:1236
+#@ fp_wysiwyg
+msgid "Please adjust the file permissions to this file. For further help, read the manual !"
+msgstr "Prosím nastavte práva pre tento súbor. Pre viac informácii čítajte manuál !"
 
-#: ../foliopress-wysiwyg-class.php:1250
+#: foliopress-wysiwyg-class.php:1250
+#@ fp_wysiwyg
 msgid "You cannot edit this file. The requested link is invalid !"
 msgstr "Nemôžete upravovať tento súbor. Požadovaný odkaz je nesprávny!"
 
-#: ../view/options.php:8
-msgid ""
-"ImageMagick <strong>detected</strong>! Foliopress WYSIWYG will use it to "
-"provide superior image quality!"
-msgstr ""
-"ImageMagick <strong>nájdený</strong>! Foliopress WYSIWYG ho bude používať "
-"aby ponúkol vynikajúcu obrazovú kvalitu!"
+#: view/options.php:8
+#@ fp_wysiwyg
+msgid "ImageMagick <strong>detected</strong>! Foliopress WYSIWYG will use it to provide superior image quality!"
+msgstr "ImageMagick <strong>nájdený</strong>! Foliopress WYSIWYG ho bude používať aby ponúkol vynikajúcu obrazovú kvalitu!"
 
-#: ../view/options.php:52
+#: view/options.php:52
+#@ fp_wysiwyg
 msgid "Basic Options"
 msgstr "Jednoduché nastavenia"
 
-#: ../view/options.php:55
+#: view/options.php:55
+#@ fp_wysiwyg
 msgid "Path to images on your web server"
 msgstr "Cesta k obrázkom na Vašom webovom serveri"
 
-#: ../view/options.php:59
+#: view/options.php:59
+#@ fp_wysiwyg
 msgid "FCKEditor skin"
 msgstr "FCKEditor skin"
 
-#: ../view/options.php:82
+#: view/options.php:82
+#@ fp_wysiwyg
 msgid "FCKEditor toolbar"
 msgstr "FCKEditor panel nástrojov"
 
-#: ../view/options.php:100
+#: view/options.php:100
+#@ fp_wysiwyg
 msgid "Height of FCKEditor"
 msgstr "Výška FCKEditora"
 
-#: ../view/options.php:101
+#: view/options.php:101
+#@ fp_wysiwyg
 msgid "Enter number of rows"
 msgstr "Počet riadkov"
 
-#: ../view/options.php:104
+#: view/options.php:104
+#@ fp_wysiwyg
 msgid "Width of FCKEditor"
 msgstr "Šírka FCKEditora"
 
-#: ../view/options.php:105
+#: view/options.php:105
+#@ fp_wysiwyg
 msgid "0 is default, for unlimited width"
 msgstr "0 je prednastavená pre neobmedzenú šírku"
 
-#: ../view/options.php:108
+#: view/options.php:108
+#@ fp_wysiwyg
 msgid "Enable Wordpress uploader buttons"
 msgstr "Povoliť tlačidlá Wordpress uploader"
 
-#: ../view/options.php:112
+#: view/options.php:112
+#@ fp_wysiwyg
 msgid "Multiple image posting"
 msgstr "Odosielanie viacerých obrázkov"
 
-#: ../view/options.php:113
-msgid ""
-"Disable if you want image management window to close automatically after "
-"posting a single image."
-msgstr ""
-"Vypnite ak chcete okno manažmentu obrázka automaticky zavriet po odoslaní "
-"jedného obrázka."
+#: view/options.php:113
+#@ fp_wysiwyg
+msgid "Disable if you want image management window to close automatically after posting a single image."
+msgstr "Vypnite ak chcete okno manažmentu obrázka automaticky zavriet po odoslaní jedného obrázka."
 
-#: ../view/options.php:116
+#: view/options.php:116
+#@ fp_wysiwyg
 msgid "Max Image Size"
 msgstr "Maximálna veľkosť obrázka"
 
-#: ../view/options.php:118
+#: view/options.php:118
+#@ fp_wysiwyg
 msgid "Width"
 msgstr "Šírka"
 
-#: ../view/options.php:119
+#: view/options.php:119
+#@ fp_wysiwyg
 msgid "Height"
 msgstr "Výška"
 
-#: ../view/options.php:120
-msgid ""
-"All images with one of dimensions above one of these limits will be sized "
-"down when uploading."
+#: view/options.php:120
+#@ fp_wysiwyg
+msgid "All images with one of dimensions above one of these limits will be sized down when uploading."
 msgstr "Všetky obrázky so spomenutými rozmermi budú zmenšené pri odosielaní."
 
-#: ../view/options.php:124
+#: view/options.php:124
+#@ fp_wysiwyg
 msgid "Thumbnail sizes"
 msgstr "Veľkosti náhľadov"
 
-#: ../view/options.php:127 ../view/options.php:241
+#: view/options.php:127
+#: view/options.php:241
+#@ fp_wysiwyg
 msgid "Add new"
 msgstr "Pridaj nový"
 
-#: ../view/options.php:128 ../view/options.php:242
+#: view/options.php:128
+#: view/options.php:242
+#@ fp_wysiwyg
 msgid "Add"
 msgstr "Pridaj"
 
-#: ../view/options.php:130 ../view/options.php:244
+#: view/options.php:130
+#: view/options.php:244
+#@ fp_wysiwyg
 msgid "Remove selected"
 msgstr "Vymazať vybrané"
 
-#: ../view/options.php:135
+#: view/options.php:135
+#@ fp_wysiwyg
 msgid "Supported postmeta"
 msgstr "Podporované postmeta"
 
-#: ../view/options.php:139
-msgid ""
-"Comma separated list of keys for postmeta values you want to fill in from "
-"SEO Images."
-msgstr ""
-"Kľúce pre postmeta oddelené čierkou, ktoré chcete vyplniť zo SEO Obrázky."
+#: view/options.php:139
+#@ fp_wysiwyg
+msgid "Comma separated list of keys for postmeta values you want to fill in from SEO Images."
+msgstr "Kľúce pre postmeta oddelené čierkou, ktoré chcete vyplniť zo SEO Obrázky."
 
-#: ../view/options.php:144
+#: view/options.php:144
+#@ fp_wysiwyg
 msgid "WYSIWYG CSS styles"
 msgstr "WYSIWYG CSS štýly"
 
-#: ../view/options.php:146
+#: view/options.php:146
+#@ fp_wysiwyg
 msgid "Post ID"
 msgstr "ID článku"
 
-#: ../view/options.php:147
+#: view/options.php:147
+#@ fp_wysiwyg
 msgid "Post class"
 msgstr "Trieda článku"
 
-#: ../view/options.php:149
-msgid ""
-"Enter the name of the class used for styling of the articles on the front "
-"page. If necessary, use multiple classes (separated by blank spaces) or add "
-"the ID of the container element."
-msgstr ""
-"Vyplnte menu triedy použitej pre štýlovanie článkov na hlavnej stránke. Ak "
-"je to potrebné použite viaceré triedy oddelené medzerou alebo pridajte ID "
-"kontajnera elementu"
+#: view/options.php:149
+#@ fp_wysiwyg
+msgid "Enter the name of the class used for styling of the articles on the front page. If necessary, use multiple classes (separated by blank spaces) or add the ID of the container element."
+msgstr "Vyplnte menu triedy použitej pre štýlovanie článkov na hlavnej stránke. Ak je to potrebné použite viaceré triedy oddelené medzerou alebo pridajte ID kontajnera elementu"
 
-#: ../view/options.php:154
+#: view/options.php:154
+#@ fp_wysiwyg
 msgid "Custom WYSIWYG CSS"
 msgstr "Vlastné WYSIWYG CSS"
 
-#: ../view/options.php:157
-msgid ""
-"If you use WYSIWYG CSS styles above, you can fix whatever you want here for "
-"the editor window."
-msgstr ""
-"Ak používate pôvodné WYSIWYG CSS štýly, môžete pomocou nich opraviť okno "
-"editora."
+#: view/options.php:157
+#@ fp_wysiwyg
+msgid "If you use WYSIWYG CSS styles above, you can fix whatever you want here for the editor window."
+msgstr "Ak používate pôvodné WYSIWYG CSS štýly, môžete pomocou nich opraviť okno editora."
 
-#: ../view/options.php:163 ../view/options.php:165
+#: view/options.php:163
+#: view/options.php:165
+#@ fp_wysiwyg
 msgid "Advanced Options"
 msgstr "Pokročilé nastavenia"
 
-#: ../view/options.php:168
+#: view/options.php:168
+#@ fp_wysiwyg
 msgid "FCKEditor language"
 msgstr "Jazyk FCKEditora"
 
-#: ../view/options.php:191
+#: view/options.php:191
+#@ fp_wysiwyg
 msgid "Left to right"
 msgstr "Zľava doprava"
 
-#: ../view/options.php:191
+#: view/options.php:191
+#@ fp_wysiwyg
 msgid "Right to left"
 msgstr "Zprava doľava"
 
-#: ../view/options.php:194
+#: view/options.php:194
+#@ fp_wysiwyg
 msgid "SEO Images Language"
 msgstr "Jazyk SEO Images"
 
-#: ../view/options.php:196
+#: view/options.php:196
+#@ fp_wysiwyg
 msgid "Default"
 msgstr "Prednastavené"
 
-#: ../view/options.php:220
+#: view/options.php:220
+#@ fp_wysiwyg
 msgid "Permissions"
 msgstr "Povolenia"
 
-#: ../view/options.php:221
+#: view/options.php:221
+#@ fp_wysiwyg
 msgid "Default settings"
 msgstr "Pôvodné nastavenia"
 
-#: ../view/options.php:221
+#: view/options.php:221
+#@ fp_wysiwyg
 msgid "My server runs in FastCGI or LiteSpeed"
 msgstr "Môj server beží vo FastCGI alebo LiteSpeed"
 
-#: ../view/options.php:221
+#: view/options.php:221
+#@ fp_wysiwyg
 msgid "Directories"
 msgstr "Zložky"
 
-#: ../view/options.php:221
+#: view/options.php:221
+#@ fp_wysiwyg
 msgid "Files"
 msgstr "Súbory"
 
-#: ../view/options.php:221
-msgid ""
-"We strongly recommend you to test your new settings by creating a directory, "
-"uploading some image into it and inserting it into post."
-msgstr ""
-"Odporúčame Vám otestovať nové nastavenia vytvorením zložky, odoslaním pár "
-"obrázok do nej a vložením do článku."
+#: view/options.php:221
+#@ fp_wysiwyg
+msgid "We strongly recommend you to test your new settings by creating a directory, uploading some image into it and inserting it into post."
+msgstr "Odporúčame Vám otestovať nové nastavenia vytvorením zložky, odoslaním pár obrázok do nej a vložením do článku."
 
-#: ../view/options.php:224
+#: view/options.php:224
+#@ fp_wysiwyg
 msgid "Use Flash Uploader"
 msgstr "Použiť Flash Uploader"
 
-#: ../view/options.php:226
-msgid ""
-"Flash uploader will enable you to upload multiple images at once. You might "
-"want to disable it for better compatibility."
-msgstr ""
-"Flash uploader Vám dovolí odoslať viacero obrázkov naraz. Mali by ste túto "
-"možnosť vypnuť pre lepšiu kompatibilitu."
+#: view/options.php:226
+#@ fp_wysiwyg
+msgid "Flash uploader will enable you to upload multiple images at once. You might want to disable it for better compatibility."
+msgstr "Flash uploader Vám dovolí odoslať viacero obrázkov naraz. Mali by ste túto možnosť vypnuť pre lepšiu kompatibilitu."
 
-#: ../view/options.php:230
+#: view/options.php:230
+#@ fp_wysiwyg
 msgid "Thumbnails"
 msgstr "Náhľady"
 
-#: ../view/options.php:232
+#: view/options.php:232
+#@ fp_wysiwyg
 msgid "Thumbnail image should link to the full-sized image"
 msgstr "Náhľadový obrázok musí odkazovať na pôvodny obrázok"
 
-#: ../view/options.php:233
+#: view/options.php:233
+#@ fp_wysiwyg
 msgid "Allow full-sized images to be opened with the lightbox effect"
 msgstr "Povoliť otvorenie pôvodných obrázkov lightbox efektom."
 
-#: ../view/options.php:238
+#: view/options.php:238
+#@ fp_wysiwyg
 msgid "FPClean"
 msgstr "FPClean"
 
-#: ../view/options.php:245
+#: view/options.php:245
+#@ fp_wysiwyg
 msgid "Matching text will be striped of '&lt;p&gt;' and '&lt;div&gt;' tags"
 msgstr "Z textu budu odobrané značky '&lt;p&gt;' and '&lt;div&gt;'"
 
-#: ../view/options.php:249
+#: view/options.php:249
+#@ fp_wysiwyg
 msgid "JPEG Images"
 msgstr "JPEG Obrázky"
 
-#: ../view/options.php:250
+#: view/options.php:250
+#@ fp_wysiwyg
 msgid "Quality"
 msgstr "Kvalita"
 
-#: ../view/options.php:253
+#: view/options.php:253
+#@ fp_wysiwyg
 msgid "PNG Images"
 msgstr "PNG Obrázky"
 
-#: ../view/options.php:255
+#: view/options.php:255
+#@ fp_wysiwyg
 msgid "Transform not colorful true-color PNG images to 8-bit color PNG"
 msgstr "Transformuj málo farebné true-color PNG obrázky do 8-bit PNG obrázkov"
 
-#: ../view/options.php:256
+#: view/options.php:256
+#@ fp_wysiwyg
 msgid "Limit of colorful true-color PNG"
 msgstr "Obmedzenie farebnosti true-color PNG"
 
-#: ../view/options.php:260
+#: view/options.php:260
+#@ fp_wysiwyg
 msgid "Default directory"
 msgstr "Prednastavená zložka"
 
-#: ../view/options.php:262
+#: view/options.php:262
+#@ fp_wysiwyg
 msgid "Open the Year/Month directory as default."
 msgstr "Otvor štandardne zložku Rok/Mesiac."
 
-#: ../view/options.php:266
+#: view/options.php:266
+#@ fp_wysiwyg
 msgid "Custom Toolbar"
 msgstr "Vlastný panel nástrojov"
 
-#: ../view/options.php:274
+#: view/options.php:274
+#@ fp_wysiwyg
 msgid "Compatibility"
 msgstr "Kompatibilita"
 
-#: ../view/options.php:276
-msgid ""
-"Do wpautop before editing a post if there are no <code>&lt;p&gt;</code> tags "
-"in the post."
-msgstr ""
-"Urob wpautop pred editáciou článku ak tam niesu značky <code>&lt;p&gt;</"
-"code>."
+#: view/options.php:276
+#@ fp_wysiwyg
+msgid "Do wpautop before editing a post if there are no <code>&lt;p&gt;</code> tags in the post."
+msgstr "Urob wpautop pred editáciou článku ak tam niesu značky <code>&lt;p&gt;</code>."
 
-#: ../view/options.php:276
-msgid ""
-"If your posts were created with the default Wordpress editor (TinyMCE), you "
-"need to leave this on, as TinyMCE is storing posts without any HTML markup "
-"for the paragraphs. You may want to disable it if some of your special posts "
-"are destroyed after opening with Foliopress WYSIWYG."
-msgstr ""
-"Ak boli Vaše články vytvorené s pôvodným Wordpress editorom (TinyMCE) je "
-"potrebne ho nechať zapnutý pretože TinyMCE ukladá články bez akýchkoľvek "
-"HTML značiek pre odseky. Mali by ste to vypnúť ak sú niektoré špeciálne "
-"články zničené po otvorení pomocou Foliopress WYSIWYG."
+#: view/options.php:276
+#@ fp_wysiwyg
+msgid "If your posts were created with the default Wordpress editor (TinyMCE), you need to leave this on, as TinyMCE is storing posts without any HTML markup for the paragraphs. You may want to disable it if some of your special posts are destroyed after opening with Foliopress WYSIWYG."
+msgstr "Ak boli Vaše články vytvorené s pôvodným Wordpress editorom (TinyMCE) je potrebne ho nechať zapnutý pretože TinyMCE ukladá články bez akýchkoľvek HTML značiek pre odseky. Mali by ste to vypnúť ak sú niektoré špeciálne články zničené po otvorení pomocou Foliopress WYSIWYG."
 
-#: ../view/options.php:282
+#: view/options.php:282
+#@ fp_wysiwyg
 msgid "Convert <code>[caption]</code> shortcodes before editing."
 msgstr "Prekonvertuj <code>[caption]</code>skratky pred editáciou."
 
-#: ../view/options.php:282
+#: view/options.php:282
+#@ fp_wysiwyg
 msgid "The captions will be converted to our standard image formating:"
-msgstr ""
-"Hlavičky budú prekonvertované do našeho štandardného obrázkového "
-"formátovania:"
+msgstr "Hlavičky budú prekonvertované do našeho štandardného obrázkového formátovania:"
 
-#: ../view/options.php:288
+#: view/options.php:288
+#@ fp_wysiwyg
 msgid "Process HTML Entities"
 msgstr "Spracuj HTML značky"
 
-#: ../view/options.php:288
-msgid ""
-"If you are using UTF-8, you should leave this option disabled. If you use "
-"foreign languages and your website is not UTF-8 (it should be), then you "
-"will want to enable this option."
-msgstr ""
-"Ak používate UTF-8 mali by ste nechať toto pole vypnuté. Ak používate cudzie "
-"jazyky a Vaša stránka nieje v UTF-8(Mala by byť) tak túto možnosť aktivujte."
+#: view/options.php:288
+#@ fp_wysiwyg
+msgid "If you are using UTF-8, you should leave this option disabled. If you use foreign languages and your website is not UTF-8 (it should be), then you will want to enable this option."
+msgstr "Ak používate UTF-8 mali by ste nechať toto pole vypnuté. Ak používate cudzie jazyky a Vaša stránka nieje v UTF-8(Mala by byť) tak túto možnosť aktivujte."
 
-#: ../view/options.php:298
+#: view/options.php:298
+#@ fp_wysiwyg
 msgid "KFM Thumbnail size"
 msgstr "Veľkost KFM náhľadov"
 
-#: ../view/options.php:299
+#: view/options.php:299
+#@ fp_wysiwyg
 msgid "Size of the thumnails in the image uploader."
 msgstr "Veľkosť náhľadov pri odosielaní obrázkov."
 
-#: ../view/options.php:302
+#: view/options.php:302
+#@ fp_wysiwyg
 msgid "Image Insert HTML"
 msgstr "Vlož obrázok v HTML"
 
-#: ../view/options.php:306
-msgid ""
-"This will be used in JavaScript when inserting images. Use \\\" to escape \" "
-"in HTML. Leave empty for defaults!"
-msgstr ""
-"Toto bude použité v JavaScripte pri ukladaní obrázkov. Použite  \\\" pre "
-"vyhnutie sa \" v HTML. Nechajte prázdne pre štandardné použitie!"
+#: view/options.php:306
+#@ fp_wysiwyg
+msgid "This will be used in JavaScript when inserting images. Use \\\" to escape \" in HTML. Leave empty for defaults!"
+msgstr "Toto bude použité v JavaScripte pri ukladaní obrázkov. Použite  \\\" pre vyhnutie sa \" v HTML. Nechajte prázdne pre štandardné použitie!"
 
-#: ../view/options.php:348
+#: view/options.php:348
+#@ fp_wysiwyg
 msgid "Save Changes"
 msgstr "Uložiť zmeny"
+
