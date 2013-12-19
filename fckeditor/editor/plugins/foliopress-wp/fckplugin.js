@@ -161,23 +161,23 @@ FPPaste.prototype.GetState = function(){
 /// Registration for FCKEditor of Toolbar buttons and assigning them images
 
 FCKCommands.RegisterCommand( 'foliopress-more', new FPMore( 'foliopress-more' ) );
-var oMore = new FCKToolbarButton( 'foliopress-more', 'WordPress Read More', null, null, false, true );
+var oMore = new FCKToolbarButton( 'foliopress-more', FCKLang.foliopressWPMore, null, null, false, true );
 oMore.IconPath = FCKConfig.PluginsPath + 'foliopress-wp/images/more.gif';
 FCKToolbarItems.RegisterItem( 'foliopress-more', oMore );
 
 FCKCommands.RegisterCommand( 'foliopress-next', new FPNext( 'foliopress-next' ) );
-var oNext = new FCKToolbarButton( 'foliopress-next', 'WordPress Next Page', null, null, false, true );
+var oNext = new FCKToolbarButton( 'foliopress-next', FCKLang.foliopressWPNext, null, null, false, true );
 oNext.IconPath = FCKConfig.PluginsPath + 'foliopress-wp/images/next.gif';
 FCKToolbarItems.RegisterItem( 'foliopress-next', oNext );
 
 FCKCommands.RegisterCommand( 'foliopress-break', new FPBreak( 'foliopress-break' ) );
-var oNext = new FCKToolbarButton( 'foliopress-break', 'Foliopress Break Page', null, null, false, true );
+var oNext = new FCKToolbarButton( 'foliopress-break', FCKLang.foliopressWPBreak, null, null, false, true );
 oNext.IconPath = FCKConfig.PluginsPath + 'foliopress-wp/images/next.gif';
 FCKToolbarItems.RegisterItem( 'foliopress-break', oNext );
 
 ///   Addition 26/06/2009
 FCKCommands.RegisterCommand( 'foliopress-paste', new FPPaste( 'foliopress-paste' ) );
-var oPaste = new FCKToolbarButton( 'foliopress-paste', 'Paste Rich Text Mode', null, null, false, true );
+var oPaste = new FCKToolbarButton( 'foliopress-paste', FCKLang.foliopressWPPaste, null, null, false, true );
 oPaste.IconPath = FCKConfig.PluginsPath + 'foliopress-wp/images/rich.png';
 FCKToolbarItems.RegisterItem( 'foliopress-paste', oPaste );
 ///   End of addition 26/06/2009

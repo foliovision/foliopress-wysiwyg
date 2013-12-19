@@ -42,10 +42,8 @@ if( window.parent.g_fv_wp_flowplayer_found == true ) {
 else {
     FCKCommands.RegisterCommand('FVWPFlowplayer', new FCKDialogCommand( 'FVWPFlowplayer', 'FV WP Flowplayer', FCKPlugins.Items['FVWPFlowplayer'].Path + 'fv_wp_flowplayer.php', 500, 300 ) ) ;
 }
-
-
 // Create the "Abbr" toolbar button.
-var oAbbrItem = new FCKToolbarButton( 'FVWPFlowplayer', 'Insert Flowplayer' ) ;
+var oAbbrItem = new FCKToolbarButton( 'FVWPFlowplayer', FCKLang.FVWPFlowplayerBtn ) ;
 oAbbrItem.IconPath = FCKPlugins.Items['FVWPFlowplayer'].Path + 'icon.png' ;
 FCKToolbarItems.RegisterItem( 'FVWPFlowplayer', oAbbrItem ) ;
 

@@ -352,30 +352,31 @@
 	</form> 
 </div>
 <script type="text/javascript">
-	
-	KFMLinkLightboxStart( <?php
-				$iLink = ($this->aOptions[self::FVC_KFM_LINK]) ? 1 : 0;
-				$iLight = ($this->aOptions[self::FVC_KFM_LIGHTBOX]) ? 1 : 0;
-				printf( "%d, %d", $iLink, $iLight ); 
-	?> );
-	
-	var bPNGTransform = <?php echo ($this->aOptions[self::FVC_PNG]) ? 'true' : 'false'; ?>;
-	KFM_CheckPNG( bPNGTransform );
-	var bDIRset = <?php echo ($this->aOptions[self::FVC_DIR]) ? 'true' : 'false'; ?>;
-	KFM_CheckDIR( bDIRset );
-	
-	var aKFMThumbs = new Array();
-	<?php for( $i=0; $i<count( $this->aOptions[self::FVC_KFM_THUMBS] ); $i++ ) print( 'aKFMThumbs[' . $i . '] = ' . $this->aOptions[self::FVC_KFM_THUMBS][$i] . ";\n" ); ?>
-	KFMThumbsStart( aKFMThumbs );
-	
-	var aFPCleanPHP = new Array();
-	<?php for( $i=0; $i<count( $this->aOptions[self::FVC_FPC_TEXTS] ); $i++ ) print( 'aFPCleanPHP['.$i.'] = "'.$this->aOptions[self::FVC_FPC_TEXTS][$i]."\";\n" ); ?>
-	FPCleanTextStart( aFPCleanPHP );
-	
-	<?php
-		if( $strCustomError ) print( 'alert("' . addcslashes( $strCustomError, "\\" ) . '");' );
-		elseif( $strErrDesc ) print( 'alert("' . addcslashes( $strErrDesc, "\\" ) . '");' );
-		else print( '' );
-		if( isset( $this->strError ) ) print( 'alert("Error while loading options: ' . addcslashes( $this->strError, "\\" ) . '");' );
-	?>
+	jQuery(document).ready(function(){
+    	KFMLinkLightboxStart( <?php
+    				$iLink = ($this->aOptions[self::FVC_KFM_LINK]) ? 1 : 0;
+    				$iLight = ($this->aOptions[self::FVC_KFM_LIGHTBOX]) ? 1 : 0;
+    				printf( "%d, %d", $iLink, $iLight ); 
+    	?> );
+    	
+    	var bPNGTransform = <?php echo ($this->aOptions[self::FVC_PNG]) ? 'true' : 'false'; ?>;
+    	KFM_CheckPNG( bPNGTransform );
+    	var bDIRset = <?php echo ($this->aOptions[self::FVC_DIR]) ? 'true' : 'false'; ?>;
+    	KFM_CheckDIR( bDIRset );
+    	
+    	var aKFMThumbs = new Array();
+    	<?php for( $i=0; $i<count( $this->aOptions[self::FVC_KFM_THUMBS] ); $i++ ) print( 'aKFMThumbs[' . $i . '] = ' . $this->aOptions[self::FVC_KFM_THUMBS][$i] . ";\n" ); ?>
+    	KFMThumbsStart( aKFMThumbs );
+    	
+    	var aFPCleanPHP = new Array();
+    	<?php for( $i=0; $i<count( $this->aOptions[self::FVC_FPC_TEXTS] ); $i++ ) print( 'aFPCleanPHP['.$i.'] = "'.$this->aOptions[self::FVC_FPC_TEXTS][$i]."\";\n" ); ?>
+    	FPCleanTextStart( aFPCleanPHP );
+    	
+    	<?php
+    		if( $strCustomError ) print( 'alert("' . addcslashes( $strCustomError, "\\" ) . '");' );
+    		elseif( $strErrDesc ) print( 'alert("' . addcslashes( $strErrDesc, "\\" ) . '");' );
+    		else print( '' );
+    		if( isset( $this->strError ) ) print( 'alert("Error while loading options: ' . addcslashes( $this->strError, "\\" ) . '");' );
+    	?>
+    });
 </script>

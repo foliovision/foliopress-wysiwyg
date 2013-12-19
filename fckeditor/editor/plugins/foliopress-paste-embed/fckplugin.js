@@ -12,10 +12,10 @@
  * 
  */
   
-FCKCommands.RegisterCommand('PasteEmbed', new FCKDialogCommand( 'PasteEmbed', 'Paste Embed Code', FCKPlugins.Items['foliopress-paste-embed'].Path + 'foliopress-paste-embed.html', 500, 300 ) ) ;
+FCKCommands.RegisterCommand('PasteEmbed', new FCKDialogCommand( 'PasteEmbed', FCKLang.foliopressPasteEmbedPaste, FCKPlugins.Items['foliopress-paste-embed'].Path + 'foliopress-paste-embed.html', 500, 300 ) ) ;
 
 // Create the "Abbr" toolbar button.
-var oPasteEmbed = new FCKToolbarButton( 'PasteEmbed', 'Insert Flowplayer' ) ;
+var oPasteEmbed = new FCKToolbarButton( 'PasteEmbed', FCKLang.foliopressPasteEmbedBtn ) ;
 oPasteEmbed.IconPath = FCKPlugins.Items['foliopress-paste-embed'].Path + 'icon.png' ;
 FCKToolbarItems.RegisterItem( 'PasteEmbed', oPasteEmbed ) ;
 
