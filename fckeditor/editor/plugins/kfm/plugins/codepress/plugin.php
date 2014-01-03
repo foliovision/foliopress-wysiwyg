@@ -1,4 +1,4 @@
 <?php
-$p=new kfmPlugin('cropper');
+$p=new kfmPlugin('codepress');
 $kfm->addPlugin($p);
 ?>
