@@ -78,7 +78,7 @@ function kfmBridge_ItIsMe(){
  ***/
 FCKCommands.RegisterCommand( 'kfmBridge', new FCKCustomKFMCommand( 'kfm bridge command' ) );
 
-var oKfmBridgeItem = new FCKToolbarButton( 'kfmBridge', FCKLang.kfmBridgeQuickInsert ) ;
+var oKfmBridgeItem = new FCKToolbarButton( 'kfmBridge', 'Quick Insert Image' ) ;
 oKfmBridgeItem.IconPath = FCKPlugins.Items['kfmBridge'].Path + 'kfmBridge.png' ;
 
 FCKToolbarItems.RegisterItem( 'kfmBridge', oKfmBridgeItem ) ;

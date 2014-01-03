@@ -272,7 +272,7 @@ kfm.build=function(){
   			if(aThumbSizes[i]<F.width) {
   			  var thumbItem = {
          	  name: 'add' + aThumbSizes[i] + 'thumbnail',
-         		title: kfm.lang.Send + ' ' + aThumbSizes[i] + ' ' + kfm.lang.thumbnail,
+         		title: 'Send ' + aThumbSizes[i] + ' thumbnail',
          		category:'edit'
        		};
        		thumbItem.doFunction=function(k){
@@ -283,10 +283,10 @@ kfm.build=function(){
           if(kfm_vars.permissions.file.mk)context_categories['edit'].add(thumbItem);
         };
       };
-         // send to post     
+         // send to post
       context_categories['edit'].add({
 				name: 'send_to_post',
-				title: kfm.lang.SendOriginal,
+				title: 'Send original image in H5',
 				mode: '0',
 				category:'edit',
 				extensions: ['jpg','png','gif'],
@@ -296,7 +296,7 @@ kfm.build=function(){
 	      //send bare image
       context_categories['edit'].add({
 				name: 'send_bare_image',
-				title: kfm.lang.SendBare,
+				title: 'Send bare image',
 				mode: '0',
 				category:'edit',
 				extensions: ['jpg','png','gif'],
@@ -314,7 +314,7 @@ kfm.build=function(){
 	      //view image
 	    context_categories['edit'].add({
 				name: 'lightbox',
-				title: kfm.lang.ViewImage,
+				title: 'View image',
 				mode: '2',
 				category:'edit',
 				defaultOpener: '1',
@@ -341,7 +341,7 @@ kfm.build=function(){
       if( g_bFeaturedImage ) {
           context_categories['edit'].add({
                 name: 'featured-image',
-                title: kfm.lang.UseFeatured,
+                title: 'Use as Featured Image',
                 category:'edit',
                 extensions: ['jpg','png','gif'],
                 doFunction:function(){kfmAdd_FeaturedImage( id );}
@@ -404,7 +404,7 @@ kfm.build=function(){
 				context_categories[obj.category].add(obj);
 			}	
 	   });
-		if(kfm_vars.permissions.file.rm)kfm_addHook({name:"remove", mode:2,extensions:"all", writable:1,title:kfm.lang.DeleteFile,category:'returning', doFunction:function(files){
+		if(kfm_vars.permissions.file.rm)kfm_addHook({name:"remove", mode:2,extensions:"all", writable:1,title:"Delete file",category:'returning', doFunction:function(files){
          if(files.length>1)
             kfm_deleteSelectedFiles();
 		   else kfm_deleteFile(files[0]);

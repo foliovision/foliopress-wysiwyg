@@ -69,7 +69,7 @@ function KFMAddThumbnail(){
 	var hidThumbsCount = document.getElementById( 'hidThumbCount' );
 	
 	if( isNaN( txtThumbSize.value ) ){
-		alert( translations.size_error );
+		alert( 'Please write correct size into text box !' );
 		return;
 	}
 	
@@ -137,7 +137,7 @@ function FPCleanAddText(){
 	var hidFPCount = document.getElementById( 'hidFPCleanCount' );
 	
 	if( !FV_Regex.VerifyString( txtFP.value ) ){
-		alert(translations.bracket_error);
+		alert( 'String you entered is not well bracketed !' );
 		return;
 	}
 	

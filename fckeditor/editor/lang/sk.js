@@ -535,21 +535,5 @@ DlgDivInlineStyle	: "Inline štýl",
 ScaytTitle			: "SCAYT",	//MISSING
 ScaytTitleOptions	: "Options",	//MISSING
 ScaytTitleLangs		: "Languages",	//MISSING
-ScaytTitleAbout		: "About",	//MISSING
-
-
-/* Foliovision plugins */
-
-FVWPFlowplayerBtn	: "Vlož Flowplayer",
-
-foliopressPasteEmbedBtn : "Vlož Youtube", 
-foliopressPasteEmbedInfoText : "Vložte svoj kód do nasledujúceho boxu pomocou klávesnice (<strong>Ctrl+V</strong>) a stlačte <strong>OK</strong>. Všetky HTML značky budú akceptované.<br />&nbsp;",
-foliopressPasteEmbedPaste	: "Vložte Embed Code",
-
-foliopressWPMore	: 	'WordPress Čítaj viac',
-foliopressWPNext	: 	'WordPress Nasledujúca strana',
-foliopressWPBreak	: 	'Foliopress Zalom stranu',
-foliopressWPPaste	: 	'Vlož Rich Text Mód',
-
-kfmBridgeQuickInsert : 	'Rýchle vloženie obrázka',
+ScaytTitleAbout		: "About"	//MISSING
 };

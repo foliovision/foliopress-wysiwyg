@@ -1,1 +1,0 @@
-FCKLang.['FVWPFlowplayerBtn']			= 'Insert Flowplayer';

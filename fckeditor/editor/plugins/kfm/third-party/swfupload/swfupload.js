@@ -303,7 +303,7 @@ SWFUpload.prototype.getMovieElement = function () {
 	}
 
 	if (this.movieElement === null) {
-		throw FCKLang.swfuploadNotFindFlash;
+		throw "Could not find Flash element";
 	}
 	
 	return this.movieElement;

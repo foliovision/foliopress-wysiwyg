@@ -33,7 +33,6 @@
 var dialog = window.parent ;
 var oEditor = dialog.InnerDialogLoaded() ;
 var FCK = oEditor.FCK;
-var FCKLang 	= oEditor.FCKLang;
 var FCKTools	= oEditor.FCKTools ;
 var FCKConfig	= oEditor.FCKConfig ;
 var FCKBrowserInfo = oEditor.FCKBrowserInfo ;
@@ -115,7 +114,9 @@ function Ok()
 		<tr>
 			<td>
 				<div>
-					<script type="text/javascript">document.write(FCKLang.foliopressPasteEmbedInfoText)</script>
+					Paste your embed code inside the following box using the keyboard
+						(<strong>Ctrl+V</strong>) and hit <strong>OK</strong>. Any HTML will be accepted too.<br />
+					&nbsp;
 				</div>
 			</td>
 		</tr>

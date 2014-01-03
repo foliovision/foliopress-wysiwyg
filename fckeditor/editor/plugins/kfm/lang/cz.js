@@ -151,16 +151,5 @@ Cancel: "storno"
 	MoveFiles               : "move files",
 	"about KFM"                : "about KFM",
 	Errors                  : "Errors",
-	Ok                      : "OK", // as in "OK / Cancel"
-	swfuploadNotFindFlash	: "Could not find Flash element",
-
-SendOriginal	: 'Poslat puvodný obrázek v H5',
-SendBare		: 'Poslat prostej obrázek',
-ViewImage		: 'Otevřít obrázek',
-DeleteFile		: 'Vymazat soubor',
-UseFeatured		: 'Použít jako nejlepší náhled',
-Send 			: 'Pošli',
-thumbnail		: 'náhled',
-RenameDirectory : 'premenuj složku',
-CreateSub 		: 'vytvor podadresář',
+	Ok                      : "OK" // as in "OK / Cancel"
 }

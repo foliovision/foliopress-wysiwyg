@@ -535,22 +535,5 @@ DlgDivInlineStyle	: "Inline Style",
 ScaytTitle			: "SCAYT",
 ScaytTitleOptions	: "Options",
 ScaytTitleLangs		: "Languages",
-ScaytTitleAbout		: "About",
-
-
-/* Foliovision plugins */
-
-FVWPFlowplayerBtn	: "Insert Flowplayer",
-
-foliopressPasteEmbedBtn : "Insert Youtube",
-foliopressPasteEmbedInfoText : "Paste your embed code inside the following box using the keyboard (<strong>Ctrl+V</strong>) and hit <strong>OK</strong>. Any HTML will be accepted too.<br />&nbsp;",
-foliopressPasteEmbedPaste	: "Paste Embed Code",
-
-foliopressWPMore	: 	'WordPress Read More',
-foliopressWPNext	: 	'WordPress Next Page',
-foliopressWPBreak	: 	'Foliopress Break Page',
-foliopressWPPaste	: 	'Paste Rich Text Mode',
-
-kfmBridgeQuickInsert : 	'Quick Insert Image',
-
+ScaytTitleAbout		: "About"
 };

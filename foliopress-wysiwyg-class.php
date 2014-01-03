@@ -5,7 +5,7 @@
  * Main class that handles all implementation of plugin into WordPress. All WordPress actions and filters are handled here
  *  
  * @author Foliovision s.r.o. <info@foliovision.com>
- * @version 2.6.8.3
+ * @version 2.6.8.5
  * @package foliopress-wysiwyg
  */
 
@@ -65,7 +65,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	 * Plugin version
 	 * @var string
 	 */
-	var $strVersion = '2.6.8.4';
+	var $strVersion = '2.6.8.5';
 	/**
 	 * Custom options array.
 	 * Array of options that are stored in database:
@@ -316,7 +316,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
     if( !function_exists( 'gd_info') && !$this->checkImageMagick() ) {
 
-      echo '<div class="error fade">' . _e('PHP GD Library or ImageMagick not installed! Foliopress WYSIWYG will not be able to handle your images!', 'fp_wysiwyg'). '</div>'; 
+      echo '<div class="error fade">PHP GD Library or ImageMagick not installed! Foliopress WYSIWYG will not be able to handle your images!</div>'; 
 
     }
 
@@ -382,7 +382,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	  if( stripos( $html, 'set-post-thumbnail' ) !== FALSE && stripos( $html, '<img' ) === FALSE ) {
       $html = preg_replace( '~<a.*?set-post-thumbnail.*?</a>~', '', $html );
 
-      $html .= '<p class="hide-if-no-js"><a title="' . _e('Set Featured image with Foliopress WYSIWYG\'s Image Manager', 'fp_wysiwyg') . '" href="#" id="seo-images-featured-image" '.$onclick.'>' . _e('Set featured image with SEO Images', 'fp_wysiwyg') . '</a></p>';
+      $html .= '<p class="hide-if-no-js"><a title="Set Featured image with Foliopress WYSIWYG\'s Image Manager" href="#" id="seo-images-featured-image" '.$onclick.'>Set featured image with SEO Images</a></p>';
   	  return $html;
 	  } else if( stripos( $html, 'set-post-thumbnail' ) !== FALSE && stripos( $html, '<img' ) !== FALSE ) {
 	    $html = str_replace( 'set-post-thumbnail', 'set-post-thumbnail-fp-wysiwyg', $html );
@@ -401,19 +401,6 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	    remove_action( 'admin_footer', array( '_WP_Editors', 'enqueue_scripts'), 1 );  
 	  }
 	}
-
-	function ap_action_init()
-    {
-        // Localization
-        load_plugin_textdomain('fp_wysiwyg', false, dirname(plugin_basename(__FILE__)) . "/languages");
-    }
-
-    function get_js_translations() {
-    	return Array(
-    		'bracket_error' => __('String you entered is not well bracketed !', 'fp_wysiwyg'),
-    		'size_error' => __('Please write correct size into text box !', 'fp_wysiwyg'),
-    		);
-    }
 	
   //  can we set featured images?	
   function check_featured_image_capability() {
@@ -425,6 +412,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 		  $this->process_featured_images = true; 
 		}	      
   }	
+	
 	
 	function checkImageMagick() {
 	  return @is_executable( '/usr/bin/convert' );
@@ -579,7 +567,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         }        
          
 	  } else {
-	    echo _e('File not found in Wordpress Media directory. Is the image uploads path same as Foliopress WYSIWYG Path?' , 'fp_wysiwyg');
+	    echo 'File not found in Wordpress Media directory. Is the image uploads path same as Foliopress WYSIWYG Path?';
 	  }
 	  die();
 	}
@@ -1028,7 +1016,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
   function meta_box() {
     global $current_user, $user_ID, $post;
     ?>
-    <label class="screen-reader-text" for="post_author_override"><?php _e('Author', 'fp_wysiwyg'); ?></label>
+    <label class="screen-reader-text" for="post_author_override"><?php _e('Author'); ?></label>
     <?php      
     if( function_exists( 'get_users' ) ) {
     	wp_dropdown_users( array(
@@ -1050,15 +1038,15 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
     if( !isset( $meta['plain_text_editing'] ) ) {
       $meta['plain_text_editing'] = false;
     }
-    ?><label for="plain_text_editing"><input name="plain_text_editing" type="checkbox" id="plain_text_editing" value="true" <?php checked(1, $meta['plain_text_editing']); ?> /> <?php _e('Plain text editing', 'fp_wysiwyg'); ?> <abbr title="<?php _e('This will disable WYSIWYG editor for this post, as well as all the WP formating routines (wptexturize and wpautop). Turn this option off only if you are sure this post won\'t get destroyed by it.', 'fp_wysiwyg') ?>">(?)</abbr>
+    ?><label for="plain_text_editing"><input name="plain_text_editing" type="checkbox" id="plain_text_editing" value="true" <?php checked(1, $meta['plain_text_editing']); ?> /> <?php _e('Plain text editing'); ?> <abbr title="This will disable WYSIWYG editor for this post, as well as all the WP formating routines (wptexturize and wpautop). Turn this option off only if you are sure this post won't get destroyed by it.">(?)</abbr>
     </label>
   <?php
   }
      
     
   function meta_box_add() {
-    add_meta_box('foliopress-wysiwyg',__('Post Author', 'fp_wysiwyg'), array(&$this, 'meta_box'), 'post', 'side','high');
-    add_meta_box('foliopress-wysiwyg',__('Post Author', 'fp_wysiwyg'), array(&$this, 'meta_box'), 'page', 'side','high');	
+    add_meta_box('foliopress-wysiwyg','Post Author', array(&$this, 'meta_box'), 'post', 'side','high');
+    add_meta_box('foliopress-wysiwyg','Post Author', array(&$this, 'meta_box'), 'page', 'side','high');	
   }
   	
 	
@@ -1232,8 +1220,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 			$iPos = strpos( $strErrDesc, 'file_put_contents' );
 			if( false !== $iPos ){
 				if( strpos( $strErrDesc, 'config.ini' ) ){
-					$strCustomError = _e('SEO Images (KFM) config.ini file is read-only. In order to change options this file has to be rewritten.', 'fp_wysiwyg');
-					$strCustomError .= _e('Please adjust the file permissions to this file. For further help, read the manual !', 'fp_wysiwyg');
+					$strCustomError = 'SEO Images (KFM) config.ini file is read-only. In order to change options this file has to be rewritten.';
+					$strCustomError .= 'Please adjust the file permissions to this file. For further help, read the manual !';
 				}
 			}
 		}
@@ -1247,7 +1235,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
       $strFile = realpath( $strPath.'/'.urldecode( $_GET['edit'] ) );
       if( is_writable( $strFile ) && $this->IsEditableFile( $strFile ) ) include( $strPath . '/view/edit.php' );
       else{
-        $strMessage = _e('You cannot edit this file. The requested link is invalid !', 'fp_wysiwyg');
+        $strMessage = 'You cannot edit this file. The requested link is invalid !';
         include( $strPath . '/view/message.php' );
       }
     }
