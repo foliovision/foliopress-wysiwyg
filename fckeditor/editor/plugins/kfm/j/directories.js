@@ -8,26 +8,26 @@ kfm_dir_bits={
 		if(kfm_vars.permissions.dir.ed){ // rename, set max size images
 			context_categories['edit'].add({
 				name:'directory_rename',
-				title:'rename directory',
+				title: kfm.lang.RenameDirectory,
 				category:'edit',
 				doFunction:function(){kfm_renameDirectory(node_id);}
 			});
 		}
 		if(kfm_vars.permissions.dir.mk)context_categories['main'].add({
 			name:'directory_new',
-			title:"create sub-directory",
+			title: kfm.lang.CreateSub,
 			category:'main',
 			doFunction:function(){kfm_createDirectory(node_id);}
 		});
 		if(node_id!=1 && kfm_vars.permissions.dir.rm)context_categories['edit'].add({
 			name:'directory_delete',
-			title:"delete",
+			title: kfm.lang.DeleteDir,
 			category:'edit',
 			doFunction:function(){kfm_deleteDirectory(node_id);}
 		});
 		if(kfm_return_directory)context_categories['returning'].add({
 			name:'directory_return',
-			title:"send to CMS",
+			title: kfm.lang.SendCMS,
 			doFunction:function(){
 				setTimeout("window.close()",1);
 				window.opener.SetUrl(kfm_directories[node_id].realpath+'/');

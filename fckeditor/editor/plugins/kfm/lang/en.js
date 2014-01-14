@@ -145,5 +145,16 @@ kfm.lang={
 	MoveFiles               : "move files",
 	"about KFM"                : "about KFM",
 	Errors                  : "Errors",
-	Ok                      : "OK" // as in "OK / Cancel"
+	Ok                      : "OK", // as in "OK / Cancel"
+	swfuploadNotFindFlash	: "Could not find Flash element",
+
+SendOriginal	: 'Send original image in H5',
+SendBare		: 'Send bare image',
+ViewImage		: 'View image',
+DeleteFile		: 'Delete file',
+UseFeatured		: 'Use as Featured Image',
+Send 			: 'Send',
+thumbnail		: 'thumbnail',
+RenameDirectory : 'rename directory',
+CreateSub 		: 'create sub-directory',
 }

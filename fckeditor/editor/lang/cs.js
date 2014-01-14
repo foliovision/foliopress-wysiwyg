@@ -535,5 +535,5 @@ DlgDivInlineStyle	: "Vložený styl",
 ScaytTitle			: "SCAYT",
 ScaytTitleOptions	: "Nastavení",
 ScaytTitleLangs		: "Jazyky",
-ScaytTitleAbout		: "O aplikaci"
+ScaytTitleAbout		: "O aplikaci",
 };

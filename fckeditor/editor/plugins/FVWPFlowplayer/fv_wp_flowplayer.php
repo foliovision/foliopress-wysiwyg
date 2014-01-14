@@ -57,17 +57,17 @@ if($found) {
 </tr>
 </table>
 <?php } else { ?>
-<p><strong>FV Wordpress Flowplayer not installed and activated!</strong></p>
-<p>We have the best opensource flash video player for Wordpress - a free, easy-to-use, and complete solution for embedding FLV or MP4 videos into your posts or pages.</p>
-<p>Main benefits of using FV WP Flowplayer are:</p>
+<p><strong><?php _e('FV Wordpress Flowplayer not installed and activated!', 'fp_wysiwyg') ?></strong></p>
+<p><?php _e('We have the best opensource flash video player for Wordpress - a free, easy-to-use, and complete solution for embedding FLV or MP4 videos into your posts or pages.', 'fp_wysiwyg') ?></p>
+<p><?php _e('Main benefits of using FV WP Flowplayer are:', 'fp_wysiwyg') ?></p>
 <ul>
-	<li>Supported video formats are FLV, H.264, and MP4. Multiple videos can be displayed in one post or page.</li>
-	<li>Default options for all the embedded videos can be set in comprehensive administration menu.</li>
-	<li>Simple usage not only in posts, but also templates and widgets.</li>
-	<li>Supports splash images and popup boxes.</li>
+	<li><?php _e('Supported video formats are FLV, H.264, and MP4. Multiple videos can be displayed in one post or page.', 'fp_wysiwyg') ?></li>
+	<li><?php _e('Default options for all the embedded videos can be set in comprehensive administration menu.', 'fp_wysiwyg') ?></li>
+	<li><?php _e('Simple usage not only in posts, but also templates and widgets.', 'fp_wysiwyg') ?></li>
+	<li><?php _e('Supports splash images and popup boxes.', 'fp_wysiwyg') ?></li>
 </ul>
-<p><a href="http://foliovision.com/seo-tools/wordpress/plugins/fv-wordpress-flowplayer" target=_blank>Read more</a> | <a href="http://downloads.wordpress.org/plugin/fv-wordpress-flowplayer.zip" target=_blank>Download now</a> | 
-<a href="<?php bloginfo('wpurl') ?>/wp-admin/plugin-install.php?tab=plugin-information&plugin=fv-wordpress-flowplayer&TB_iframe=true&width=640&height=671" target=_blank>Install in a new window</a></p>
+<p><a href="http://foliovision.com/seo-tools/wordpress/plugins/fv-wordpress-flowplayer" target=_blank><?php _e('Read more', 'fp_wysiwyg') ?></a> | <a href="http://downloads.wordpress.org/plugin/fv-wordpress-flowplayer.zip" target=_blank><?php _e('Download now', 'fp_wysiwyg') ?></a> | 
+<a href="<?php bloginfo('wpurl') ?>/wp-admin/plugin-install.php?tab=plugin-information&plugin=fv-wordpress-flowplayer&TB_iframe=true&width=640&height=671" target=_blank><?php _e('Install in a new window', 'fp_wysiwyg') ?></a></p>
 <?php } ?>
 </body>
 
@@ -161,21 +161,21 @@ function Ok() {
 	var shortcode = '';
 	
 	if(document.getElementById("src").value == '') {
-		alert('Please enter the file name of your video file.');
+		alert(_e('Please enter the file name of your video file.', 'fp_wysiwyg'));
 		return false;
 	}
 	else
 		shortcode = '[flowplayer src=\'' + document.getElementById("src").value + '\'';
 		
 	if( document.getElementById("width").value != '' && document.getElementById("width").value % 1 != 0 ) {
-		alert('Please enter a valid width.');
+		alert(_e('Please enter a valid width.', 'fp_wysiwyg'));
 		return false;
 	}
 	if( document.getElementById("width").value != '' )
 		shortcode += ' width=' + document.getElementById("width").value;
 		
 	if( document.getElementById("height").value != '' && document.getElementById("height").value % 1 != 0 ) {
-		alert('Please enter a valid height.');
+		alert(_e('Please enter a valid height.', 'fp_wysiwyg'));
 		return false;
 	}
 	if( document.getElementById("height").value != '' )

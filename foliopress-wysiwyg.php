@@ -23,7 +23,7 @@ if( $GLOBALS['wp_version'] < 2.5 ) {
 else {
   add_action( 'admin_init', array( &$fp_wysiwyg, 'admin_init' ) );
 }
-
+add_action( 'init', array( &$fp_wysiwyg, 'ap_action_init'));
 add_action( 'admin_head', array( &$fp_wysiwyg, 'FckLoadAdminHead' ) );
 add_action( 'admin_menu', array( &$fp_wysiwyg, 'AddOptionPage' ) );
 add_action( 'admin_notices', array( &$fp_wysiwyg, 'AdminNotices') );
