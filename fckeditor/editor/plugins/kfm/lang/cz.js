@@ -154,12 +154,12 @@ Cancel: "storno"
 	Ok                      : "OK", // as in "OK / Cancel"
 	swfuploadNotFindFlash	: "Could not find Flash element",
 
-SendOriginal	: 'Poslat původní obrázek v H5',
-SendBare		: 'Poslat prostej obrázek',
+SendOriginal	: 'Vložit původní obrázek v H5',
+SendBare		: 'Vložit prostej obrázek',
 ViewImage		: 'Otevřít obrázek',
 DeleteFile		: 'Vymazat soubor',
 UseFeatured		: 'Použít jako nejlepší náhled',
-Send 			: 'Pošli',
+Send 			: 'Vložit',
 thumbnail		: 'náhled',
 RenameDirectory : 'prejmenuj složku',
 CreateSub 		: 'vytvor podadresář',
