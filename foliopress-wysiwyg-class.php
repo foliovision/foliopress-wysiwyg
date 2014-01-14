@@ -5,7 +5,7 @@
  * Main class that handles all implementation of plugin into WordPress. All WordPress actions and filters are handled here
  *  
  * @author Foliovision s.r.o. <info@foliovision.com>
- * @version 2.6.8.5
+ * @version 2.6.8.6
  * @package foliopress-wysiwyg
  */
 
@@ -65,7 +65,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	 * Plugin version
 	 * @var string
 	 */
-	var $strVersion = '2.6.8.5';
+	var $strVersion = '2.6.8.6';
 	/**
 	 * Custom options array.
 	 * Array of options that are stored in database:

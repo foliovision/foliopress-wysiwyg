@@ -125,6 +125,11 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 == Changelog ==
 
+= 2.6.8.6 =
+
+* Added support for transations for the Wordpress part
+* Added missing language hooks for editor and image manager
+
 = 2.6.8.5 =
 
 * Fix for XSS vulnerability in unused part of plugin
