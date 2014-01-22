@@ -319,7 +319,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 
     if( !function_exists( 'gd_info') && !$this->checkImageMagick() ) {
 
-      echo '<div class="error fade">' . _e('PHP GD Library or ImageMagick not installed! Foliopress WYSIWYG will not be able to handle your images!', 'fp_wysiwyg'). '</div>'; 
+      echo '<div class="error fade">' . __('PHP GD Library or ImageMagick not installed! Foliopress WYSIWYG will not be able to handle your images!', 'fp_wysiwyg'). '</div>'; 
 
     }
 
@@ -385,7 +385,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	  if( stripos( $html, 'set-post-thumbnail' ) !== FALSE && stripos( $html, '<img' ) === FALSE ) {
       $html = preg_replace( '~<a.*?set-post-thumbnail.*?</a>~', '', $html );
 
-      $html .= '<p class="hide-if-no-js"><a title="' . _e('Set Featured image with Foliopress WYSIWYG\'s Image Manager', 'fp_wysiwyg') . '" href="#" id="seo-images-featured-image" '.$onclick.'>' . _e('Set featured image with SEO Images', 'fp_wysiwyg') . '</a></p>';
+      $html .= '<p class="hide-if-no-js"><a title="' . __('Set Featured image with Foliopress WYSIWYG\'s Image Manager', 'fp_wysiwyg') . '" href="#" id="seo-images-featured-image" '.$onclick.'>' . __('Set featured image with SEO Images', 'fp_wysiwyg') . '</a></p>';
   	  return $html;
 	  } else if( stripos( $html, 'set-post-thumbnail' ) !== FALSE && stripos( $html, '<img' ) !== FALSE ) {
 	    $html = str_replace( 'set-post-thumbnail', 'set-post-thumbnail-fp-wysiwyg', $html );
@@ -582,7 +582,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         }        
          
 	  } else {
-	    echo _e('File not found in Wordpress Media directory. Is the image uploads path same as Foliopress WYSIWYG Path?' , 'fp_wysiwyg');
+	    _e('File not found in Wordpress Media directory. Is the image uploads path same as Foliopress WYSIWYG Path?' , 'fp_wysiwyg');
 	  }
 	  die();
 	}
@@ -1235,8 +1235,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 			$iPos = strpos( $strErrDesc, 'file_put_contents' );
 			if( false !== $iPos ){
 				if( strpos( $strErrDesc, 'config.ini' ) ){
-					$strCustomError = _e('SEO Images (KFM) config.ini file is read-only. In order to change options this file has to be rewritten.', 'fp_wysiwyg');
-					$strCustomError .= _e('Please adjust the file permissions to this file. For further help, read the manual !', 'fp_wysiwyg');
+					$strCustomError = __('SEO Images (KFM) config.ini file is read-only. In order to change options this file has to be rewritten.', 'fp_wysiwyg');
+					$strCustomError .= __('Please adjust the file permissions to this file. For further help, read the manual !', 'fp_wysiwyg');
 				}
 			}
 		}
@@ -1250,7 +1250,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
       $strFile = realpath( $strPath.'/'.urldecode( $_GET['edit'] ) );
       if( is_writable( $strFile ) && $this->IsEditableFile( $strFile ) ) include( $strPath . '/view/edit.php' );
       else{
-        $strMessage = _e('You cannot edit this file. The requested link is invalid !', 'fp_wysiwyg');
+        $strMessage = __('You cannot edit this file. The requested link is invalid !', 'fp_wysiwyg');
         include( $strPath . '/view/message.php' );
       }
     }
