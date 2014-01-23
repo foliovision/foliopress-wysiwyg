@@ -86,6 +86,14 @@ img.noborder { border: none; }
 
 For complex reasons we need to strip empty paragraphs but you can use <br /> break tags to create the same effect of empty lines. The keyboard shortcut is shift enter. We don't really recommend using either <br /> tags or empty paragraphs for formatting, you should be able to handle it in your CSS.
 
+= How to do my own translation? =
+
+This plugin consists of 3 parts:
+
+* Wordpress plugin - check the languages/" directory for .po and .mo files - the standard way of how Wordpress translations work
+* FCKEditor - check fckeditor/editor/lang - it contains JS files with definition of each language. Check then en.js file for entries below "Foliovision plugins" - these have to be translated. Note that vast majority of the phrases already has a translation. Set your language in plugin settings.
+* SEO Images image manager - fckeditor/editor/plugins/kfm/lang/ - the missing translations are at the end of en.js file and they have to be copied into each language version. Note that vast majority of the phrases already has a translation. Set your language in plugin settings.
+
 = Your plugin is not working, all I can see it this: =
 
 > Parse error: syntax error, unexpected T_CONST, expecting T_OLD_FUNCTION or T_FUNCTION or T_VAR or '}' in {your web root}/wp-content/plugins/foliopress-wysiwyg/foliopress-wysiwyg-class.php on line 96
