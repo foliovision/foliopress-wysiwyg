@@ -5,7 +5,7 @@
  * Main class that handles all implementation of plugin into WordPress. All WordPress actions and filters are handled here
  *  
  * @author Foliovision s.r.o. <info@foliovision.com>
- * @version 2.6.8.7
+ * @version 2.6.8.8
  * @package foliopress-wysiwyg
  */
 
@@ -65,7 +65,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	 * Plugin version
 	 * @var string
 	 */
-	var $strVersion = '2.6.8.7';
+	var $strVersion = '2.6.8.8';
 	/**
 	 * Custom options array.
 	 * Array of options that are stored in database:
@@ -436,6 +436,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	
 	function checkUserAgent() {
 	  if( stripos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 9.0' ) !== FALSE ) return 'ie9';
+          else if( stripos( $_SERVER['HTTP_USER_AGENT'], 'MSIE 10.0' ) !== FALSE ) return 'ie10';
+          else if(strpos($_SERVER['HTTP_USER_AGENT'], 'Trident/7.0; rv:11.0') !== FALSE) return 'ie11';
 	  else if( stripos( $_SERVER['HTTP_USER_AGENT'], 'iPad' ) !== FALSE ) return 'ipad';
 	  else return false;
 	}
@@ -1405,11 +1407,17 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
   
   
   function the_editor( $content ) {
-    if( $this->checkUserAgent() == 'ie9' ) {
-      $content = '<p style="border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em; background-color: #FFEBE8; border-color: #CC0000; ">Internet Explorer 9 is currently having issues with Foliopress WYSIWYG. You can try to switch to IE8 in the IE9 Developer tools (hit F12 key).</p>'.$content;
-    } else if( $this->checkUserAgent() == 'ipad' ) {
+    $userAgent = $this->checkUserAgent();
+    if( $userAgent == 'ie9' ) {
+      $content = '<p style="border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em; background-color: #FFEBE8; border-color: #CC0000; ">Internet Explorer 9 is currently having issues with Foliopress WYSIWYG. You can try to switch to IE8 in the IE9 Developer tools (hit F12 key).<br/><br/>For proper functionality we recomend you to use Safari, Firefox or Chromium!</p>'.$content;
+    } else if($userAgent == 'ie10') {
+      $content = '<p style="border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em; background-color: #FFEBE8; border-color: #CC0000; ">Internet Explorer 10 is currently having issues with Foliopress WYSIWYG. You can try to switch to IE8 in the IE10 Developer tools (hit F12 key -> "Browser Mode" and "Document Mode").<br/><br/>For proper functionality we recomend you to use Safari, Firefox or Chromium!</p>'.$content;
+    } else if($userAgent == 'ie11') {
+      $content = '<p style="border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em; background-color: #FFEBE8; border-color: #CC0000; ">Internet Explorer 11 is currently having issues with Foliopress WYSIWYG. You can try to switch to IE8 in the IE11 Developer tools (hit F12 key -> Emulation -> "Document mode" and "User agent string").<br/><br/>For proper functionality we recomend you to use Safari, Firefox or Chromium!</p>'.$content;  
+    }else if( $userAgent == 'ipad' ) {
       $content = '<p style="border-radius: 3px 3px 3px 3px; border-style: solid; border-width: 1px; padding: 0 0.6em; background-color: #FFEBE8; border-color: #CC0000; ">Sorry, iPad is not currently supported. Please use Safari, Firefox, IE 7, IE 8 or Chromium!</p>'.$content;
     }
+    
 
     return $content;
   }
