@@ -135,8 +135,8 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 = 2.6.8.8 =
 
-* Editor is disabled for IE 10.0 and IE 11.0 and notice about using different browser is displayed.
-* Added serbian language translation.
+* Due to compatibility issues editor was disabled for IE 10.0 and IE 11.0 and notice about using different browser is displayed.
+* Added serbian language translation. Thank you goes to http://www.webhostinghub.com !
 
 = 2.6.8.7 =
 
