@@ -5,7 +5,7 @@
  * Main class that handles all implementation of plugin into WordPress. All WordPress actions and filters are handled here
  *  
  * @author Foliovision s.r.o. <info@foliovision.com>
- * @version 2.6.8.8
+ * @version 2.6.8.9
  * @package foliopress-wysiwyg
  */
 
@@ -65,7 +65,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	 * Plugin version
 	 * @var string
 	 */
-	var $strVersion = '2.6.8.8';
+	var $strVersion = '2.6.8.9';
 	/**
 	 * Custom options array.
 	 * Array of options that are stored in database:
@@ -224,6 +224,9 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 		}
 		$this->strFCKEditorPath = $strSite . 'wp-content/plugins/' . basename( dirname( __FILE__ ) ) . '/fckeditor/';
 		*/
+    
+    
+    
 		$this->iEditorSize = 20 * intval( get_option( 'default_post_edit_rows' ) );
 		if( $this->iEditorSize < 240 ) $this->iEditorSize = 240;
 
@@ -330,8 +333,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	 * Init certain variables
 	 */			
 	function admin_init() {
-    
-    if( version_compare( $this->strVersion, get_option( 'fp_wysiwyg_version') ) == 1 ) {
+    if( !get_option( 'default_post_edit_rows' ) || version_compare( $this->strVersion, get_option( 'fp_wysiwyg_version') ) == 1 ) {
       if( get_option( 'default_post_edit_rows' ) < 20 ) {
         update_option( 'default_post_edit_rows', 30 );
       }
