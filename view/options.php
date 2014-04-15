@@ -98,7 +98,7 @@
 			</tr>
 			<tr valign="top"> 
                 <th scope="row"><label for="FCKWidth"><?php _e('Height of FCKEditor', 'fp_wysiwyg') ?></label></th>
-				<td><input type="text" name="default_post_edit_rows" value="<?php print( get_option('default_post_edit_rows') ); ?>" class="small-text" /><span class="description">(<?php _e('Enter number of rows', 'fp_wysiwyg') ?>)</span></td>
+				<td><input type="text" name="fv_default_post_edit_rows" value="<?php print( get_option('fv_default_post_edit_rows') ); ?>" class="small-text" /><span class="description">(<?php _e('Enter number of rows', 'fp_wysiwyg') ?>)</span></td>
 			</tr>			
 			<tr valign="top"> 
                 <th scope="row"><label for="FCKWidth"><?php _e('Width of FCKEditor', 'fp_wysiwyg') ?></label></th>

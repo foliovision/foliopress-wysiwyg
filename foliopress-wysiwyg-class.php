@@ -227,7 +227,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
     
     
     
-		$this->iEditorSize = 20 * intval( get_option( 'default_post_edit_rows' ) );
+		$this->iEditorSize = 20 * intval( get_option( 'fv_default_post_edit_rows' ) );
 		if( $this->iEditorSize < 240 ) $this->iEditorSize = 240;
 
 		$this->aOptions = get_option( FV_FCK_OPTIONS );
@@ -333,9 +333,11 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	 * Init certain variables
 	 */			
 	function admin_init() {
-    if( !get_option( 'default_post_edit_rows' ) || version_compare( $this->strVersion, get_option( 'fp_wysiwyg_version') ) == 1 ) {
+    if( !get_option( 'fv_default_post_edit_rows' ) || version_compare( $this->strVersion, get_option( 'fp_wysiwyg_version') ) == 1 ) {
       if( get_option( 'default_post_edit_rows' ) < 20 ) {
-        update_option( 'default_post_edit_rows', 30 );
+        update_option( 'fv_default_post_edit_rows', 30 );
+      } else {
+        update_option( 'fv_default_post_edit_rows', get_option( 'default_post_edit_rows' ) );
       }
       update_option( 'fp_wysiwyg_version', $this->strVersion );
     }
@@ -1129,8 +1131,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 			/// This is regular saving of options that are on the main Options page
 			if( isset( $_POST['options_save'] ) ){
 			
-			  if( isset( $_POST['default_post_edit_rows'] ) ) {
-			    update_option('default_post_edit_rows', intval( $_POST['default_post_edit_rows'] ) );
+			  if( isset( $_POST['fv_default_post_edit_rows'] ) ) {
+			    update_option('fv_default_post_edit_rows', intval( $_POST['fv_default_post_edit_rows'] ) );
 			  }
 
 				$this->aOptions[self::FVC_IMAGES_CHANGED]=false;
