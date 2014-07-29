@@ -15,7 +15,7 @@ require_once 'initialise.php';
 <head>
 <title>KFM-maintenance</title>
 <link rel="stylesheet" href="themes/<?php echo $kfm->setting('theme'); ?>/prompt.css" />
-<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
+<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js"></script>
 <script type="text/javascript">
 	var $j = jQuery.noConflict();
 	$j(document).ready(function(){

@@ -383,7 +383,7 @@ if ($last_registration!=$today) {
 			for(var i = 0;i<kfm_hidden_panels.length;++i)kfm_hidden_panels[i] = 'kfm_'+kfm_hidden_panels[i]+'_panel';
 		</script>
 <?php // } ?>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.4.1/jquery.min.js"></script>
 		<script type="text/javascript" src="third-party/swfupload/swfupload.js"></script>
 		<script type="text/javascript" src="j/all.php"></script>
 		<script type="text/javascript" src="lang/<?php echo $kfm_language; ?>.js"></script>

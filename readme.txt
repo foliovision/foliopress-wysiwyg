@@ -133,6 +133,10 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 == Changelog ==
 
+= 2.6.8.10
+
+* Fix for HTTPS websites
+
 = 2.6.8.9 =
 
 * Fix for bad editor size - if you upgraded Foliopress WYSIWYG and then Worpdress to 3.8, it might remove the option.
