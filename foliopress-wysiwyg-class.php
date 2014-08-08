@@ -5,7 +5,7 @@
  * Main class that handles all implementation of plugin into WordPress. All WordPress actions and filters are handled here
  *  
  * @author Foliovision s.r.o. <info@foliovision.com>
- * @version 2.6.8.10
+ * @version 2.6.11
  * @package foliopress-wysiwyg
  */
 
@@ -65,7 +65,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	 * Plugin version
 	 * @var string
 	 */
-	var $strVersion = '2.6.8.10';
+	var $strVersion = '2.6.11';
 	/**
 	 * Custom options array.
 	 * Array of options that are stored in database:
@@ -527,7 +527,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
   function FckLoadAdminHead(){		  
     if( ( strpos( $_SERVER['REQUEST_URI'], 'post-new.php' ) || strpos( $_SERVER['REQUEST_URI'], 'page-new.php' ) || strpos( $_SERVER['REQUEST_URI'], 'post.php' ) || strpos( $_SERVER['REQUEST_URI'], 'page.php' ) ) && post_type_supports( get_post_type(), 'editor' ) ) :
     ?>
-  <script type="text/javascript" src="<?php print( $this->strFCKEditorPath ); ?>fckeditor.js"></script>
+  <script type="text/javascript" src="<?php print( $this->strFCKEditorPath ); ?>fckeditor.js?ver=<?php echo $this->strVersion; ?>"></script>
   <style type="text/css">
   #quicktags { display: none; }
   </style>
