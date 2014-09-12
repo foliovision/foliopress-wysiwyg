@@ -135,7 +135,7 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 = 2.6.12
 
-* Fix for Wordpress 4.0 - tinyMCE toolbar appearing above FCKeditor toolbar
+* Fix for Wordpress 4.0 - WP core Media Upload not working.
 
 = 2.6.11
 
