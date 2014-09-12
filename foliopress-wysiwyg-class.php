@@ -5,7 +5,7 @@
  * Main class that handles all implementation of plugin into WordPress. All WordPress actions and filters are handled here
  *  
  * @author Foliovision s.r.o. <info@foliovision.com>
- * @version 2.6.11
+ * @version 2.6.12
  * @package foliopress-wysiwyg
  */
 
@@ -363,7 +363,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
   		$this->strFCKEditorPath = $strSite . 'wp-content/plugins/' . basename( dirname( __FILE__ ) ) . '/fckeditor/';
 	  }
 	  
-
+    wp_deregister_script( 'editor-expand' );
 	}	
 	
 
@@ -404,8 +404,16 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	  if( $this->checkUserAgent() ) return;
 	  
 	  if( $this->loading ) {
-      remove_action( 'admin_print_footer_scripts', array( '_WP_Editors', 'editor_js'), 50 );
-	    remove_action( 'admin_footer', array( '_WP_Editors', 'enqueue_scripts'), 1 );  
+      //remove_action( 'admin_print_footer_scripts', array( '_WP_Editors', 'editor_js'), 50 );
+	    remove_action( 'admin_footer', array( '_WP_Editors', 'enqueue_scripts'), 1 );
+      ?>
+      <script>
+        var fp_wysiwyg_remove_floating_toolbar = setInterval( function() {
+          jQuery('#ed_toolbar.quicktags-toolbar').remove();
+          clearInterval(fp_wysiwyg_remove_floating_toolbar);
+        }, 100 );
+      </script>
+      <?php
 	  }
 	}
 

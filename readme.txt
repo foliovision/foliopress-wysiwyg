@@ -133,6 +133,10 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 == Changelog ==
 
+= 2.6.12
+
+* Fix for Wordpress 4.0 - tinyMCE toolbar appearing above FCKeditor toolbar
+
 = 2.6.11
 
 * Upgrade to latest FCKEditor (2.6.11), fixing security issues with built-in spell checker (not used by our plugin)
