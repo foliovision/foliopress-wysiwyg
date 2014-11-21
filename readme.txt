@@ -133,9 +133,13 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 == Changelog ==
 
+= 2.6.13
+
+* Fix for WebKit browsers - FCK.InsertHtml was acting weird when inserting span tags (required for FV Flowplayer)
+
 = 2.6.12
 
-* Fix for Wordpress 4.0 - WP core Media Upload not working.
+* Fix for Wordpress 4.0 - tinyMCE toolbar appearing above FCKeditor toolbar
 
 = 2.6.11
 

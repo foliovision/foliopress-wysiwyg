@@ -1,4 +1,4 @@
-﻿/*
+/*
  * FCKeditor - The text editor for Internet - http://www.fckeditor.net
  * Copyright (C) 2003-2010 Frederico Caldeira Knabben
  *
@@ -41,8 +41,8 @@ FCK.InsertHtml=function(A){
   range=new FCKDomRange(this.EditorWindow);
   range.MoveToSelection();
   var F=range.CreateBookmark();
-  
-  if (FCKBrowserInfo.IsGecko){
+
+  if (FCKBrowserInfo.IsGecko || FCKBrowserInfo.IsSafari){
     A=A.replace(/&nbsp;$/,'$&<span _fcktemp="1"/>');
     var C=new FCKDocumentFragment(this.EditorDocument);
     C.AppendHtml(A);
