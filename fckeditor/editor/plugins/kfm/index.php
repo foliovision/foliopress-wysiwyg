@@ -1,4 +1,4 @@
-<?php
+<?php 
 /**
  * KFM - Kae's File Manager - index page
  *

@@ -303,11 +303,11 @@ class kfmFile extends kfmObject{
 	 * @return int $file_id id assigned to the file
 	 */
 	function addToDb($filename,$directory_id){
-		global $kfmdb;
+    global $wpdb;
 		if(!$directory_id)return $this->error('Directory ID not supplied');
 		$sql="insert into ".KFM_DB_PREFIX."files (name,directory) values('".sql_escape($filename)."',".$directory_id.")";
-		$q=$kfmdb->query($sql);
-		return $kfmdb->lastInsertId(KFM_DB_PREFIX.'files','id');
+		$wpdb->query($sql);
+		return $wpdb->insert_id;
 	}
 
 	/**
@@ -345,7 +345,7 @@ class kfmFile extends kfmObject{
 		}
 		/// 2011/02/21
 		if( $kfm->setting('filter_wp_thumbnails') ) {
-		  if( preg_match( '/-\d{2,4}x\d{2,4}\.[a-z]{3,4}$/', $filename ) ) return false;
+		  if( preg_match( '/-\d{2,4}x\d{2,4}(?:@2x)?\.[a-z]{3,4}$/', $filename ) ) return false;
 		}
 		///
 		return true;

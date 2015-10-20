@@ -37,9 +37,9 @@ class kfmDirectory extends kfmObject{
 		return true;
 	}
 	function addSubdirToDb($name){
-		global $kfm;
+		global $wpdb;
 		$sql="INSERT INTO ".KFM_DB_PREFIX."directories (name,parent) VALUES('".sql_escape($name)."',".$this->id.")";
-		return $kfm->db->exec($sql);
+    return $wpdb->query($sql);
 	}
 	function checkAddr($addr){
 		return (
@@ -261,7 +261,8 @@ class kfmDirectory extends kfmObject{
 		if($res)return kfmDirectory::getInstance($res['id']);
 		else if(is_dir($this->path().$dirname)){
 			$this->addSubdirToDb($dirname);
-			$id=$kfm->db->lastInsertId(KFM_DB_PREFIX.'directories','id');
+      global $wpdb;
+			$id=$wpdb->insert_id;
 			return kfmDirectory::getInstance($id);
 		}
 		return false;
@@ -280,7 +281,8 @@ class kfmDirectory extends kfmObject{
 			if(is_dir($this->path().$filename)&&$this->checkName($filename)){
 				if(!array_key_exists($filename,$dirshash)){
 					$this->addSubdirToDb($filename);
-					$dirshash[$filename]=$kfm->db->lastInsertId(KFM_DB_PREFIX.'directories','id');
+          global $wpdb;
+					$dirshash[$filename]=$wpdb->insert_id;;
 				}
 				$directories[]=kfmDirectory::getInstance($dirshash[$filename]);
 				unset($dirshash[$filename]);

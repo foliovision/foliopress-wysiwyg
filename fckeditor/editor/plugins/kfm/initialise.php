@@ -15,14 +15,14 @@ if(function_exists("date_default_timezone_set") && function_exists("date_default
 
 // { load classes and helper functions
 
-if(!function_exists('__autoload')){
-	function __autoload($class_name) {  
-		if (file_exists(KFM_BASE_PATH . 'classes/'  . $class_name . '.php')) 
-    require_once KFM_BASE_PATH . 'classes/' . $class_name . '.php';
-	}
-}
-//var_dump( class_exists( 'kfmSession') );
-//spl_autoload_register(__autoload);
+require_once KFM_BASE_PATH . 'classes/kfmObject.php';
+require_once KFM_BASE_PATH . 'classes/kfmBase.php';
+require_once KFM_BASE_PATH . 'classes/kfmDirectory.php';
+require_once KFM_BASE_PATH . 'classes/kfmFile.php';
+require_once KFM_BASE_PATH . 'classes/kfmImage.php';
+require_once KFM_BASE_PATH . 'classes/kfmPlugin.php';
+require_once KFM_BASE_PATH . 'classes/kfmSession.php';
+require_once KFM_BASE_PATH . 'classes/Mimetype.php';
 
 require KFM_BASE_PATH.'includes/lang.php';
 require KFM_BASE_PATH.'includes/db.php';
@@ -337,9 +337,6 @@ if (!function_exists('kfm_json_encode')) { // php-json is not installed
 // { start session
 $session_id  = (isset($_REQUEST['kfm_session']))?$_REQUEST['kfm_session']:'';
 
-if( !class_exists( 'kfmSession') ) {
-  spl_autoload_register( __autoload );
-}
 $kfm_session = new kfmSession($session_id);
 if (isset($_GET['logout'])||isset($_GET['log_out'])) $kfm_session->set('loggedin',0);
 $kfm->defaultSetting('kfm_session_id', $kfm_session->key);
@@ -598,7 +595,8 @@ function kfm_getDirectoryParentsArr($pid, $path = array()) {
 }
 function kfm_loadDirectories($root, $oldpid = 0) {
     include_once KFM_BASE_PATH.'includes/directories.php';
-    return _loadDirectories($root, $oldpid);
+    $val = _loadDirectories($root, $oldpid);
+    return $val;
 }
 function kfm_moveDirectory($from, $to) {
     include_once KFM_BASE_PATH.'includes/directories.php';
@@ -664,7 +662,8 @@ function kfm_moveFiles($files, $dir_id) {
 }
 function kfm_loadFiles($rootid = 1, $setParent = false) {
     include_once KFM_BASE_PATH.'includes/files.php';
-    return _loadFiles($rootid, $setParent);
+    $val = _loadFiles($rootid, $setParent);
+    return $val;
 }
 function kfm_renameFile($filename, $newfilename) {
     include_once KFM_BASE_PATH.'includes/files.php';
