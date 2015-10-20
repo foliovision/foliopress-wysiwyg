@@ -133,28 +133,28 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 == Changelog ==
 
-= 2.6.15
+= 2.6.15 =
 
 * Fix for WPEngine - conflict of __autoload function name
 * Fix for WP Retina 2x images showing up in SEO Images
 
-= 2.6.14
+= 2.6.14 =
 
 * Fix for bad license information in some files
 
-= 2.6.13
+= 2.6.13 =
 
 * Fix for WebKit browsers - FCK.InsertHtml was acting weird when inserting span tags (required for FV Flowplayer)
 
-= 2.6.12
+= 2.6.12 =
 
 * Fix for Wordpress 4.0 - tinyMCE toolbar appearing above FCKeditor toolbar
 
-= 2.6.11
+= 2.6.11 =
 
 * Upgrade to latest FCKEditor (2.6.11), fixing security issues with built-in spell checker (not used by our plugin)
 
-= 2.6.8.10
+= 2.6.8.10 =
 
 * Fix for HTTPS websites
 
