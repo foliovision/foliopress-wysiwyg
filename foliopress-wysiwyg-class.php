@@ -939,7 +939,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 		    if( FCKeditorAPI.GetInstance('content').IsDirty() ) {
 		      jQuery('#content').val( FCKeditorAPI.GetInstance('content').GetXHTML() );
 		    }
-		    wpWordCount.wc( FCKeditorAPI.GetInstance('content').GetXHTML() );
+
+		    if( typeof(wpWordCount) != "undefined" ) wpWordCount.wc( FCKeditorAPI.GetInstance('content').GetXHTML() );
+		    //if( typeof(window.wp) != "undefined" && typeof(window.wp.utils) != "undefined" && typeof(window.wp.utils.WordCounter) != "undefined" ) window.wp.utils.WordCounter.prototype.count( FCKeditorAPI.GetInstance('content').GetXHTML() );
+
 		    setTimeout("fv_wysiwyg_update_content();", 5000);
 		  }
 
