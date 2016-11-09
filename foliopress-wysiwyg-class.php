@@ -32,7 +32,7 @@ require_once( 'include/fp-api.php' );
  *
  * @author Foliovision s.r.o. <info@foliovision.com>
  */
-class fp_wysiwyg_class extends Foliopress_Plugin {
+class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 
 ///  --------------------------------------------------------------------------------------------------------------------
 ///  --------------------------------------------------   Properties   --------------------------------------------------
@@ -289,6 +289,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
     update_option( FV_FCK_OPTIONS, $this->aOptions );    
 
 		//$this->KillTinyMCE( null );
+    
+    if( is_admin() ) {
+      parent::__construct();
+    }
   
 	}
 	
@@ -301,6 +305,10 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 		wp_deregister_script(array('media-upload'));
 		wp_enqueue_script('media-upload', $this->strPluginPath .'media-upload.js', array('thickbox'), '20080710'); 
 		//wp_enqueue_script('fckeditor', $this->fckeditor_path . 'fckeditor.js');
+    
+    ?>
+    <style>.foliopress_wysiwyg_seo_images_gone #pointer-primary { display: none}</style>
+    <?php
 	}	
 	
 	
@@ -361,6 +369,18 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 	  }
 	  
     wp_deregister_script( 'editor-expand' );
+    
+    if( !get_option('foliopress_wysiwyg_seo_images_gone') ) {
+      $this->pointer_boxes['foliopress_wysiwyg_seo_images_gone'] = array(
+        'id' => '#wp-admin-bar-new-content',
+        'pointerClass' => 'foliopress_wysiwyg_seo_images_gone',
+        'heading' => 'Foliopress WYSIWYG - SEO Images',
+        'content' => "<p>Due to PHP 7 compatibility issues and WordPress upgrades we were forced to remove our image management tool built on KFM. Please use Foliopress WYSIWYG 2.6.15 if you really need it.</p>",
+        'position' => array( 'edge' => 'top', 'align' => 'center' ),
+        'button1' => 'Allow',
+        'button2' => 'Acknowledge',
+      );
+    }
 	}	
 	
 
@@ -426,6 +446,15 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
     		'size_error' => __('Please write correct size into text box !', 'fp_wysiwyg'),
     		);
     }
+    
+  function ajax_pointers() {
+    if( isset($_POST['key']) && $_POST['key'] == 'foliopress_wysiwyg_seo_images_gone' && isset($_POST['value']) ) {
+      check_ajax_referer('foliopress_wysiwyg_seo_images_gone');
+      update_option( 'foliopress_wysiwyg_seo_images_gone', true );
+      die();
+    }
+    
+  }
 	
   //  can we set featured images?	
   function check_featured_image_capability() {

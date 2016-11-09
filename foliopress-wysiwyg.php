@@ -65,4 +65,4 @@ if( $GLOBALS['wp_version'] >= 2.7 ) {
 add_filter('wp_insert_post', array(&$fp_wysiwyg, 'wp_insert_post'));
 add_filter('the_content', array(&$fp_wysiwyg, 'the_content'), 0);
 
-?>
+add_action( 'wp_ajax_fv_foliopress_ajax_pointers',  array($fp_wysiwyg, 'ajax_pointers') );
