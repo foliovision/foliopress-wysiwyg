@@ -3,7 +3,7 @@
 Plugin Name: FolioPress WYSIWYG
 Plugin URI: http://foliovision.com/seo-tools/wordpress/plugins/wysiwyg
 Description: WYSIWYG FCKEditor with custom Image Management and nice skin.
-Version: 2.6.15
+Version: 2.6.16
 Author: Foliovision s r.o.
 Author URI: http://www.foliovision.com
 */
@@ -33,10 +33,6 @@ add_action( 'edit_page_form', array( &$fp_wysiwyg, 'LoadFCKEditor' ) );
 add_action( 'simple_edit_form', array( &$fp_wysiwyg, 'LoadFCKEditor' ) );
 
 add_filter( 'the_editor', array( &$fp_wysiwyg, 'the_editor' ) );
-
-    /// 0.5.2 SEO Images support
-    add_action( 'wp_ajax_seo_images_featured_image', array( &$fp_wysiwyg, 'featured_image' ) );
-    add_filter( 'admin_post_thumbnail_html', array( &$fp_wysiwyg, 'admin_post_thumbnail_html' ) );
 
 //  remove tinyMCE editor JS in WP 3.3
 if( $GLOBALS['wp_version'] >= 3.3 ) {

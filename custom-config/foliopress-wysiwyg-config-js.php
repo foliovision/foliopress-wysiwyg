@@ -39,7 +39,7 @@ FCKConfig.ToolbarSets["Default"] = [
 	['OrderedList','UnorderedList','-','Outdent','Indent'], 
 	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'], 
 	['Link','Unlink','Anchor'], 
-	['kfmBridge','FVWPFlowplayer','Table','Rule','Smiley','SpecialChar','PageBreak'], 
+	['FVWPFlowplayer','Table','Rule','Smiley','SpecialChar','PageBreak'], 
 	'/', 
 	['Style','FontFormat','FontName','FontSize'], 
 	['TextColor','BGColor']
@@ -50,12 +50,12 @@ FCKConfig.ToolbarSets["Basic"] = [
 ];
 
 FCKConfig.ToolbarSets["Foliovision"] = [
-	['Cut','Copy','Paste','foliopress-paste','-','Bold','Italic','-','FontFormat','RemoveFormat','-','OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','-','Link','Unlink','Anchor','-','foliopress-more','-','kfmBridge','FVWPFlowplayer','PasteEmbed','-','Source','-','FitWindow']
+	['Cut','Copy','Paste','foliopress-paste','-','Bold','Italic','-','FontFormat','RemoveFormat','-','OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','-','Link','Unlink','Anchor','-','foliopress-more','-','FVWPFlowplayer','PasteEmbed','-','Source','-','FitWindow']
 	//wp_buttons,
 ];
 
 FCKConfig.ToolbarSets["Foliovision-Full"] = [ 
-	['Cut','Copy','Paste','-','Undo','Redo','-','Bold','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyFull','-','OrderedList','UnorderedList','-','Outdent','Indent','-','Link','Unlink','Anchor','-','kfmBridge','FVWPFlowplayer'], 
+	['Cut','Copy','Paste','-','Undo','Redo','-','Bold','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyFull','-','OrderedList','UnorderedList','-','Outdent','Indent','-','Link','Unlink','Anchor','-','FVWPFlowplayer'], 
 	//['Subscript','Superscript','-', 
 	//media_buttons, 
 	'/', 
@@ -197,13 +197,9 @@ FCKConfig.BodyClass = '<?php echo $options['bodyclass']; ?>' ;
 /* These are paths you don't want to change unless you really know what you are doing.
 You've been warned. */
 
-FCKConfig.ImageBrowserURL = FCKConfig.BasePath+'plugins/kfm/?lang='+FCKConfig.DefaultLanguage+'&kfm_caller_type=fck&type=Image';
-FCKConfig.ImageUploadURL = FCKConfig.BasePath+'plugins/kfm/?lang='+FCKConfig.DefaultLanguage+'&kfm_caller_type=fck&type=Image';
 
 FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/<?php print( $fp_wysiwyg->aOptions[fp_wysiwyg_class::FVC_SKIN] ); ?>/';
 
-FCKConfig.Plugins.Add( 'kfm' );
-FCKConfig.Plugins.Add( 'kfmBridge' );
 FCKConfig.Plugins.Add( 'foliopress-wp' );
 FCKConfig.Plugins.Add( 'foliopress-paste-embed' );
 FCKConfig.EditorAreaCSS = FCKConfig.BasePath + '../../custom-config/foliopress-editor.php';

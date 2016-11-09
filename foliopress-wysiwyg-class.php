@@ -5,7 +5,7 @@
  * Main class that handles all implementation of plugin into WordPress. All WordPress actions and filters are handled here
  *  
  * @author Foliovision s.r.o. <info@foliovision.com>
- * @version 2.6.15
+ * @version 2.6.16
  * @package foliopress-wysiwyg
  */
 
@@ -25,9 +25,6 @@ require_once( 'include/foliopress-wysiwyg-load.php' );
 require_once( 'include/fp-api.php' );
 
 
-if( isset( $_POST['recreate_submit'] ) ){
-	//require_once( dirname(__FILE__).'/fckeditor/editor/plugins/kfm/cleanup.php' );
-}
 /**
  * Main Foliopress WYSIWYG class
  *
@@ -611,11 +608,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 				return '';
 			}
 			
-			$aOptions = get_option( FV_FCK_OPTIONS );
-      if( isset( $aOptions['HideMediaButtons'] ) && $aOptions['HideMediaButtons'] == true)
-				return $content.'<style>#media-buttons, #wp-content-editor-tools { display: none; }</style>';
-			else
-				return $content;
+			return $content;
    }
 	
 	
@@ -801,7 +794,7 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         	['OrderedList','UnorderedList','-','Outdent','Indent'], \
         	['JustifyLeft','JustifyCenter','JustifyRight','JustifyFull'], \
         	['Link','Unlink','Anchor'], \
-        	['kfmBridge','FVWPFlowplayer','Table','Rule','Smiley','SpecialChar','PageBreak'], \
+        	['FVWPFlowplayer','Table','Rule','Smiley','SpecialChar','PageBreak'], \
         	'/', \
         	['Style','FontFormat','FontName','FontSize'], \
         	['TextColor','BGColor'] \
@@ -812,11 +805,11 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         ]; \
         \
         FCKConfig.ToolbarSets['Foliovision'] = [ \
-        	['Cut','Copy','Paste','foliopress-paste','-','Bold','Italic','-','FontFormat','RemoveFormat','-','OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','-','Link','Unlink','Anchor','-','foliopress-more','-','kfmBridge','FVWPFlowplayer','PasteEmbed','-','Source','-','FitWindow'] \
+        	['Cut','Copy','Paste','foliopress-paste','-','Bold','Italic','-','FontFormat','RemoveFormat','-','OrderedList','UnorderedList','-','Outdent','Indent','Blockquote','-','Link','Unlink','Anchor','-','foliopress-more','-','FVWPFlowplayer','PasteEmbed','-','Source','-','FitWindow'] \
         ]; \
         \
         FCKConfig.ToolbarSets['Foliovision-Full'] = [ \
-           ['Cut','Copy','Paste','-','Undo','Redo','-','Bold','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyFull','-','OrderedList','UnorderedList','-','Outdent','Indent','-','Link','Unlink','Anchor','-','kfmBridge','FVWPFlowplayer','PasteEmbed'], '/', \
+           ['Cut','Copy','Paste','-','Undo','Redo','-','Bold','Italic','-','JustifyLeft','JustifyCenter','JustifyRight','JustifyFull','-','OrderedList','UnorderedList','-','Outdent','Indent','-','Link','Unlink','Anchor','-','FVWPFlowplayer','PasteEmbed'], '/', \
         	['FontFormat','RemoveFormat','-','Replace','Table','Rule','SpecialChar','-','foliopress-more','foliopress-next','-','Source','-','FitWindow'] \
         ]; \
         \
@@ -865,12 +858,8 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
         if( FCKConfig.BodyId || FCKConfig.BodyClass ) { \
         	FCKConfig.BodyClass = FCKConfig.BodyClass + ' wysiwyg'; \
         } \
-        FCKConfig.ImageBrowserURL = FCKConfig.BasePath+'plugins/kfm/?lang='+FCKConfig.DefaultLanguage+'&kfm_caller_type=fck&type=Image'; \
-        FCKConfig.ImageUploadURL = FCKConfig.BasePath+'plugins/kfm/?lang='+FCKConfig.DefaultLanguage+'&kfm_caller_type=fck&type=Image'; \
         FCKConfig.SkinPath = FCKConfig.BasePath + 'skins/<?php print( $this->aOptions[fp_wysiwyg_class::FVC_SKIN] ); ?>/'; \
         \
-        FCKConfig.Plugins.Add( 'kfm' ); \
-        FCKConfig.Plugins.Add( 'kfmBridge' ); \
         FCKConfig.Plugins.Add( 'foliopress-wp' ); \
         FCKConfig.Plugins.Add( 'foliopress-clean' ); \
         FCKConfig.Plugins.Add( 'foliopress-paste-embed' ); \
@@ -1123,21 +1112,6 @@ class fp_wysiwyg_class extends Foliopress_Plugin {
 				unset( $_GET['edit'] );
 			}
 			
-			/// When user returns from recreate page, thumbnails will be recreated
-			if( isset( $_POST['recreate_submit'] ) ){
-				set_time_limit( 300 );
-				require_once( dirname(__FILE__).'/fckeditor/editor/plugins/kfm/cleanup.php' );
-
-				$aSetup = array();
-				$aSetup['JPGQuality'] = $this->aOptions[self::FVC_JPEG];
-				$aSetup['transform'] = $this->aOptions[self::FVC_PNG];
-				$aSetup['transform_limit'] = $this->aOptions[self::FVC_PNG_LIMIT];
-				$aSetup['ddir'] = $this->aOptions[self::FVC_DIR];
-
-				
-				KFM_RecreateThumbnailsSilent( realpath( $_SERVER['DOCUMENT_ROOT'].$this->aOptions[self::FVC_IMAGES] ), $this->aOptions[self::FVC_KFM_THUMBS], $kfm_workdirectory, $aSetup );
-				echo '<div class="updated"><p>Thumbnails recreated.</p></div>';
-			}
 			
 			/// This is regular saving of options that are on the main Options page
 			if( isset( $_POST['options_save'] ) ){

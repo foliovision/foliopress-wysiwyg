@@ -51,10 +51,10 @@
 		
 		<h3><?php _e('Basic Options', 'fp_wysiwyg') ?></h3>
 		<table class="form-table"> 
-            <tr valign="top"> 
+            <!--<tr valign="top"> 
                 <th scope="row"><label for="ImagesPath"><?php _e('Path to images on your web server', 'fp_wysiwyg') ?></label></th>
                 <td><input type="text" name="ImagesPath" value="<?php print( $this->aOptions[self::FVC_IMAGES] ); ?>" class="regular-text" /></td>
-            </tr>
+            </tr>-->
             <tr valign="top"> 
                 <th scope="row"><label for="FCKSkins"><?php _e('FCKEditor skin', 'fp_wysiwyg') ?> </label></th>
 				<td><?php
@@ -104,23 +104,23 @@
                 <th scope="row"><label for="FCKWidth"><?php _e('Width of FCKEditor', 'fp_wysiwyg') ?></label></th>
 				<td><input type="text" name="FCKWidth" value="<?php print( $this->aOptions[self::FVC_WIDTH] ); ?>" class="small-text" /><span class="description">(<?php _e('0 is default, for unlimited width', 'fp_wysiwyg') ?>)</span></td>
 			</tr1>
-			<tr valign="top">
+			<!--<tr valign="top">
                 <th scope="row"><label for="HideMediaButtons"><?php _e('Enable Wordpress uploader buttons', 'fp_wysiwyg') ?></label></th>
                 <td><input id="chkHideMediaButtons" type="checkbox" name="HideMediaButtons" value="checkbox" <?php if($this->aOptions[self::FVC_HIDEMEDIA] == false) echo 'checked="checked"'; ?> /></td>
-			</tr>
-			<tr valign="top"> 
+			</tr>-->
+			<!--<tr valign="top"> 
                 <th scope="row"><label for="HideMediaButtons"><?php _e('Multiple image posting', 'fp_wysiwyg') ?></label></th>
                 <td><input id="chkMultipleImagePosting" type="checkbox" name="MultipleImagePosting" value="checkbox" <?php if($this->aOptions['multipleimageposting']) echo 'checked="checked"'; ?> /><span class="description"><?php _e('Disable if you want image management window to close automatically after posting a single image.', 'fp_wysiwyg') ?></span></td>
-			</tr>
-			<tr>
+			</tr>-->
+			<!--<tr>
 				<th scope="row"><?php _e('Max Image Size', 'fp_wysiwyg') ?></th>
 				<td>
 					<label for="MaxWidth"><?php _e('Width', 'fp_wysiwyg') ?> <input type="text" name="MaxWidth" value="<?php echo $this->aOptions[self::FVC_MAXW]; ?>" class="small-text" /></label>
 					<label for="MaxHeight"><?php _e('Height', 'fp_wysiwyg') ?> <input type="text" name="MaxHeight" value="<?php echo $this->aOptions[self::FVC_MAXH]; ?>" class="small-text" /></label>
 					<span class="description"><?php _e('All images with one of dimensions above one of these limits will be sized down when uploading.', 'fp_wysiwyg') ?></span>
 				</td>
-			</tr>
-			<tr valign="top"> 
+			</tr>-->
+			<!--<tr valign="top"> 
                 <th scope="row"><label for="listKFMThumbs"><?php _e('Thumbnail sizes', 'fp_wysiwyg') ?></label></th>
 				<td>
                     <select id="listKFMThumbs" style="width: 100px;"></select>
@@ -130,8 +130,8 @@
                     <input type="button" class="button" value="<?php _e('Remove selected', 'fp_wysiwyg') ?>" onclick="KFMRemoveThumbnail()" />
                     <br />
 				</td>
-			</tr>
-			<tr valign="top"> 
+			</tr>-->
+			<!--<tr valign="top"> 
         <th scope="row"><?php _e('Supported postmeta', 'fp_wysiwyg') ?></th>
         <td><fieldset>
           <label for="postmeta"><input id="postmeta" type="text" name="postmeta" value="<?php echo $this->aOptions['postmeta']; ?>" class="regular-text" /></label>
@@ -139,7 +139,7 @@
           <span class="description"><?php _e('Comma separated list of keys for postmeta values you want to fill in from SEO Images.', 'fp_wysiwyg') ?></span>
           </fieldset>
         </td>
-      </tr>			
+      </tr>-->
 			<tr valign="top"> 
                 <th scope="row"><?php _e('WYSIWYG CSS styles', 'fp_wysiwyg') ?></th>
                 <td><fieldset>
@@ -190,12 +190,12 @@
     					}
                     ?><select name="FCKLangDir"><option value="ltr"><?php _e('Left to right', 'fp_wysiwyg') ?></option><option value="rtl" <?php if( $this->aOptions['FCKLangDir'] == 'rtl' ) echo 'selected'; ?>><?php _e('Right to left', 'fp_wysiwyg') ?></option></select></td>
     			</tr>
-    			<tr valign="top"> 
+    			<!--<tr valign="top"> 
                     <th scope="row"><label for="FCKSkins"><?php _e('SEO Images Language', 'fp_wysiwyg') ?></label></th>
     				<td><?php
     					print( '<select name="kfmlang"><option value="auto">' . __('Default', 'fp_wysiwyg') . '</option>' );
     
-    					try{
+    					/*try{
     						$aKfmLang = fp_wysiwyg_load_fck_items( realpath( $strPath . self::KFM_LANG_RELATIVE_PATH ) );
     						foreach( $aKfmLang AS $key => $value ) {
     						  if( stripos( $value, '.js' ) === FALSE ) {
@@ -213,26 +213,26 @@
     						$bError = true;
     						print( '</select>' );
     						print( ' ERROR: ' . $ex->getMessage() );
-    					}
+    					}*/
                     ?></td>
-    			</tr>
-          <tr valign="top">
+    			</tr>-->
+          <!--<tr valign="top">
               <th scope="row"><?php _e('Permissions', 'fp_wysiwyg') ?></th>
               <td><input type="button" class="button" value="<?php _e('Default settings', 'fp_wysiwyg') ?>" onclick="FVWYSIWYGPermisssionsDefault()" /> <input type="button" class="button" value="<?php _e('My server runs in FastCGI or LiteSpeed', 'fp_wysiwyg') ?>" onclick="FVWYSIWYGPermisssionsUser()" />&nbsp;&nbsp;<label for="dirperm"><?php _e('Directories', 'fp_wysiwyg') ?> <input type="text" id="dirperm" name="dirperm" value="<?php echo $this->aOptions['dirperm']; ?>" class="small-text" /></label> <label for="fileperm"><?php _e('Files', 'fp_wysiwyg') ?> <input type="text" id="fileperm" name="fileperm" value="<?php echo $this->aOptions['fileperm']; ?>" class="small-text" /></label><br /><span class="description"><?php _e('We strongly recommend you to test your new settings by creating a directory, uploading some image into it and inserting it into post.', 'fp_wysiwyg') ?></span></td>
-          </tr>
-					<tr valign="top">
+          </tr>-->
+					<!--<tr valign="top">
               <th scope="row"><?php _e('Use Flash Uploader', 'fp_wysiwyg') ?></th>
               <td><fieldset>
                   <label for="UseFlashUploader"><input id="chkUseFlashUploader" type="checkbox" name="UseFlashUploader" value="yes" onclick="KFMLink_change()" <?php if($this->aOptions[self::FVC_USE_FLASH_UPLOADER]) echo 'checked="checked"'; ?> /> <?php _e('Flash uploader will enable you to upload multiple images at once. You might want to disable it for better compatibility.', 'fp_wysiwyg') ?></label>
               </fieldset></td>
-          </tr>
-                <tr valign="top">
+          </tr>-->
+                <!--<tr valign="top">
                     <th scope="row"><?php _e('Thumbnails', 'fp_wysiwyg') ?></th>
                     <td><fieldset>
                         <label for="KFMLink"><input id="chkKFMLink" type="checkbox" name="KFMLink" value="yes" onclick="KFMLink_change()" /> <?php _e('Thumbnail image should link to the full-sized image', 'fp_wysiwyg') ?></label><br />
                         <label for="KFMLightbox"><input id="chkKFMLightbox" type="checkbox" name="KFMLightbox" value="yes" /> <?php _e('Allow full-sized images to be opened with the lightbox effect', 'fp_wysiwyg') ?></label>
                     </fieldset></td>
-                </tr>
+                </tr>-->
                 
 				<tr valign="top"> 
                     <th scope="row"><label for="listFPClean"><?php _e('FPClean', 'fp_wysiwyg') ?></label></th>
@@ -245,23 +245,23 @@
                         <span class="description"><?php _e('Matching text will be striped of \'&lt;p&gt;\' and \'&lt;div&gt;\' tags', 'fp_wysiwyg') ?></span>
 					</td>
 				</tr>
-				<tr valign="top"> 
+				<!--<tr valign="top"> 
                     <th scope="row"><?php _e('JPEG Images', 'fp_wysiwyg') ?></th>
                     <td><label for="JPEGQuality"><?php _e('Quality', 'fp_wysiwyg') ?> <input type="text" name="JPEGQuality" value="<?php echo $this->aOptions[self::FVC_JPEG]; ?>" class="small-text" /></label></td>
-                </tr>
-				<tr valign="top"> 
+                </tr>-->
+				<!--<tr valign="top"> 
                     <th scope="row"><?php _e('PNG Images', 'fp_wysiwyg') ?></th>
                     <td><fieldset>
                         <label for="PNGTransform"><input id="chkPNGTransform" type="checkbox" name="PNGTransform" value="yes" onclick="KFM_CheckPNG( !bPNGTransform );"<?php if( $this->aOptions[self::FVC_PNG] ) echo ' checked="checked"'; ?> /> <?php _e('Transform not colorful true-color PNG images to 8-bit color PNG' , 'fp_wysiwyg') ?></label><br />
                         <label for="PNGLimit"><?php _e('Limit of colorful true-color PNG', 'fp_wysiwyg') ?> <input type="text" id="txtPNGLimit" name="PNGLimit" value="<?php echo $this->aOptions[self::FVC_PNG_LIMIT]; ?>" class="small-text" /></label>
                     </fieldset></td>
-                </tr>
-				<tr valign="top"> 
+                </tr>-->
+				<!--<tr valign="top"> 
                     <th scope="row"><?php _e('Default directory', 'fp_wysiwyg') ?></th>
                     <td><fieldset>
                         <label for="DIRset"><input id="chkDIRset" type="checkbox" name="DIRset" value="yes" onclick="KFM_CheckDIR( !bDIRset );"<?php if( $this->aOptions[self::FVC_DIR] ) echo ' checked="checked"'; ?> /> <?php _e('Open the Year/Month directory as default.', 'fp_wysiwyg') ?></label><br />
                     </fieldset></td>
-                </tr>
+                </tr>-->
                 <tr valign="top">
                     <th scope="row"><label for="customtoolbar"><?php _e('Custom Toolbar', 'fp_wysiwyg') ?></label></th>
                     <td><textarea rows="8" cols="80" name="customtoolbar"><?php echo $this->aOptions['customtoolbar']; ?></textarea></td>
@@ -294,11 +294,11 @@
                         <label for="UseWPLinkDialog"><input id="chkUseWPLinkDialog" type="checkbox" name="UseWPLinkDialog" value="yes" <?php if($this->aOptions['UseWPLinkDialog']) echo 'checked="checked"'; ?> /> Use Wordpress Linking Dialog</label><br /><span class="description">New feature of Wordpress 3.1. Allows you to select a post and insert a link to it.</span><br />
                     </fieldset></td>
                 </tr>-->              
-          				<tr valign="top"> 
+          			<!--<tr valign="top"> 
                     <th scope="row"><?php _e('KFM Thumbnail size', 'fp_wysiwyg') ?></th>
                     <td><label for="KFMThumbnailSize"><input type="text" name="KFMThumbnailSize" value="<?php echo $this->aOptions[self::FVC_KFM_THUMB_SIZE]; ?>" class="small-text" /> px</label><br /><span class="description"><?php _e('Size of the thumnails in the image uploader.', 'fp_wysiwyg') ?></span></td>
-                </tr>
-          			<tr valign="top"> 
+                </tr>-->
+          			<!--<tr valign="top"> 
                   <th scope="row"><?php _e('Image Insert HTML', 'fp_wysiwyg') ?></th>
                   <td><fieldset>
                     <label for="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>"><input size="50" id="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>" type="text" name="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>" value='<?php echo stripslashes( $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] ); ?>' class="regular-text" /></label>
@@ -306,7 +306,7 @@
                     <span class="description"><?php _e('This will be used in JavaScript when inserting images. Use \" to escape " in HTML. Leave empty for defaults!', 'fp_wysiwyg') ?></span>
                     </fieldset>
                   </td>
-                </tr>		                
+                </tr>-->      
                       
 			</table>
 			<br />
@@ -353,20 +353,20 @@
 </div>
 <script type="text/javascript">
 	jQuery(document).ready(function(){
-    	KFMLinkLightboxStart( <?php
+    	//KFMLinkLightboxStart( <?php
     				$iLink = ($this->aOptions[self::FVC_KFM_LINK]) ? 1 : 0;
     				$iLight = ($this->aOptions[self::FVC_KFM_LIGHTBOX]) ? 1 : 0;
     				printf( "%d, %d", $iLink, $iLight ); 
     	?> );
     	
     	var bPNGTransform = <?php echo ($this->aOptions[self::FVC_PNG]) ? 'true' : 'false'; ?>;
-    	KFM_CheckPNG( bPNGTransform );
+    	//KFM_CheckPNG( bPNGTransform );
     	var bDIRset = <?php echo ($this->aOptions[self::FVC_DIR]) ? 'true' : 'false'; ?>;
-    	KFM_CheckDIR( bDIRset );
+    	//KFM_CheckDIR( bDIRset );
     	
     	var aKFMThumbs = new Array();
     	<?php for( $i=0; $i<count( $this->aOptions[self::FVC_KFM_THUMBS] ); $i++ ) print( 'aKFMThumbs[' . $i . '] = ' . $this->aOptions[self::FVC_KFM_THUMBS][$i] . ";\n" ); ?>
-    	KFMThumbsStart( aKFMThumbs );
+    	//KFMThumbsStart( aKFMThumbs );
     	
     	var aFPCleanPHP = new Array();
     	<?php for( $i=0; $i<count( $this->aOptions[self::FVC_FPC_TEXTS] ); $i++ ) print( 'aFPCleanPHP['.$i.'] = "'.$this->aOptions[self::FVC_FPC_TEXTS][$i]."\";\n" ); ?>

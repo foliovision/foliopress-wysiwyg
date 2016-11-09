@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: wysiwyg,editor,foliopress,image,images,seo,lightbox,fck,tinymce,editor
 Requires at least: 3.1 
-Tested up to: 4.5
+Tested up to: 4.6.1
 Stable tag: trunk
 
 Foliopress WYSIWYG is the editor you were always hoping for, every time you installed a new content management system.
@@ -132,6 +132,10 @@ You need to use a plugin like [WP Slimbox 2](http://wordpress.org/extend/plugins
 The ImageMagick binary must be executable from PHP and be available as /bin/convert. We will add automated checks for this. ImageMagick provides superior image quality than standard PHP GD library!
 
 == Changelog ==
+
+= 2.6.16 =
+
+* SEO Images removed! Due to PHP 7 compatibility issues and WordPress upgrades we are forced to remove our image management tool built on KFM. Please use Foliopress WYSIWYG 2.6.15 if you really need it.
 
 = 2.6.15 =
 
@@ -318,6 +322,9 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 * SEO Images are now compatible with FTP uploaded files. Read a manual on how to upload files and prepare them on handling with SEO Images.
 
 == Upgrade Notice ==
+
+= 2.6.16
+* SEO Images removed! Due to PHP 7 compatibility issues and WordPress upgrades we are forced to remove our image management tool built on KFM. Please use Foliopress WYSIWYG 2.6.15 if you really need it.
 
 = 2.6.8 =
 * We decided to go back to FCKeditor (latest version - 2.6.8), as the new CKeditor was bringing too many new issues.
