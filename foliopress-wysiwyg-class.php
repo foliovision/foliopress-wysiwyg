@@ -187,7 +187,7 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 	///	End of addition
 	
 	const FV_SEO_IMAGES_POSTMETA = 'postmeta';
-	const FV_SEO_IMAGES_IMAGE_TEMPLATE = 'image_template';	
+	const FV_SEO_IMAGES_IMAGE_TEMPLATE = 'image_template';
 
 
 ///  -----------------------------------------------------------------------------------------------------------------
@@ -267,7 +267,7 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 		if ( !isset( $this->aOptions['bodyclass'] ) ) $this->aOptions['bodyclass'] = "";
 
 		if ( !isset( $this->aOptions['autowpautop'] ) ) $this->aOptions['autowpautop'] = true;
-		if ( !isset( $this->aOptions['convertcaptions'] ) ) $this->aOptions['convertcaptions'] = true;
+		
 		
 		if( !isset( $this->aOptions[self::FVC_MAXW] ) ) $this->aOptions[self::FVC_MAXW] = 960;
 		if( !isset( $this->aOptions[self::FVC_MAXH] ) ) $this->aOptions[self::FVC_MAXH] = 960;
@@ -285,8 +285,16 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 		if( !isset( $this->aOptions['fileperm'] ) ) $this->aOptions['fileperm'] = '666';
 		/// End of addition
 		if( !isset( $this->aOptions['filter_wp_thumbnails'] ) ) $this->aOptions['filter_wp_thumbnails'] = true;
-		if( !isset( $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] ) || $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] == '' ) $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] = addslashes( '"<h5>"+sHtmlCode+"<br />"+sAlt+"</h5>"' );
-    update_option( FV_FCK_OPTIONS, $this->aOptions );    
+		//if( !isset( $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] ) || $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] == '' ) $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] = addslashes( '"<h5>"+sHtmlCode+"<br />"+sAlt+"</h5>"' );    
+    
+    if( !isset( $this->aOptions['image_h5'] ) && isset( $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] ) ) $this->aOptions['image_h5'] = true;    
+    if( !isset( $this->aOptions['image_h5'] ) ) $this->aOptions['image_h5'] = false;
+    
+    if( !isset( $this->aOptions['convertcaptions'] ) && isset( $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] ) ) $this->aOptions['convertcaptions'] = true;
+    if( !isset( $this->aOptions['convertcaptions'] ) ) $this->aOptions['convertcaptions'] = false;
+    
+    
+    update_option( FV_FCK_OPTIONS, $this->aOptions ); 
 
 		//$this->KillTinyMCE( null );
     
@@ -528,10 +536,25 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 	 */		
   function convert_caption( $content ) {
     $content = $content[0];
+
     preg_match( '/caption="(.*?)"/', $content, $caption );
+    preg_match( '/align="(.*?)"/', $content, $align );
+    
+    if( $align && $align[1] != 'none' ) {
+      $align = str_replace( 'align', '', $align[1] );
+      $sClass = $this->h5_markup_get_class($align);
+    }
+    
     $content = preg_replace( '/\[caption[^\]]*?\]/', '', $content );
     $content = preg_replace( '/\[\/caption\]/', '', $content );
-    return '<h5>'.$content.'<br />'.$caption[1].'</h5>';
+    
+    if( $caption[1] ) {
+      return '<h5'.$sClass.'>'.$content.'<br />'.$caption[1].'</h5>';
+    }
+
+    $content = str_replace( '</a> ', '</a><br />', $content );    
+    
+    return '<h5'.$sClass.'>'.$content.'</h5>';
   }
   
 	
@@ -1043,6 +1066,64 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 <?php 
     $this->loading = true;
 	}
+  
+  
+  function h5_markup( $html, $id, $caption, $title, $align, $url, $size, $alt ) {
+    if( !isset($this->aOptions['image_h5']) || !$this->aOptions['image_h5'] ) {
+      return $html;
+    }
+    
+    $caption = apply_filters( 'image_add_caption_text', $caption, $id );
+    
+    $new = '<h5';  
+    $new .= $this->h5_markup_get_class($align);    
+    $html = str_replace( 'class="align'.$align, '', $html );    
+    $new .= ">".$html;
+    
+    if( $caption ) {
+      $new .= "<br />".$caption;
+    }
+    
+    $new .= "</h5>";
+    return $new;
+  }
+  
+  
+  function h5_markup_get_class( $align ) {
+    if( $align != 'none' ) {
+      if( strlen($this->aOptions['customdropdown']) > 0 ) {
+        $aFormats = explode( "\n", $this->aOptions['customdropdown'] );
+        if( count($aFormats) > 0 ) {
+          foreach( $aFormats AS $line ) {
+            if( stripos($line,'<h5') !== false && stripos($line,$align) !== false ) {
+              if( preg_match( '~[a-z]*'.$align.'[a-z]*~', $line, $match ) ) {
+                $align = $match[0];
+              }
+              break;
+            }
+          }
+        }
+      }
+      
+      $sClass = " class='".$align."'";
+    }
+
+    return $sClass;
+  }  
+  
+  
+  function image_disable_captions( $html ) {
+    if( isset($this->aOptions['image_h5']) && $this->aOptions['image_h5'] ) {
+      remove_filter( 'image_send_to_editor', 'image_add_caption', 20, 8 );
+    }
+    return $html;
+  }
+  
+  
+  function image_link_to_file( $settings ) {
+    $settings['defaultProps']['link'] = 'file';
+    return $settings;
+  }
 	
 	
 	/**
@@ -1242,6 +1323,9 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 				} else {
 				  $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] = addslashes( '"<h5>"+sHtmlCode+"<br />"+sAlt+"</h5>"' );
 				}
+        
+				$this->aOptions['image_h5'] = false;
+				if( isset( $_POST['image_h5'] ) ) $this->aOptions['image_h5'] = true;
 				
 				$this->aOptions['UseWPLinkDialog'] = false;
 				if( isset( $_POST['UseWPLinkDialog'] ) ) $this->aOptions['UseWPLinkDialog'] = true;				

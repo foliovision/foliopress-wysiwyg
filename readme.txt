@@ -136,6 +136,7 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 = 2.6.16 =
 
 * SEO Images removed! Due to PHP 7 compatibility issues and WordPress upgrades we are forced to remove our image management tool built on KFM. Please use Foliopress WYSIWYG 2.6.15 if you really need it.
+* H5 markup option for WP Media Library, check Advanced Settings of our plugin!
 
 = 2.6.15 =
 

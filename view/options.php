@@ -268,7 +268,8 @@
                 </tr>
                 <tr valign="top">
                     <th scope="row"><label for="customdropdown">Dropdown Customization</label></th>
-                    <td><textarea rows="8" cols="80" name="customdropdown"><?php echo $this->aOptions['customdropdown']; ?></textarea></td>
+                    <td><textarea rows="8" cols="80" name="customdropdown"><?php echo $this->aOptions['customdropdown']; ?></textarea>
+                    <br /><span class="description"><?php _e('The lines with &lt;h5&gt; will also affect the kind of HTML you get out of Media Library if you enable "Use H5 markup for images" below.', 'fp_wysiwyg') ?></span></td>
                 </tr>
                 <tr valign="top">
                     <th scope="row"><?php _e('Compatibility', 'fp_wysiwyg') ?></th>
@@ -276,10 +277,19 @@
                         <label for="PreWPAutop"><input id="chkPreWPAutop" type="checkbox" name="PreWPAutop" value="yes" <?php if($this->aOptions['autowpautop']) echo 'checked="checked"'; ?> /> <?php _e('Do wpautop before editing a post if there are no <code>&lt;p&gt;</code> tags in the post.', 'fp_wysiwyg') ?></label><br /><span class="description"><?php _e('If your posts were created with the default Wordpress editor (TinyMCE), you need to leave this on, as TinyMCE is storing posts without any HTML markup for the paragraphs. You may want to disable it if some of your special posts are destroyed after opening with Foliopress WYSIWYG.', 'fp_wysiwyg') ?></span><br />
                     </fieldset></td>
                 </tr>
+                <tr valign="top"> 
+                  <th scope="row"></th>
+                  <td><fieldset>
+                    <label for="image_h5"><input id="image_h5" type="checkbox" name="image_h5" value="yes" <?php if($this->aOptions['image_h5']) echo 'checked="checked"'; ?> /> <?php _e('Use H5 markup for images', 'fp_wysiwyg') ?></label>
+                    <br />
+                    <span class="description"><?php _e('Will use markup like <code>&lt;h5&gt;&lt;a href="{full sized image}"&gt;&lt;img&gt;&lt;br /&gt;{caption}&lt;/a&gt;&lt;/h5&gt;</code> instead of standard WP <img> or [caption] shortcode for images with caption.', 'fp_wysiwyg') ?></span>
+                    </fieldset>
+                  </td>
+                </tr>                
                 <tr valign="top">
                     <th scope="row"></th>
                     <td><fieldset>
-                        <label for="convertcaptions"><input id="chkConvertCaptions" type="checkbox" name="convertcaptions" value="yes" <?php if($this->aOptions['convertcaptions']) echo 'checked="checked"'; ?> /> <?php _e('Convert <code>[caption]</code> shortcodes before editing.', 'fp_wysiwyg') ?></label><br /><span class="description"><?php _e('The captions will be converted to our standard image formating:', 'fp_wysiwyg') ?> <code>&lt;h5&gt;&lt;a&gt;&lt;img /&gt;&lt;/a&gt;&lt;br /&gt;{caption}&lt;/h5&gt;</code></span><br />
+                        <label for="convertcaptions"><input id="chkConvertCaptions" type="checkbox" name="convertcaptions" value="yes" <?php if($this->aOptions['convertcaptions']) echo 'checked="checked"'; ?> /> <?php _e('Convert <code>[caption]</code> shortcodes before editing.', 'fp_wysiwyg') ?></label><br /><span class="description"><?php _e('The images with WP caption shortcodes will be converted to the H5 makeup standard image formating.', 'fp_wysiwyg') ?></span><br />
                     </fieldset></td>
                 </tr>
                 <tr valign="top">
@@ -306,7 +316,7 @@
                     <span class="description"><?php _e('This will be used in JavaScript when inserting images. Use \" to escape " in HTML. Leave empty for defaults!', 'fp_wysiwyg') ?></span>
                     </fieldset>
                   </td>
-                </tr>-->      
+                </tr>-->
                       
 			</table>
 			<br />

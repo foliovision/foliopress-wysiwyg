@@ -66,3 +66,7 @@ add_filter('wp_insert_post', array(&$fp_wysiwyg, 'wp_insert_post'));
 add_filter('the_content', array(&$fp_wysiwyg, 'the_content'), 0);
 
 add_action( 'wp_ajax_fv_foliopress_ajax_pointers',  array($fp_wysiwyg, 'ajax_pointers') );
+
+add_action( 'image_send_to_editor',  array($fp_wysiwyg, 'image_disable_captions'), 0 );
+add_action( 'image_send_to_editor',  array($fp_wysiwyg, 'h5_markup'), 999, 8 );
+add_filter( 'media_view_settings', array($fp_wysiwyg, 'image_link_to_file') );
