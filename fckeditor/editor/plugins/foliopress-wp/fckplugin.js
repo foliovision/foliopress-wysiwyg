@@ -181,3 +181,116 @@ var oPaste = new FCKToolbarButton( 'foliopress-paste', 'Paste Rich Text Mode', n
 oPaste.IconPath = FCKConfig.PluginsPath + 'foliopress-wp/images/rich.png';
 FCKToolbarItems.RegisterItem( 'foliopress-paste', oPaste );
 ///   End of addition 26/06/2009
+
+
+
+
+
+
+
+var FPImageWP = function( strName ){
+	this.Name = strName;
+	this.State = false;
+}
+
+FPImageWP.prototype.Execute=function(){
+  var img = FCKSelection.GetSelectedElement();
+  var h5 = FCKSelection.MoveToAncestorNode('h5');
+  var a = FCKSelection.MoveToAncestorNode('a');
+  
+  var id = img.className.match(/wp-image-(\d+)/);
+  if( !id ) return;
+  
+  var metadata = {
+      align: h5 ? h5.className.replace(/.*(left|right|center).*/,'$1') : 'none',
+      alt: img.alt,    
+      attachment_id: id[1],
+      caption: h5 ? h5.innerHTML.replace(/^<a.*?<\/a><br ?\/?>\s*/,'') : false,
+      customHeight: img.height,
+      customWidth: img.width,
+      extraClasses: h5 ? h5.className.replace(/[a-z]*(left|right|center)[a-z]*/,'') : false,
+      height: img.height,
+      linkUrl: a ? a.href : false,
+      size: img.className.replace(/.*size-(\S+).*/,'$1'),
+      title: img.title,
+      url: img.src,
+      width: img.width
+      };
+  
+  var frame = window.parent.wp.media({
+    frame: 'image',    
+    metadata: metadata,
+    state: 'image-details'
+    });
+  
+  frame.on( 'update',function(data) {
+    img.alt = data.alt;
+    img.height = data.height;
+    img.width = data.width;
+    img.className = img.className.replace(/size-(\S+)/,'data-'+data.size);
+    img.title = data.title;
+    img.src = data.url;
+
+    //  todo: img src is not getting updated
+    //  todo: customHeight and customWidth
+    
+    if( a ){
+      a.href = data.linkUrl;
+      //  todo: is not getting updated as well
+    }
+    
+    if( h5 ) {
+      if( data.align != 'none' ) {
+        h5.className = h5.className.replace(/(left|right|center)/,data.align);
+      } else {
+        h5.className = h5.className.replace(/\S*(left|right|center)\S*/,'');
+      }
+      if( data.caption ) h5.innerHTML = h5.innerHTML.replace(/^(<a.*?<\/a><br ?\/?>\s*).+/,'$1'+data.caption);
+      h5.className = h5.className.replace(metadata.extraClasses, data.extraClasses.replace(/\s*$/,'')+' ');
+      h5.className = h5.className.replace(/\s*$/,'').replace(/^\s*/,'');
+    }    
+    
+  });  
+    
+  frame.open();
+  
+}
+
+FPImageWP.prototype.GetState = function(){
+  //return FCK_TRISTATE_ON;
+}
+
+
+FCK.ContextMenu.RegisterListener( {
+  AddItems : function( menu, tag, tagName )
+  {
+    // under what circumstances do we display this option
+    if ( tagName == 'IMG' && tag.className.match(/wp-image-(\d+)/) )
+    {
+      
+      /*for( var i in menu._MenuBlock._Items ) {
+        if(menu._MenuBlock._Items[i]['Name'] == 'Image' ) {
+          delete(menu._MenuBlock._Items[i]);
+          console.log('unset!',menu._MenuBlock._Items[i]);
+        }
+      }*/
+      
+      menu._MenuBlock._Items.pop();
+      menu._MenuBlock._Items.pop();
+      
+      // when the option is displayed, show a separator  the command
+      menu.AddSeparator() ;
+      // the command needs the registered command name, the title for the context menu, and the icon path
+      menu.AddItem( 'FPImageWP', 'Media Library'/*, oPlaceholderItem.IconPath*/ ) ;
+      /*for( var i in menu._MenuBlock._Items ) {
+        if(menu._MenuBlock._Items[i]['Name'] == 'Image' ) {
+          menu._MenuBlock._Items[i].IsDisabled = true;
+          console.log('unset!',menu._MenuBlock._Items[i]);
+        }
+      }*/
+    }
+  }}
+);
+
+FCKCommands.RegisterCommand( 'FPImageWP', new FPImageWP( 'foliopress-paste' ) );
+

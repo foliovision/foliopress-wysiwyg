@@ -1077,7 +1077,7 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
     
     $new = '<h5';  
     $new .= $this->h5_markup_get_class($align);    
-    $html = str_replace( 'class="align'.$align, '', $html );    
+    $html = str_replace( 'class="align'.$align.' ', 'class="', $html );    
     $new .= ">".$html;
     
     if( $caption ) {
