@@ -157,7 +157,7 @@ function FCKContextMenu_AttachedElement_OnContextMenu(A, B, C) {
     if (FCKBrowserInfo.IsIE) {
         x = A.screenX;
         y = A.screenY;
-    } else if (FCKBrowserInfo.IsSafari) {
+    } else if (FCKBrowserInfo.IsSafari && !navigator.userAgent.match(/Chrome/) ) {  //this was causing bad context menu position (negative) in Chrome when you scoll down in a long document
         x = A.clientX;
         y = A.clientY;
     } else {
