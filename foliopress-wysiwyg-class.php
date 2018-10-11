@@ -1077,7 +1077,7 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
     
     $new = '<h5';  
     $new .= $this->h5_markup_get_class($align);    
-    $html = str_replace( 'class="align'.$align.' ', 'class="', $html );    
+    $html = str_replace( 'class="align'.$align.' ', 'class="', $html );
     $new .= ">".$html;
     
     if( $caption ) {
@@ -1549,6 +1549,8 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
       return $id;
     
     $meta = get_post_meta( $id, 'wysiwyg', true );
+    if( !$meta ) $meta = array();
+    
     if( !isset($_POST['_inline_edit']) ) {  //  we can't check for this in quick edit       
       if( isset( $_POST['plain_text_editing']) ) {
         $meta['plain_text_editing'] = true;
