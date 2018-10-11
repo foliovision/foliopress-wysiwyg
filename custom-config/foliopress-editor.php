@@ -1,4 +1,12 @@
-/*
+<?php
+
+$seconds_to_cache = 60;
+$ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
+header("Expires: $ts");
+header("Pragma: cache");
+header("Cache-Control: max-age=$seconds_to_cache");
+
+?>/*
  * Foliopress FCKeditor Styles - http://www.foliovison.com
  * Copyright (C) 2007 Foliovision
  *
@@ -38,13 +46,7 @@
 if( file_exists( dirname(__FILE__) . '/../../../../wp-load.php' ) )
 	require_once( realpath( dirname(__FILE__) . '/../../../../wp-load.php' ) );
 else
-	require_once( realpath( dirname(__FILE__) . '/../../../../wp-config.php' ) );
-  
-$seconds_to_cache = 60;
-$ts = gmdate("D, d M Y H:i:s", time() + $seconds_to_cache) . " GMT";
-header("Expires: $ts");
-header("Pragma: cache");
-header("Cache-Control: max-age=$seconds_to_cache");  
+	require_once( realpath( dirname(__FILE__) . '/../../../../wp-config.php' ) );  
   
 ?> todo - some better way how to overcome problems with warnings */
 
