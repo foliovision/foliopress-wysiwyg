@@ -2,7 +2,7 @@
 Contributors: FolioVision
 Tags: wysiwyg,editor,foliopress,image,images,seo,lightbox,fck,tinymce,editor
 Requires at least: 3.1 
-Tested up to: 4.9.6
+Tested up to: 4.9.11
 Stable tag: trunk
 
 Foliopress WYSIWYG is the editor you were always hoping for, every time you installed a new content management system.
@@ -133,12 +133,16 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 == Changelog ==
 
-= 2.6.16 =
+= 2.6.17 - 2019-09-17 =
+
+* Fixing PHP 7.1 warnings
+
+= 2.6.16 - 2016-12-09 =
 
 * SEO Images removed! Due to PHP 7 compatibility issues and WordPress upgrades we are forced to remove our image management tool built on KFM. Please use Foliopress WYSIWYG 2.6.15 if you really need it.
 * H5 markup option for WP Media Library, check Advanced Settings of our plugin!
 
-= 2.6.15 =
+= 2.6.15 - 2015-10-20 =
 
 * Fix for WPEngine - conflict of __autoload function name
 * Fix for WP Retina 2x images showing up in SEO Images

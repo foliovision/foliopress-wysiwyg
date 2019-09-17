@@ -5,7 +5,7 @@
  * Main class that handles all implementation of plugin into WordPress. All WordPress actions and filters are handled here
  *  
  * @author Foliovision s.r.o. <info@foliovision.com>
- * @version 2.6.16
+ * @version 2.6.17
  * @package foliopress-wysiwyg
  */
 
@@ -1166,6 +1166,7 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
     }
     
     $meta = get_post_meta( $post->ID, 'wysiwyg', true );
+    if( !is_array($meta) ) $meta = array();
     if( !isset( $meta['plain_text_editing'] ) ) {
       $meta['plain_text_editing'] = false;
     }
@@ -1549,8 +1550,7 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
       return $id;
     
     $meta = get_post_meta( $id, 'wysiwyg', true );
-    if( !$meta ) $meta = array();
-    
+    if( !is_array($meta) ) $meta = array();
     if( !isset($_POST['_inline_edit']) ) {  //  we can't check for this in quick edit       
       if( isset( $_POST['plain_text_editing']) ) {
         $meta['plain_text_editing'] = true;
