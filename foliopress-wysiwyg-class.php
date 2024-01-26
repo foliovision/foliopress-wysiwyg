@@ -1151,7 +1151,7 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
     <?php      
     if( function_exists( 'get_users' ) ) {
     	wp_dropdown_users( array(
-    		'who' => 'authors',
+    		'capability' => 'edit_posts',
     		'name' => 'post_author_override',
     		'selected' => empty($post->ID) ? $user_ID : $post->post_author,
     		'include_selected' => true
