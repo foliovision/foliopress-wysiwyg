@@ -52,7 +52,12 @@ if( $GLOBALS['wp_version'] >= 3.0 ) {
 //add_action( 'personal_options_update', array( &$fp_wysiwyg, 'PersonalOptionsUpdate' ) );
 //register_activation_hook( __FILE__, array( &$fp_wysiwyg, 'PluginActivate' ) );
 
-add_filter( 'media_buttons_context', array(&$fp_wysiwyg, 'fv_remove_mediabuttons') );
+if( $GLOBALS['wp_version'] >= 3.5 ) {
+  add_filter( 'wp_editor_settings', array(&$fp_wysiwyg, 'wp_editor_settings') );
+
+} else {
+  add_filter( 'media_buttons_context', array(&$fp_wysiwyg, 'fv_remove_mediabuttons') );
+}
 add_action('admin_print_scripts', array(&$fp_wysiwyg, 'add_admin_js'));
 add_action('content_edit_pre', array(&$fp_wysiwyg, 'content_edit_pre'));
 

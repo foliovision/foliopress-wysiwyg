@@ -1567,9 +1567,13 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
     
 
 
-  }	
-	
-		 
+  }
+
+	function wp_editor_settings( $settings ) {
+		$settings[ 'media_buttons' ] = false;
+		return $settings;
+	}
+	 
 }
 
 $fp_wysiwyg = new fp_wysiwyg_class();
