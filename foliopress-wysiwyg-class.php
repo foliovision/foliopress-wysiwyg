@@ -1570,7 +1570,11 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
   }
 
 	function wp_editor_settings( $settings ) {
-		$settings[ 'media_buttons' ] = false;
+		global $post;
+		$meta = get_post_meta( $post->ID, 'wysiwyg', true );
+		if( isset( $meta['plain_text_editing'] ) && $meta['plain_text_editing'] == 1 ) {
+			$settings[ 'media_buttons' ] = false;
+		}
 		return $settings;
 	}
 	 
