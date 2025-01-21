@@ -53,7 +53,7 @@
 		<table class="form-table"> 
             <!--<tr valign="top"> 
                 <th scope="row"><label for="ImagesPath"><?php _e('Path to images on your web server', 'fp_wysiwyg') ?></label></th>
-                <td><input type="text" name="ImagesPath" value="<?php print( $this->aOptions[self::FVC_IMAGES] ); ?>" class="regular-text" /></td>
+                <td><input type="text" name="ImagesPath" value="<?php echo esc_attr( $this->aOptions[self::FVC_IMAGES] ); ?>" class="regular-text" /></td>
             </tr>-->
             <tr valign="top"> 
                 <th scope="row"><label for="FCKSkins"><?php _e('FCKEditor skin', 'fp_wysiwyg') ?> </label></th>
@@ -98,11 +98,11 @@
 			</tr>
 			<tr valign="top"> 
                 <th scope="row"><label for="FCKWidth"><?php _e('Height of FCKEditor', 'fp_wysiwyg') ?></label></th>
-				<td><input type="text" name="fv_default_post_edit_rows" value="<?php print( get_option('fv_default_post_edit_rows') ); ?>" class="small-text" /><span class="description">(<?php _e('Enter number of rows', 'fp_wysiwyg') ?>)</span></td>
+				<td><input type="text" name="fv_default_post_edit_rows" value="<?php echo esc_attr( get_option('fv_default_post_edit_rows') ); ?>" class="small-text" /><span class="description">(<?php _e('Enter number of rows', 'fp_wysiwyg') ?>)</span></td>
 			</tr>			
 			<tr valign="top"> 
                 <th scope="row"><label for="FCKWidth"><?php _e('Width of FCKEditor', 'fp_wysiwyg') ?></label></th>
-				<td><input type="text" name="FCKWidth" value="<?php print( $this->aOptions[self::FVC_WIDTH] ); ?>" class="small-text" /><span class="description">(<?php _e('0 is default, for unlimited width', 'fp_wysiwyg') ?>)</span></td>
+				<td><input type="text" name="FCKWidth" value="<?php echo esc_attr( $this->aOptions[self::FVC_WIDTH] ); ?>" class="small-text" /><span class="description">(<?php _e('0 is default, for unlimited width', 'fp_wysiwyg') ?>)</span></td>
 			</tr1>
 			<!--<tr valign="top">
                 <th scope="row"><label for="HideMediaButtons"><?php _e('Enable Wordpress uploader buttons', 'fp_wysiwyg') ?></label></th>
@@ -115,8 +115,8 @@
 			<!--<tr>
 				<th scope="row"><?php _e('Max Image Size', 'fp_wysiwyg') ?></th>
 				<td>
-					<label for="MaxWidth"><?php _e('Width', 'fp_wysiwyg') ?> <input type="text" name="MaxWidth" value="<?php echo $this->aOptions[self::FVC_MAXW]; ?>" class="small-text" /></label>
-					<label for="MaxHeight"><?php _e('Height', 'fp_wysiwyg') ?> <input type="text" name="MaxHeight" value="<?php echo $this->aOptions[self::FVC_MAXH]; ?>" class="small-text" /></label>
+					<label for="MaxWidth"><?php _e('Width', 'fp_wysiwyg') ?> <input type="text" name="MaxWidth" value="<?php echo esc_attr( $this->aOptions[self::FVC_MAXW] ); ?>" class="small-text" /></label>
+					<label for="MaxHeight"><?php _e('Height', 'fp_wysiwyg') ?> <input type="text" name="MaxHeight" value="<?php echo esc_attr( $this->aOptions[self::FVC_MAXH] ); ?>" class="small-text" /></label>
 					<span class="description"><?php _e('All images with one of dimensions above one of these limits will be sized down when uploading.', 'fp_wysiwyg') ?></span>
 				</td>
 			</tr>-->
@@ -134,7 +134,7 @@
 			<!--<tr valign="top"> 
         <th scope="row"><?php _e('Supported postmeta', 'fp_wysiwyg') ?></th>
         <td><fieldset>
-          <label for="postmeta"><input id="postmeta" type="text" name="postmeta" value="<?php echo $this->aOptions['postmeta']; ?>" class="regular-text" /></label>
+          <label for="postmeta"><input id="postmeta" type="text" name="postmeta" value="<?php echo esc_attr( $this->aOptions['postmeta'] ); ?>" class="regular-text" /></label>
           <br />
           <span class="description"><?php _e('Comma separated list of keys for postmeta values you want to fill in from SEO Images.', 'fp_wysiwyg') ?></span>
           </fieldset>
@@ -143,8 +143,8 @@
 			<tr valign="top"> 
                 <th scope="row"><?php _e('WYSIWYG CSS styles', 'fp_wysiwyg') ?></th>
                 <td><fieldset>
-                        <label for="bodyid"><input id="bodyid" type="text" name="bodyid" value="<?php echo $this->aOptions['bodyid']; ?>" class="regular-text" /> <?php _e('Post ID', 'fp_wysiwyg') ?></label><br />
-                        <label for="bodyclass"><input id="bodyclass" type="text" name="bodyclass" value="<?php echo $this->aOptions['bodyclass']; ?>" class="regular-text" /> <?php _e('Post class', 'fp_wysiwyg') ?></label>
+                        <label for="bodyid"><input id="bodyid" type="text" name="bodyid" value="<?php echo esc_attr( $this->aOptions['bodyid'] ); ?>" class="regular-text" /> <?php _e('Post ID', 'fp_wysiwyg') ?></label><br />
+                        <label for="bodyclass"><input id="bodyclass" type="text" name="bodyclass" value="<?php echo esc_attr( $this->aOptions['bodyclass'] ); ?>" class="regular-text" /> <?php _e('Post class', 'fp_wysiwyg') ?></label>
                         <br />
                         <span class="description"><?php _e('Enter the name of the class used for styling of the articles on the front page. If necessary, use multiple classes (separated by blank spaces) or add the ID of the container element.', 'fp_wysiwyg') ?></span>
                     </fieldset></td>
@@ -153,7 +153,7 @@
             <tr valign="top"> 
                 <th scope="row"><?php _e('Custom WYSIWYG CSS', 'fp_wysiwyg') ?></th>
                 <td>
-                        <textarea id="wysiwygstyles" type="text" name="wysiwygstyles" value="<?php echo $this->aOptions['wysiwygstyles']; ?>" class="regular-text" rows="8" cols="70" /><?php echo $this->aOptions['wysiwygstyles']; ?></textarea><br />
+                        <textarea id="wysiwygstyles" type="text" name="wysiwygstyles" class="regular-text" rows="8" cols="70" /><?php echo esc_textarea( $this->aOptions['wysiwygstyles'] ); ?></textarea><br />
                         <span class="description"><?php _e('If you use WYSIWYG CSS styles above, you can fix whatever you want here for the editor window.', 'fp_wysiwyg') ?></span>
                 </td>
             </tr>
@@ -218,7 +218,7 @@
     			</tr>-->
           <!--<tr valign="top">
               <th scope="row"><?php _e('Permissions', 'fp_wysiwyg') ?></th>
-              <td><input type="button" class="button" value="<?php _e('Default settings', 'fp_wysiwyg') ?>" onclick="FVWYSIWYGPermisssionsDefault()" /> <input type="button" class="button" value="<?php _e('My server runs in FastCGI or LiteSpeed', 'fp_wysiwyg') ?>" onclick="FVWYSIWYGPermisssionsUser()" />&nbsp;&nbsp;<label for="dirperm"><?php _e('Directories', 'fp_wysiwyg') ?> <input type="text" id="dirperm" name="dirperm" value="<?php echo $this->aOptions['dirperm']; ?>" class="small-text" /></label> <label for="fileperm"><?php _e('Files', 'fp_wysiwyg') ?> <input type="text" id="fileperm" name="fileperm" value="<?php echo $this->aOptions['fileperm']; ?>" class="small-text" /></label><br /><span class="description"><?php _e('We strongly recommend you to test your new settings by creating a directory, uploading some image into it and inserting it into post.', 'fp_wysiwyg') ?></span></td>
+              <td><input type="button" class="button" value="<?php _e('Default settings', 'fp_wysiwyg') ?>" onclick="FVWYSIWYGPermisssionsDefault()" /> <input type="button" class="button" value="<?php _e('My server runs in FastCGI or LiteSpeed', 'fp_wysiwyg') ?>" onclick="FVWYSIWYGPermisssionsUser()" />&nbsp;&nbsp;<label for="dirperm"><?php _e('Directories', 'fp_wysiwyg') ?> <input type="text" id="dirperm" name="dirperm" value="<?php echo esc_attr( $this->aOptions['dirperm'] ); ?>" class="small-text" /></label> <label for="fileperm"><?php _e('Files', 'fp_wysiwyg') ?> <input type="text" id="fileperm" name="fileperm" value="<?php echo esc_attr( $this->aOptions['fileperm'] ); ?>" class="small-text" /></label><br /><span class="description"><?php _e('We strongly recommend you to test your new settings by creating a directory, uploading some image into it and inserting it into post.', 'fp_wysiwyg') ?></span></td>
           </tr>-->
 					<!--<tr valign="top">
               <th scope="row"><?php _e('Use Flash Uploader', 'fp_wysiwyg') ?></th>
@@ -247,13 +247,13 @@
 				</tr>
 				<!--<tr valign="top"> 
                     <th scope="row"><?php _e('JPEG Images', 'fp_wysiwyg') ?></th>
-                    <td><label for="JPEGQuality"><?php _e('Quality', 'fp_wysiwyg') ?> <input type="text" name="JPEGQuality" value="<?php echo $this->aOptions[self::FVC_JPEG]; ?>" class="small-text" /></label></td>
+                    <td><label for="JPEGQuality"><?php _e('Quality', 'fp_wysiwyg') ?> <input type="text" name="JPEGQuality" value="<?php echo esc_attr( $this->aOptions[self::FVC_JPEG] ); ?>" class="small-text" /></label></td>
                 </tr>-->
 				<!--<tr valign="top"> 
                     <th scope="row"><?php _e('PNG Images', 'fp_wysiwyg') ?></th>
                     <td><fieldset>
                         <label for="PNGTransform"><input id="chkPNGTransform" type="checkbox" name="PNGTransform" value="yes" onclick="KFM_CheckPNG( !bPNGTransform );"<?php if( $this->aOptions[self::FVC_PNG] ) echo ' checked="checked"'; ?> /> <?php _e('Transform not colorful true-color PNG images to 8-bit color PNG' , 'fp_wysiwyg') ?></label><br />
-                        <label for="PNGLimit"><?php _e('Limit of colorful true-color PNG', 'fp_wysiwyg') ?> <input type="text" id="txtPNGLimit" name="PNGLimit" value="<?php echo $this->aOptions[self::FVC_PNG_LIMIT]; ?>" class="small-text" /></label>
+                        <label for="PNGLimit"><?php _e('Limit of colorful true-color PNG', 'fp_wysiwyg') ?> <input type="text" id="txtPNGLimit" name="PNGLimit" value="<?php echo esc_attr( $this->aOptions[self::FVC_PNG_LIMIT] ); ?>" class="small-text" /></label>
                     </fieldset></td>
                 </tr>-->
 				<!--<tr valign="top"> 
@@ -306,12 +306,12 @@
                 </tr>-->              
           			<!--<tr valign="top"> 
                     <th scope="row"><?php _e('KFM Thumbnail size', 'fp_wysiwyg') ?></th>
-                    <td><label for="KFMThumbnailSize"><input type="text" name="KFMThumbnailSize" value="<?php echo $this->aOptions[self::FVC_KFM_THUMB_SIZE]; ?>" class="small-text" /> px</label><br /><span class="description"><?php _e('Size of the thumnails in the image uploader.', 'fp_wysiwyg') ?></span></td>
+                    <td><label for="KFMThumbnailSize"><input type="text" name="KFMThumbnailSize" value="<?php echo esc_attr( $this->aOptions[self::FVC_KFM_THUMB_SIZE] ); ?>" class="small-text" /> px</label><br /><span class="description"><?php _e('Size of the thumnails in the image uploader.', 'fp_wysiwyg') ?></span></td>
                 </tr>-->
           			<!--<tr valign="top"> 
                   <th scope="row"><?php _e('Image Insert HTML', 'fp_wysiwyg') ?></th>
                   <td><fieldset>
-                    <label for="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>"><input size="50" id="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>" type="text" name="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>" value='<?php echo stripslashes( $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] ); ?>' class="regular-text" /></label>
+                    <label for="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>"><input size="50" id="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>" type="text" name="<?php echo self::FV_SEO_IMAGES_IMAGE_TEMPLATE; ?>" value='<?php echo esc_attr( stripslashes( $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] ) ); ?>' class="regular-text" /></label>
                     <br />
                     <span class="description"><?php _e('This will be used in JavaScript when inserting images. Use \" to escape " in HTML. Leave empty for defaults!', 'fp_wysiwyg') ?></span>
                     </fieldset>

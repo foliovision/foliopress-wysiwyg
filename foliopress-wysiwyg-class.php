@@ -866,8 +866,8 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
         	return styles ; \
         }; \
         \
-        FCKConfig.BodyId = '<?php echo $options['bodyid']; ?>' ;  \
-        FCKConfig.BodyClass = '<?php echo $options['bodyclass']; ?>' ;  \
+        FCKConfig.BodyId = '<?php echo esc_attr( $options['bodyid'] ); ?>' ;  \
+        FCKConfig.BodyClass = '<?php echo esc_attr( $options['bodyclass'] ); ?>' ;  \
         FCKConfig.EditorAreaCSS = FCKConfig.BasePath + '../../custom-config/foliopress-editor.php?p=<?php echo $post->ID; ?>'; \
         if( FCKConfig.BodyId || FCKConfig.BodyClass ) { \
         	FCKConfig.BodyClass = FCKConfig.BodyClass + ' wysiwyg'; \
@@ -1184,35 +1184,35 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 				$this->aOptions['convertcaptions'] = false;
 				if( isset( $_POST['convertcaptions'] ) ) $this->aOptions['convertcaptions'] = true;
 				
-				if( isset( $_POST['bodyid'] ) ) $this->aOptions['bodyid'] = $_POST['bodyid'];
-				if( isset( $_POST['bodyclass'] ) ) $this->aOptions['bodyclass'] = $_POST['bodyclass'];
-				if( isset( $_POST['customtoolbar'] ) ) $this->aOptions['customtoolbar'] = stripslashes($_POST['customtoolbar']);
-				if( isset( $_POST['customdropdown'] ) ) $this->aOptions['customdropdown'] = stripslashes($_POST['customdropdown']);
+				if( isset( $_POST['bodyid'] ) ) $this->aOptions['bodyid'] = sanitize_text_field( $_POST['bodyid'] );
+				if( isset( $_POST['bodyclass'] ) ) $this->aOptions['bodyclass'] = sanitize_text_field( $_POST['bodyclass'] );
+				if( isset( $_POST['customtoolbar'] ) ) $this->aOptions['customtoolbar'] = sanitize_text_field( stripslashes($_POST['customtoolbar']) );
+				if( isset( $_POST['customdropdown'] ) ) $this->aOptions['customdropdown'] = sanitize_text_field( stripslashes($_POST['customdropdown']) );
 				
         $this->parse_dropdown_menu();
 
-				if( isset( $_POST['wysiwygstyles'] ) ) $this->aOptions['wysiwygstyles'] = stripslashes( $_POST['wysiwygstyles'] );
+				if( isset( $_POST['wysiwygstyles'] ) ) $this->aOptions['wysiwygstyles'] = sanitize_textarea_field( stripslashes( $_POST['wysiwygstyles'] ) );
 				
 				$this->aOptions['ProcessHTMLEntities'] = false;
 				if( isset( $_POST['ProcessHTMLEntities'] ) ) $this->aOptions['ProcessHTMLEntities'] = true;
 				
-				if( isset( $_POST['FCKLang'] ) ) $this->aOptions['FCKLang'] = $_POST['FCKLang'];
-				if( isset( $_POST['FCKLangDir'] ) ) $this->aOptions['FCKLangDir'] = $_POST['FCKLangDir'];
-				if( isset( $_POST['kfmlang'] ) ) $this->aOptions['kfmlang'] = $_POST['kfmlang'];
-				if( isset( $_POST['fileperm'] ) ) $this->aOptions['fileperm'] = $_POST['fileperm'];
-				if( isset( $_POST['dirperm'] ) ) $this->aOptions['dirperm'] = $_POST['dirperm'];				
+				if( isset( $_POST['FCKLang'] ) ) $this->aOptions['FCKLang'] = sanitize_text_field( $_POST['FCKLang'] );
+				if( isset( $_POST['FCKLangDir'] ) ) $this->aOptions['FCKLangDir'] = sanitize_text_field( $_POST['FCKLangDir'] );
+				if( isset( $_POST['kfmlang'] ) ) $this->aOptions['kfmlang'] = sanitize_text_field( $_POST['kfmlang'] );
+				if( isset( $_POST['fileperm'] ) ) $this->aOptions['fileperm'] = sanitize_text_field( $_POST['fileperm'] );
+				if( isset( $_POST['dirperm'] ) ) $this->aOptions['dirperm'] = sanitize_text_field( $_POST['dirperm'] );
 
 				if( isset( $_POST['KFMThumbCount'] ) ){
 					$aThumbs = array();
 					for( $i=0; $i<$_POST['KFMThumbCount']; $i++ )
-						if( isset( $_POST['KFMThumb'.$i] ) ) $aThumbs[] = $_POST['KFMThumb'.$i];
+						if( isset( $_POST['KFMThumb'.$i] ) ) $aThumbs[] = sanitize_text_field( $_POST['KFMThumb'.$i] );
 					$this->aOptions[self::FVC_KFM_THUMBS] = $aThumbs;
 				}
 				
 				if( isset( $_POST['FPCleanCount'] ) ){
 					$aFPTexts = array();
 					for( $i=0; $i<$_POST['FPCleanCount']; $i++ )
-						if( isset( $_POST['FPClean'.$i] ) ) $aFPTexts[] = $_POST['FPClean'.$i];
+						if( isset( $_POST['FPClean'.$i] ) ) $aFPTexts[] = sanitize_text_field( $_POST['FPClean'.$i] );
 					$this->aOptions[self::FVC_FPC_TEXTS] = $aFPTexts;
 				}
 				
@@ -1235,10 +1235,10 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 				$this->aOptions[self::FVC_USE_FLASH_UPLOADER] = false;
 				if( isset( $_POST[self::FVC_USE_FLASH_UPLOADER] ) ) $this->aOptions[self::FVC_USE_FLASH_UPLOADER] = true;
 				
-				$this->aOptions[self::FV_SEO_IMAGES_POSTMETA] = $_POST['postmeta'];
+				$this->aOptions[self::FV_SEO_IMAGES_POSTMETA] = sanitize_text_field( $_POST['postmeta'] );
 				
 				if( $_POST[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] != '' ) {
-				  $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] = $_POST[self::FV_SEO_IMAGES_IMAGE_TEMPLATE];								
+				  $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] = sanitize_text_field( $_POST[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] );
 				} else {
 				  $this->aOptions[self::FV_SEO_IMAGES_IMAGE_TEMPLATE] = addslashes( '"<h5>"+sHtmlCode+"<br />"+sAlt+"</h5>"' );
 				}
@@ -1268,7 +1268,7 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 		
     /// Loading of pages based on request
     if( isset( $_POST['recreate'] ) ) include( $strPath . '/view/recreate.php' );
-    elseif( !isset( $_GET['edit'] ) ) include( $strPath . '/view/options.php' );
+    else include( $strPath . '/view/options.php' );
 	}
 			
 

@@ -188,8 +188,8 @@ to make all the content area elements use only #content element instead of
 div#content element. Good luck! Hopefully future editions of FCK will make
 true WYSIWYG easier.
 */
-FCKConfig.BodyId = '<?php echo $options['bodyid']; ?>' ;
-FCKConfig.BodyClass = '<?php echo $options['bodyclass']; ?>' ;
+FCKConfig.BodyId = '<?php echo esc_attr( $options['bodyid'] ); ?>' ;
+FCKConfig.BodyClass = '<?php echo esc_attr( $options['bodyclass'] ); ?>' ;
 
 /// Added for version 0.9.6
 
