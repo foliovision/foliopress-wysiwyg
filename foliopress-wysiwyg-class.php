@@ -1187,7 +1187,7 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 				if( isset( $_POST['bodyid'] ) ) $this->aOptions['bodyid'] = sanitize_text_field( $_POST['bodyid'] );
 				if( isset( $_POST['bodyclass'] ) ) $this->aOptions['bodyclass'] = sanitize_text_field( $_POST['bodyclass'] );
 				if( isset( $_POST['customtoolbar'] ) ) $this->aOptions['customtoolbar'] = sanitize_text_field( stripslashes($_POST['customtoolbar']) );
-				if( isset( $_POST['customdropdown'] ) ) $this->aOptions['customdropdown'] = sanitize_text_field( stripslashes($_POST['customdropdown']) );
+				if( isset( $_POST['customdropdown'] ) ) $this->aOptions['customdropdown'] = wp_kses_post( stripslashes($_POST['customdropdown']) );
 				
         $this->parse_dropdown_menu();
 
