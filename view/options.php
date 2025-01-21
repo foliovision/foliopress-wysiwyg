@@ -320,34 +320,7 @@
                       
 			</table>
 			<br />
-			<!--<p><input type="button" name="expert_options" class="button" value="Expert Options" onclick="jQuery('#divExpert').toggle()" /></p>
-			<div id="divExpert" style="display: none">
-				<h3>Expert Options</h3>
-				<table class="form-table">
-					<tr>
-                        <td>
-                            <?php if( is_writable( $strPath.'/'.self::FVC_FCK_CONFIG_RELATIVE_PATH ) ) : ?>
-                                <input type="button" class="button" name="edit" value="Edit WYSIWYG config" class="input" onClick="javascript:window.open('<?php echo $_SERVER['REQUEST_URI'].'&edit='.urlencode( self::FVC_FCK_CONFIG_RELATIVE_PATH ); ?>');">
-                        	<?php else : ?>
-                        		Foliopress WYSIWYG config file is not writable.
-                        	<?php endif; ?>
-                            
-                        	<span class="description">Edit custom FCK config file to suit your own purposes.</span><br />
-                            
-                            <h3 style="display: inline;">Be aware that editing this file may cause serious malfunctions in FCK behaviour and other problems.</h3> <br />
-                        	<a href="http://docs.fckeditor.net/FCKeditor_2.x/Developers_Guide/Configuration/Configuration_File" target="_blank">Documentation 
-                        	of FCK config file</a>.
-                        	
-                        </td>
-                        <td align="right" style="width: 100px; font-size: large;">
-                        	
-                        </td>
-                    </tr>
-					<tr>
-                        <td><input type="submit" name="recreate" class="button"  value="Recreate thumbnails" /> <span class="description">All thumbnails, even special thumbnails will be recreated!</span></td>
-                    </tr>
-				</table>
-			</div>-->
+
 		</div>
 		<br /><br />
 		<p>

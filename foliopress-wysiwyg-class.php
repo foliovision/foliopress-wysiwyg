@@ -712,45 +712,7 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 		
 		return $strThumbs;
 	}
-	
-	
-	/**
-	 * This function connects to foliovision website and checks if there is a newer version of Foliopress WYSIWYG
-	 *
-	 * @return array Array with two values, or empty array on failure:
-	 * - ['version'] is string containing version information
-	 * - ['changes'] is URL address of changelog 
-	 */
-	function GetLatestVersion(){
-		$strPathToUpdate = "/version.php?version=".urlencode( $this->strVersion )."&blog=".urlencode( $this->strSiteUrl );
-		$strUpdateHost = 'www.foliovision.com';
-		
-		$strHTTPReq = "GET $strPathToUpdate HTTP/1.0\r\n";
-		$strHTTPReq .= "Host: $strUpdateHost\r\n\r\n";
-		
-		$iErr = 0;
-		$strErr = '';
-		$strResponse = '';
-		$aReturn = array();
-		
-		if( false !== ( $fs = @fsockopen( $strUpdateHost, 80, $iErr, $strErr, 10 ) ) && is_resource( $fs ) ){
-			fwrite( $fs, $strHTTPReq );
-			while( !feof( $fs ) ) $strResponse .= fgets( $fs, 1160 );
-			fclose( $fs );
-			
-			$strText = explode( "\r\n\r\n", $strResponse, 2 );
-			$strText = $strText[1];
-		
-			$objValue = $this->ExtractOption( $strText, '@ver:', "\n" );
-			if( false !== $objValue ) $aReturn['version'] = $objValue;
-			else return false;
-			$objValue = $this->ExtractOption( $strText, '@changes:', "\n" );
-			if( false !== $objValue ) $aReturn['changes'] = $objValue;	
-		}
-		
-		return $aReturn;
-	}
-	
+
 	/**
 	 * This function disables TinyMCE and sets {@link $bUseFCK} to true or false depending on which page is loaded
 	 */
@@ -1125,22 +1087,6 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
     return $settings;
   }
 	
-	
-	/**
-	 * Checks if some specified file with relative path is allowed to be editable by user. Note that this not checks if the file is also
-	 * available for editing by file system, for that see php native function 'is_writable'.
-	 *
-	 * @param string $strFile <b>RELATIVE</b> path to file
-	 *
-	 * @return bool True if the file is editable by user, false otherwise
-	 */
-	function IsEditableFile( $strFile ){
-		if( false !== strpos( str_replace( "\\", '/', $strFile ), self::FVC_FCK_CONFIG_RELATIVE_PATH ) ) return true;
-		
-		return false;
-	}
-	
-	
 	/**
 	 * Custom "Post Author" editing meta box with "Plain text editing" checkbox.
 	 */ 
@@ -1189,40 +1135,12 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 		$bError = false;
 		$strCustomError = '';
 		$strErrDesc = '';
-		
-		$strLatestVersion = '';
-		$strLinkToChangesLog = '';
-		//$aResult = $this->GetLatestVersion();
-		if( isset( $aResult ) && false !== $aResult ){
-			if( isset( $aResult['version'] ) ) $strLatestVersion = $aResult['version'];
-			if( isset( $aResult['changes'] ) ) $strLinkToChangesLog = $aResult['changes'];
-		}
+
 		$strPath = dirname( __FILE__ );
 		
 		$iOldErrorSettings = error_reporting( 0 );
 		
 		try{
-			/// Saving of file changes to editable file
-			if( isset( $_POST['save_file'] ) && isset( $_GET['edit'] ) ){
-				
-				$strFile = realpath( $strPath.'/'.urldecode( $_GET['edit'] ) );
-				if( is_writable( $strFile ) && $this->IsEditableFile( $strFile ) ){
-					
-					$strText = $_POST['textFile'];
-					if( ini_get( 'magic_quotes_gpc' ) ) $strText = stripslashes( $strText );
-					
-					if( false === file_put_contents( $strFile, stripslashes( $_POST['textFile'] ) ) ) $strMessage = "Error while saving file '".basename( $strFile )."' !";
-					else $strMessage = "File '".basename( $strFile )."' saved successfully.";
-					
-				}
-			}
-
-			/// When user returns from file editing page we need to remove $_GET['edit'] from it
-			if( (isset( $_POST['save_file'] ) || isset( $_POST['cancel_file'] )) && isset( $_GET['edit'] ) ){ 
-				$_SERVER['REQUEST_URI'] = str_replace( $_SERVER['QUERY_STRING'], '', $_SERVER['REQUEST_URI'] ).'page='.$_GET['page'];
-				unset( $_GET['edit'] );
-			}
-			
 			
 			/// This is regular saving of options that are on the main Options page
 			if( isset( $_POST['options_save'] ) ){
@@ -1351,14 +1269,6 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
     /// Loading of pages based on request
     if( isset( $_POST['recreate'] ) ) include( $strPath . '/view/recreate.php' );
     elseif( !isset( $_GET['edit'] ) ) include( $strPath . '/view/options.php' );
-    else{
-      $strFile = realpath( $strPath.'/'.urldecode( $_GET['edit'] ) );
-      if( is_writable( $strFile ) && $this->IsEditableFile( $strFile ) ) include( $strPath . '/view/edit.php' );
-      else{
-        $strMessage = __('You cannot edit this file. The requested link is invalid !', 'fp_wysiwyg');
-        include( $strPath . '/view/message.php' );
-      }
-    }
 	}
 			
 

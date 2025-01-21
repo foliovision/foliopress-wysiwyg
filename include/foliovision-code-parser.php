@@ -59,14 +59,6 @@ class FVCodeParser{
 	}
 	
 	/**
-	 * Saves loaded (and maybe changed) content of some file to it
-	 */
-	function SaveFile(){
-		if( strlen( $this->strFile ) <= 0 ) throw new Exception( 'Can not save file:   No file loaded !' );
-		if( false === file_put_contents( $this->strFile, $this->strText ) ) throw new Exception( "file_put_contents wasn't able to save file '".$this->strFile."' !" );
-	}
-	
-	/**
 	 * Clears loaded file from memory
 	 */
 	function Clear(){
