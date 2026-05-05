@@ -17,6 +17,7 @@
 <div class="wrap">
     <div id="icon-tools" class="icon32"><br /></div>
 	<form id="main_form" method="post" action="<?php print( $_SERVER["REQUEST_URI"] );?>">
+		<?php wp_nonce_field( 'fp_wysiwyg_options_save', 'fp_wysiwyg_nonce' ); ?>
 		<h2><?php print( FV_FCK_NAME ); ?></h2>
 		
 		<?php
@@ -268,7 +269,7 @@
                 </tr>
                 <tr valign="top">
                     <th scope="row"><label for="customdropdown">Dropdown Customization</label></th>
-                    <td><textarea rows="8" cols="80" name="customdropdown"><?php echo $this->aOptions['customdropdown']; ?></textarea>
+                    <td><textarea rows="8" cols="80" name="customdropdown"><?php echo esc_textarea( $this->aOptions['customdropdown'] ); ?></textarea>
                     <br /><span class="description"><?php _e('The lines with &lt;h5&gt; will also affect the kind of HTML you get out of Media Library if you enable "Use H5 markup for images" below.', 'fp_wysiwyg') ?></span></td>
                 </tr>
                 <tr valign="top">

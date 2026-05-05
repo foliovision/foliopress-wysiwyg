@@ -1145,6 +1145,7 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 			/// This is regular saving of options that are on the main Options page
 			if( isset( $_POST['options_save'] ) ){
 			
+				check_admin_referer( 'fp_wysiwyg_options_save', 'fp_wysiwyg_nonce' );
 			  if( isset( $_POST['fv_default_post_edit_rows'] ) ) {
 			    update_option('fv_default_post_edit_rows', intval( $_POST['fv_default_post_edit_rows'] ) );
 			  }
