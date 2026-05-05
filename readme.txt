@@ -133,6 +133,10 @@ The ImageMagick binary must be executable from PHP and be available as /bin/conv
 
 == Changelog ==
 
+= 2.6.19 - 2026-05-05 =
+
+* Security fix: Missing settings nonce
+
 = 2.6.18 - 2025-01-21 =
 
 * Security fixes
