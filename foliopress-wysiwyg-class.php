@@ -1445,6 +1445,13 @@ class fp_wysiwyg_class extends Foliopress_WYSIWYG_Plugin {
 	 * @return bool false To disable standard visual editor
 	 */
 	function user_can_richedit($can) {
+
+			// Do not affect Profile Builder edit and registration form editing.
+			global $post;
+			if ( ! empty( $post ) && stripos( $post->post_type, 'wppb-' ) === 0 ) {
+				return $can;
+			}
+
 	   return false;
 	}  
 	
